@@ -8,6 +8,8 @@ if (isset($_POST["user"]) && isset($_POST["pass"])) {
 
     if ($hashedPassword !== false) {
         if (password_verify($_POST["pass"], $hashedPassword)) {
+            session_start();
+            $_SESSION["user"] = filter_var($_POST["user"]);
             header("Location: dashboard/index.php");
         } else {
             echo "Username or password incorrect!<br/>";
