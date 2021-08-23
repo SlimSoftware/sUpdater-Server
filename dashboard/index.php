@@ -16,6 +16,6 @@ if (!isset($_SESSION["user"])) {
 <body>
     <h1>Dashboard</h1>
     <p>Logged in as: <b><?= $_SESSION["user"] ?></b> <a href="logout.php">Log out</a></p>
-    <a href="apps">Manage apps</a>
+    <a href="apps.php">Manage apps</a>
 </body>
 </html>
