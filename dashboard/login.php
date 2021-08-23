@@ -10,13 +10,11 @@ if (isset($_POST["user"]) && isset($_POST["pass"])) {
         if (password_verify($_POST["pass"], $hashedPassword)) {
             session_start();
             $_SESSION["user"] = filter_var($_POST["user"]);
-            header("Location: dashboard/index.php");
-        } else {
-            echo "Username or password incorrect!<br/>";
+            header("Location: index.php");
         }
-    } else {
-        echo "Server error<br/>";
     }
+    
+    echo "Username or password incorrect!<br/>";
 }
 ?>
 
