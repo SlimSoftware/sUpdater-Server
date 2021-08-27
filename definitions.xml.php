@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . "/api/Database.php";
+require __DIR__ . "/Database.php";
 header("Content-Type: application/xml; charset=UTF-8");
 
 $xml = new SimpleXMLElement('<defenitions version="1.0"></defenitions>');
