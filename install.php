@@ -12,31 +12,31 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
     } else if ($result === false) {
         // Apps table does not exist, so create all required tables
         $createStatments = [
+            "changelogs" => "CREATE TABLE `changelogs` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `text` text DEFAULT NULL,
+                `url` varchar(5000) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            "descriptions" => "CREATE TABLE `descriptions` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `text` text NOT NULL,
+                `url` varchar(5000) NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
             "apps" => "CREATE TABLE `apps` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `name` varchar(200) NOT NULL,
                 `version` varchar(50) NOT NULL,
                 `noupdate` tinyint(1) NOT NULL DEFAULT 0,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4",
-            "changelogs" => "CREATE TABLE `changelogs` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `app_id` int(11) NOT NULL,
-                `text` text DEFAULT NULL,
-                `url` varchar(5000) DEFAULT NULL,
+                `changelog_id` int(11) DEFAULT NULL,
+                `description_id` int(11) DEFAULT NULL,
                 PRIMARY KEY (`id`),
-                KEY `app_id` (`app_id`),
-                CONSTRAINT `FK_apps_changelogs` FOREIGN KEY (`app_id`) REFERENCES `apps` (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
-            "descriptions" => "CREATE TABLE `descriptions` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `app_id` int(11) NOT NULL,
-                `text` text NOT NULL,
-                `url` varchar(5000) NOT NULL,
-                PRIMARY KEY (`id`),
-                KEY `app_id` (`app_id`),
-                CONSTRAINT `FK_apps_descriptions` FOREIGN KEY (`app_id`) REFERENCES `apps` (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+                KEY `FK_apps_changelogs` (`changelog_id`),
+                KEY `FK_apps_descriptions` (`description_id`),
+                CONSTRAINT `FK_apps_changelogs` FOREIGN KEY (`changelog_id`) REFERENCES `changelogs` (`id`),
+                CONSTRAINT `FK_apps_descriptions` FOREIGN KEY (`description_id`) REFERENCES `descriptions` (`id`)
+              ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4",
             "detectinfo" => "CREATE TABLE `detectinfo` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `app_id` int(11) NOT NULL,
