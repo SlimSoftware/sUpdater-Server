@@ -62,6 +62,29 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
                 `username` varchar(50) NOT NULL,
                 `password` varchar(255) NOT NULL,
                 PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            "portableapps" => "CREATE TABLE `portableapps` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `name` varchar(200) NOT NULL,
+                `version` varchar(50) NOT NULL,
+                `arch` tinyint(4) NOT NULL,
+                `changelog_id` int(11) DEFAULT NULL,
+                `description_id` int(11) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `FK_portableapps_changelogs` (`changelog_id`),
+                KEY `FK_portableapps_descriptions` (`description_id`),
+                CONSTRAINT `FK_portableapps_changelogs` FOREIGN KEY (`changelog_id`) REFERENCES `changelogs` (`id`),
+                CONSTRAINT `FK_portableapps_descriptions` FOREIGN KEY (`description_id`) REFERENCES `descriptions` (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            "archives" => "CREATE TABLE `archives` (
+                `id` int(11) NOT NULL,
+                `papp_id` int(11) NOT NULL,
+                `dl` varchar(5000) NOT NULL,
+                `extractmode` tinyint(2) NOT NULL,
+                `launchfile` VARCHAR(100) NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `FK_archives_portableapps` (`papp_id`),
+                CONSTRAINT `FK_archives_portableapps` FOREIGN KEY (`papp_id`) REFERENCES `portableapps` (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
         ];
 
