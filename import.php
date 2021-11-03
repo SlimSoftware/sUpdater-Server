@@ -132,13 +132,13 @@ if (file_exists($xmlPath)) {
             if ($updated)
                 echo "Installer for $appName updated in db<br/><br/>";
             else 
-                echo "Failed to update installer for $appName in db<br/>";
+                echo "Failed to update installer for $appName in db<br/><br/>";
         } else {
             $stmt = $db->prepare("INSERT INTO installers (app_id, dl, launch_args) VALUES (?, ?, ?)");   
             $added = $stmt->execute([$appId, $app->dl, $app->switch]);
             
             if ($added)
-                echo "Installer for $appName added to db<br/>";
+                echo "Installer for $appName added to db<br/><br/>";
             else 
                 echo "Failed to add installer for $appName to db<br/><br/>";
         }
