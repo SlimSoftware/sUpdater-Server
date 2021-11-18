@@ -100,7 +100,7 @@ if (file_exists($xmlPath)) {
         
         if ($detectInfoId != "") {
             $stmt = $db->prepare("UPDATE detectinfo SET app_id = ?, arch = ?, regkey = ?, regvalue = ?, exepath = ? WHERE id = ?");   
-            $updated = $stmt->execute([$appId, array_search($app->arch, $archs), $app->regkey, $app->regvalue, $app->exepath, $detectInfoId]);
+            $updated = $stmt->execute([$appId, array_search($app->arch, $archs), $app->regkey, $app->regvalue, $app->exePath, $detectInfoId]);
             
             if ($updated)
                 echo "Detectinfo for $appName updated in db<br/>";
@@ -108,7 +108,7 @@ if (file_exists($xmlPath)) {
                 echo "Failed to update detectinfo for $appName in db<br/>";
         } else {
             $stmt = $db->prepare("INSERT INTO detectinfo (app_id, arch, regkey, regvalue, exepath) VALUES (?, ?, ?, ?, ?)");   
-            $added = $stmt->execute([$appId, array_search($app->arch, $archs), $app->regkey, $app->regvalue, $app->exepath]);
+            $added = $stmt->execute([$appId, array_search($app->arch, $archs), $app->regkey, $app->regvalue, $app->exePath]);
             
             if ($added)
                 echo "Detectinfo for $appName added to db<br/>";

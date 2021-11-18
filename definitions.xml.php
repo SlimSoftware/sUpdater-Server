@@ -20,9 +20,15 @@ foreach ($apps as $app) {
         $appElement->addChild("description", $app["description_text"]);
     }
     $appElement->addChild("dl", $app["dl"]);
-    $appElement->addChild("exepath", $app["exepath"]);
-    $appElement->addChild("regkey", $app["regkey"]);
-    $appElement->addChild("regvalue", $app["regvalue"]);
+    
+    if ($app["exepath"])
+        $appElement->addChild("exePath", $app["exepath"]);
+
+    if ($app["regkey"]) {
+        $appElement->addChild("regkey", $app["regkey"]);
+        $appElement->addChild("regvalue", $app["regvalue"]);
+    }
+
     $appElement->addChild("switch", $app["launch_args"]);
     $noUpdate = $app["noupdate"] === "1" ? "noupdate" : "setup";
     $appElement->addChild("type", $noUpdate);
