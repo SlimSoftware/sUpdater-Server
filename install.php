@@ -77,7 +77,7 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
                 CONSTRAINT `FK_portableapps_descriptions` FOREIGN KEY (`description_id`) REFERENCES `descriptions` (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
             "archives" => "CREATE TABLE `archives` (
-                `id` int(11) NOT NULL,
+                `id` int(11) NOT NULL AUTO_INCREMENT,
                 `papp_id` int(11) NOT NULL,
                 `dl` varchar(5000) NOT NULL,
                 `extractmode` tinyint(2) NOT NULL,
