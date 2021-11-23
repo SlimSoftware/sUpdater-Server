@@ -52,26 +52,8 @@ if (isset($_POST["name"]) &&
     <p>Logged in as: <b><?= $_SESSION["user"] ?></b> <a href="logout.php">Log out</a></p>
     <a href="index.php">Dashboard Home</a>
 
-    <form method="POST">
-        <h3><b>General info</b></h3>
-        <p>Name: <input type="text" name="name" required /></p>
-        <p>Version: <input type="text" name="version" required /></p>
-        <p>Use this app's own updater to check for updates: <input type="checkbox" name="noupdate" /></p>
-        <h3><b>Detection Info</b></h3>
-        <p>Arch:
-            <select name="arch">
-                <option value="0">Any</option>
-                <option value="1">32-bit</option>
-                <option value="2">64-bit</option>
-            </select>
-        </p>
-        <p>Registry key: <input type="text" name="regkey" /></p>
-        <p>Registry value: <input type="text" name="regvalue" /></p>
-        <p>Executable path: <input type="text" name="exepath" /></p>
-        <h3><b>Installer Info</b></h3>
-        <p>Download link: <input type="text" name="dl" required /></p>
-        <p>Launch arguments: <input type="text" name="launchargs" required /></p>
-        <input type="submit" value="Add app" />
-    </form>
+    <?php
+    include("inc/forms/appform.php");
+    ?>
 </body>
 </html>

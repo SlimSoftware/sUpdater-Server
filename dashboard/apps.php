@@ -54,7 +54,7 @@ $apps = $stmt->fetchAll();
                 <tr>
                     <td><?= $app["name"] ?></td>
                     <td><?= $app["version"] ?></td>
-                    <td><a href="editapp?id=<?= $app["id"] ?>">Edit</a></td>
+                    <td><a href="editapp.php?id=<?= $app["id"] ?>">Edit</a></td>
                 </tr>
                 <?php 
             endforeach; endif;?>
