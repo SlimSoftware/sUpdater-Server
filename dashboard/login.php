@@ -1,4 +1,8 @@
 <?php
+$title = "Log In";
+include("inc/header.php");
+include("inc/nav.php");
+
 if (isset($_POST["user"]) && isset($_POST["pass"])) {
     require __DIR__ . "/../Database.php";
     $db = Database::getInstance();
@@ -13,25 +17,23 @@ if (isset($_POST["user"]) && isset($_POST["pass"])) {
             header("Location: index.php");
         }
     }
-    
-    echo "Username or password incorrect!<br/>";
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In - sUpdater Server</title>
-</head>
-<body>
+<div class="container">
     <h1>Log In</h1>
+    <?= isset($_POST["user"]) && isset($_POST["pass"]) ? '<b class="text-danger">Username or password incorrect!</b>' : "" ?>
     <form method="POST">
-        <p>Username: <input type="text" name="user" /><br />
-        Password: <input type="password" name="pass" /></p>
-        <input type="submit" value="Login" />
+        <div class="form-group col-md-4">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="user" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="pass" />
+        </div>
+        <input class="btn btn-primary" type="submit" value="Log In" />  
     </form>
+</div>
 </body>
 </html>

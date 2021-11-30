@@ -1,8 +1,7 @@
 <?php
-session_start();
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
-}
+$title = "Add App";
+include("inc/header.php");
+include("inc/nav.php");
 
 if (isset($_POST["name"]) && 
     isset($_POST["version"]) &&
@@ -39,21 +38,12 @@ if (isset($_POST["name"]) &&
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add App - sUpdater Server</title>
-</head>
-<body>
+<div class="container">
     <h1>Add App</h1>
-    <p>Logged in as: <b><?= $_SESSION["user"] ?></b> <a href="logout.php">Log out</a></p>
-    <a href="index.php">Dashboard Home</a>
 
     <?php
     include("inc/forms/appform.php");
     ?>
+</div>
 </body>
 </html>

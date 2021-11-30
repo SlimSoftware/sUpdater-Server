@@ -1,9 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
-}
-
 require __DIR__ . "/../Database.php";
 $db = Database::getInstance();
 
@@ -51,23 +46,18 @@ $detectInfo = $stmt->fetch();
 $stmt = $db->prepare("SELECT dl, launch_args FROM installers WHERE app_id = ?");
 $stmt->execute([$_GET["id"]]);
 $installer = $stmt->fetch();
+
+$appName = $app["name"];
+$title = "Edit App $appName";
+include("inc/header.php");
+include("inc/nav.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit App - sUpdater Server</title>
-</head>
-<body>
+<div class="container">
     <h1>Edit App</h1>
-    <p>Logged in as: <b><?= $_SESSION["user"] ?></b> <a href="logout.php">Log out</a></p>
-    <a href="index.php">Dashboard Home</a>
-
     <?php
     include("inc/forms/appform.php");
     ?>
+</div>
 </body>
 </html>
