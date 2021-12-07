@@ -15,7 +15,7 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
 		<span class="button-label navbar-toggler-label"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav">
+		<ul class="navbar-nav me-auto">
 			<li class="nav-item">
 				<a class="nav-link <?= $filename === "index.php" ? "active" : "" ?>" href="<?= "$dir/index.php" ?>">Home</a>
 			</li>
@@ -23,5 +23,20 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
 				<a class="nav-link <?= $filename === "apps.php" ? "active" : "" ?>" href="<?= "$dir/apps.php" ?>">Apps</a>
 			</li>
 		</ul>
+		<?php
+		if (isset($_SESSION["user"])):
+		?>
+		<ul class="navbar-nav my-2 my-md-0">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" 
+					aria-haspopup="true" aria-expanded="false">
+					Hi <?= $_SESSION["user"] ?>
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="userDropdown">
+          			<li><a class="dropdown-item" href="<?= "$dir/logout.php" ?>">Log out</a></li>
+				</ul>
+			</li>
+		</div>
+		<?php endif; ?>
 	</div>
 </nav>
