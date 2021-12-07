@@ -14,7 +14,7 @@ class Database
         try {
             self::$con = new PDO($dsn, Config::DB_USERNAME, Config::DB_PASSWORD);
         } catch (PDOException $e) {
-            die("Cannot connect to database");
+            exit("Cannot connect to database");
         }
         
         // Set emulate prepare to false so we get back the correct datatypes (like int) from the db

@@ -252,5 +252,5 @@ if (file_exists($xmlPath)) {
         }
     }
 } else {
-    die("Failed to open $xmlPath");
+    exit("Failed to open $xmlPath");
 }

@@ -91,7 +91,7 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
         foreach ($createStatments as $tableName => $stmt) {
             $result = $db->exec($stmt);
             if ($result === false) {
-                die("Error creating database table $tableName");
+                exit("Error creating database table $tableName");
             }
         }
     }
@@ -102,7 +102,7 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
     if ($result) {
         header("Location: dashboard/login.php");
     } else {
-        die("Error creating user");
+        exit("Error creating user");
     }
 }
 ?>
