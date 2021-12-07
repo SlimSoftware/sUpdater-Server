@@ -3,7 +3,7 @@ require __DIR__ . "/Database.php";
 
 $db = Database::getInstance();
 
-/* if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
+if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
     $result = $db->query("SELECT count(*) FROM users");
     $userAmount = $result !== false ? $result->fetch(PDO::FETCH_COLUMN) : 0;
 
@@ -106,7 +106,7 @@ $db = Database::getInstance();
     } else {
         exit("Error creating user");
     }
-} */
+}
 
 $title = "Installation";
 include("dashboard/inc/header.php");
