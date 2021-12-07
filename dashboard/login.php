@@ -1,8 +1,4 @@
 <?php
-$title = "Log In";
-include("inc/header.php");
-include("inc/nav.php");
-
 if (isset($_POST["user"]) && isset($_POST["pass"])) {
     require __DIR__ . "/../Database.php";
     $db = Database::getInstance();
@@ -18,6 +14,10 @@ if (isset($_POST["user"]) && isset($_POST["pass"])) {
         }
     }
 }
+
+$title = "Log In";
+include("inc/header.php");
+include("inc/nav.php");
 ?>
 
 <div class="container">
