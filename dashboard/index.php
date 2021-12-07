@@ -9,5 +9,9 @@ include("inc/nav.php");
     <p>Logged in as: <b><?= $_SESSION["user"] ?></b> <a href="logout.php">Log out</a></p>
     <a href="apps.php">Manage apps</a>
 </div>
+
+<?php
+include("inc/scripts.php");
+?>
 </body>
 </html>

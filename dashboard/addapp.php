@@ -46,5 +46,9 @@ if (isset($_POST["name"]) &&
     include("inc/forms/appform.php");
     ?>
 </div>
+
+<?php
+include("inc/scripts.php");
+?>
 </body>
 </html>
