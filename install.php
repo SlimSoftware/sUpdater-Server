@@ -9,6 +9,7 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
 
     if ($userAmount > 0) {
         header("Location: dashboard/login.php");
+        exit();
     } else if ($result === false) {
         // Apps table does not exist, so create all required tables
         $createStatments = [
@@ -101,6 +102,7 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
     $result = $stmt->execute([$_POST["user"], $hashedPassword]);
     if ($result) {
         header("Location: dashboard/login.php");
+        exit();
     } else {
         exit("Error creating user");
     }

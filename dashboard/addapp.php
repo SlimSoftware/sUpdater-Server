@@ -32,6 +32,7 @@ if (isset($_POST["name"]) &&
 
     if ($appAdded !== false && $detectInfoAdded !== false && $installerAdded !== false) {
         header("Location: apps.php");
+        exit();
     } else {
         echo "<b>Could not add app!</b>";
     }

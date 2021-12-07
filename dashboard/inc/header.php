@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION["user"]) && basename($_SERVER['SCRIPT_NAME']) !== "login.php") {
     header("Location: login.php");
+    exit();
 }
 
 include_once(__DIR__ . "\..\..\Config.php");

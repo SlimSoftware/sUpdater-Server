@@ -11,6 +11,7 @@ if (isset($_POST["user"]) && isset($_POST["pass"])) {
             session_start();
             $_SESSION["user"] = filter_var($_POST["user"]);
             header("Location: index.php");
+            exit();
         }
     }
 }
