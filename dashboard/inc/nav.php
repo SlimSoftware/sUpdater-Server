@@ -35,7 +35,7 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
           			<li><a class="dropdown-item" href="<?= "$dir/logout.php" ?>">Log out</a></li>
 				</ul>
 			</li>
-		</div>
+		</ul>
 		<?php endif; ?>
 	</div>
 </nav>
