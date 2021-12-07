@@ -9,6 +9,9 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
 		<img src="<?= "$dir/img/brand.png" ?>" width="32" height="32" class="d-inline-block align-top" alt="">
 		sUpdater Server
 	</a>
+	<?php
+	if (isset($_SESSION["user"])):
+	?>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -22,9 +25,6 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
 				<a class="nav-link <?= $filename === "apps.php" ? "active" : "" ?>" href="<?= "$dir/apps.php" ?>">Apps</a>
 			</li>
 		</ul>
-		<?php
-		if (isset($_SESSION["user"])):
-		?>
 		<ul class="navbar-nav my-2 my-md-0">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" 
@@ -36,6 +36,6 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
 				</ul>
 			</li>
 		</ul>
-		<?php endif; ?>
 	</div>
+	<?php endif; ?>
 </nav>
