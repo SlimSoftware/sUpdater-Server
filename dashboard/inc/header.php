@@ -7,7 +7,7 @@ if (!isset($_SESSION["user"]) && $pageName !== "login.php" && $pageName !== "ins
     exit();
 }
 
-include_once(__DIR__ . "\..\..\Config.php");
+include_once(__DIR__ . "/../../Config.php");
 $dir = "/" . Config::SERVER_SUBDIR;
 ?>
 
