@@ -30,9 +30,9 @@ $apps = $stmt->fetchAll();
                 <?php
                 foreach ($apps as $app): ?>
                     <tr>
-                        <td><?= $app["name"] ?></td>
-                        <td><?= $app["version"] ?></td>
-                        <td><a href="editapp.php?id=<?= $app["id"] ?>">Edit</a></td>
+                        <td class="align-middle"><?= $app["name"] ?></td>
+                        <td class="align-middle"><?= $app["version"] ?></td>
+                        <td><a class="btn btn-primary" href="editapp.php?id=<?= $app["id"] ?>">Edit</a></td>
                     </tr>
                     <?php 
                 endforeach; endif;
