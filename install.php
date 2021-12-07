@@ -3,7 +3,7 @@ require __DIR__ . "/Database.php";
 
 $db = Database::getInstance();
 
-if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
+/* if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
     $result = $db->query("SELECT count(*) FROM users");
     $userAmount = $result !== false ? $result->fetch(PDO::FETCH_COLUMN) : 0;
 
@@ -106,24 +106,31 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
     } else {
         exit("Error creating user");
     }
-}
+} */
+
+$title = "Installation";
+include("dashboard/inc/header.php");
+include("dashboard/inc/nav.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sUpdater Server Installation</title>
-</head>
-<body>
+<div class="container">
     <h1>sUpdater Server Installation</h1>
     <p>The database has been succesfully set up. Now you need to setup a login user for the dashboard.</p>
     <form method="POST">
-        <p>Username: <input type="text" name="user" /><br />
-        Password: <input type="password" name="pass" /></p>
-        <input type="submit" value="Save & Login" />
+        <div class="form-group col-md-4">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="user" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="pass" />
+        </div>
+        <input class="btn btn-primary" type="submit" value="Save & Login" />
     </form>
+</div>
+
+<?php
+include("dashboard/inc/scripts.php");
+?>
 </body>
 </html>

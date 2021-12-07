@@ -1,6 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"]) && basename($_SERVER['SCRIPT_NAME']) !== "login.php") {
+$pageName = basename($_SERVER['SCRIPT_NAME']);
+
+if (!isset($_SESSION["user"]) && $pageName !== "login.php" && $pageName !== "install.php") {
     header("Location: login.php");
     exit();
 }
