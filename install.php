@@ -21,8 +21,8 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
             "descriptions" => "CREATE TABLE `descriptions` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                `text` text NOT NULL,
-                `url` varchar(5000) NOT NULL,
+                `text` text DEFAULT NULL,
+                `url` varchar(5000) DEFAULT NULL,
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
             "apps" => "CREATE TABLE `apps` (
