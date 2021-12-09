@@ -48,7 +48,7 @@ $stmt->execute([$_GET["id"]]);
 $installer = $stmt->fetch();
 
 $appName = $app["name"];
-$title = "Edit App $appName";
+$title = "Edit $appName";
 include("inc/header.php");
 include("inc/nav.php");
 ?>
