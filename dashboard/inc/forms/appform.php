@@ -1,3 +1,7 @@
+<?php
+require_once(__DIR__ . "/../../../Utilities.php");
+?>
+
 <form method="POST">
     <h5><b>General info</b></h5>
     <div class="form-group col-md-3">
@@ -42,7 +46,7 @@
         <details>
             <summary>Available variables</summary>
             <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br/>
-            %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems</p?>
+            %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems</p>
         </details>
     </div>
 
@@ -50,6 +54,12 @@
     <div class="form-group">
         <label for="dlInput">Download link</label>
         <input type="text" class="form-control" id="dlInput" name="dl" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
+        <details>
+            <summary>Available variables</summary>
+            <p>%ver% = <?= $app["version"] ?><br/>
+            %verMajorMinor% = <?= Utilities::convertToMajorMinorVersion($app["version"]) ?><br/>
+            %verDotless% = <?= Utilities::convertToDotlessVersion($app["version"]) ?></p>
+        </details>
     </div>
 
     <div class="form-group">

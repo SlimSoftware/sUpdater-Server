@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . "/Database.php";
+require_once(__DIR__ . "/Utilities.php");
 header("Content-Type: application/xml; charset=UTF-8");
 
 $xml = new SimpleXMLElement('<defenitions version="1.0"></defenitions>');
@@ -19,7 +20,20 @@ foreach ($apps as $app) {
     if (isset($app["description_text"])) {
         $appElement->addChild("description", $app["description_text"]);
     }
-    $appElement->addChild("dl", $app["dl"]);
+
+    $dl = $app["dl"];
+
+    if (strpos($dl, "%ver%") !== false) {
+        $dl = str_replace("%ver%", $app["version"], $dl);
+    }
+    if (strpos($dl, "%verMajorMinor%") !== false) {
+        $dl = str_replace("%verMajorMinor%", Utilities::convertToMajorMinorVersion($app["version"]), $dl);
+    }
+    if (strpos($dl, "%verDotless%") !== false) {
+        $dl = str_replace("%verDotless%", Utilities::convertToDotlessVersion($app["version"]), $dl);
+    }
+
+    $appElement->addChild("dl", $dl);
     
     if ($app["exepath"])
         $appElement->addChild("exePath", $app["exepath"]);
@@ -50,7 +64,21 @@ foreach ($portableApps as $app) {
     if (isset($app["description_text"])) {
         $appElement->addChild("description", $app["description_text"]);
     }
-    $appElement->addChild("dl", $app["dl"]);
+
+    $dl = $app["dl"];
+
+    if (strpos($dl, "%ver%") !== false) {
+        $dl = str_replace("%ver%", $app["version"], $dl);
+    }
+    if (strpos($dl, "%verMajorMinor%") !== false) {
+        $dl = str_replace("%verMajorMinor%", Utilities::convertToMajorMinorVersion($app["version"]), $dl);
+    }
+    if (strpos($dl, "%verDotless%") !== false) {
+        $dl = str_replace("%verDotless%", Utilities::convertToDotlessVersion($app["version"]), $dl);
+    }
+
+    $appElement->addChild("dl", $dl);
+    
     $appElement->addChild("extractmode", $extractModes[$app["extractmode"]]);
     $appElement->addChild("launch", $app["launchfile"]);
     $appElement->addChild("version", $app["version"]);
