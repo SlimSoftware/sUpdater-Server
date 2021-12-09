@@ -52,9 +52,9 @@
         <input type="text" class="form-control" id="dlInput" name="dl" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
     </div>
 
-    <div class="form-group col-md-3">
+    <div class="form-group">
         <label for="launchArgsInput">Launch arguments</label>
-        <input type="text" class="form-control" id="launchArgsInput" name="launchargs" value="<?= isset($installer["launch_args"]) ? $installer["launch_args"] : "" ?>" required />
+        <input type="text" class="form-control" id="launchArgsInput" name="launchargs" value="<?= isset($installer["launch_args"]) ? htmlspecialchars($installer["launch_args"], ENT_QUOTES) : "" ?>" required />
     </div>
 
     <input type="hidden" name="id" value="<?= isset($_GET["id"]) ? $_GET["id"] : "" ?>" />
