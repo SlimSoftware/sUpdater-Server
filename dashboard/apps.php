@@ -5,7 +5,7 @@ include("inc/nav.php");
 
 require __DIR__ . "/../Database.php";
 $db = Database::getInstance();
-$stmt = $db->prepare("SELECT id, name, version FROM apps");
+$stmt = $db->prepare("SELECT id, name, version FROM apps ORDER BY name");
 $stmt->execute();
 $apps = $stmt->fetchAll();
 ?>
