@@ -77,7 +77,7 @@ if (file_exists($xmlPath)) {
 
         if ($appId != "") {
             $stmt = $db->prepare("UPDATE apps SET name = ?, version = ?, noupdate = ?, changelog_id = ?, description_id = ? WHERE id = ?");   
-            $updated = $stmt->execute([$appName, $app->version, $app->type === "noupdate", $changelogId, $descriptionId, $appId]);
+            $updated = $stmt->execute([$appName, $app->version, $app->type == "noupdate" ? 1 : 0, $changelogId, $descriptionId, $appId]);
             
             if ($updated)
                 echo "App $appName updated in db<br/>";
@@ -85,7 +85,7 @@ if (file_exists($xmlPath)) {
                 echo "Failed to update app $appName in db<br/>";
         } else {
             $stmt = $db->prepare("INSERT INTO apps (name, version, noupdate, changelog_id, description_id) VALUES (?, ?, ?, ?, ?)");   
-            $added = $stmt->execute([$appName, $app->version, $app->type === "noupdate", $changelogId, $descriptionId]);
+            $added = $stmt->execute([$appName, $app->version, $app->type == "noupdate" ? 1 : 0, $changelogId, $descriptionId]);
             $appId = $db->lastInsertId();
             
             if ($added)

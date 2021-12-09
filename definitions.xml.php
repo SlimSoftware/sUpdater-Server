@@ -30,7 +30,7 @@ foreach ($apps as $app) {
     }
 
     $appElement->addChild("switch", $app["launch_args"]);
-    $noUpdate = $app["noupdate"] === "1" ? "noupdate" : "setup";
+    $noUpdate = $app["noupdate"] === 1 ? "noupdate" : "setup";
     $appElement->addChild("type", $noUpdate);
     $appElement->addChild("version", $app["version"]);
 }
