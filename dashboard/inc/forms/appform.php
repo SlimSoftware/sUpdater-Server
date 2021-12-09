@@ -39,6 +39,11 @@
     <div class="form-group">
         <label for="exePathInput">Executable path</label>
         <input type="text" class="form-control" id="exePathInput" name="exepath" value="<?= isset($detectInfo["exepath"]) ? $detectInfo["exepath"] : "" ?>" />
+        <details>
+            <summary>Available variables</summary>
+            <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br/>
+            %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems</p?>
+        </details>
     </div>
 
     <h5><b>Installer Info</b></h5>
