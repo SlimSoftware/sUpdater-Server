@@ -56,9 +56,9 @@ require_once(__DIR__ . "/../../../Utilities.php");
         <input type="text" class="form-control" id="dlInput" name="dl" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
         <details>
             <summary>Available variables</summary>
-            <p>%ver% = <?= $app["version"] ?><br/>
-            %verMajorMinor% = <?= Utilities::convertToMajorMinorVersion($app["version"]) ?><br/>
-            %verDotless% = <?= Utilities::convertToDotlessVersion($app["version"]) ?></p>
+            <p>%ver% = <?= isset($app["version"]) ? $app["version"] : "The app's full version number (example: 6.3.1)" ?><br/>
+            %verMajorMinor% = <?= isset($app["version"]) ? Utilities::convertToMajorMinorVersion($app["version"]) : "Only the major and minor version of the app's version number (example: 6.3)" ?><br/>
+            %verDotless% = <?= isset($app["version"]) ? Utilities::convertToDotlessVersion($app["version"]) : "The app's version number without any dots (example: 631)" ?></p>
         </details>
     </div>
 
