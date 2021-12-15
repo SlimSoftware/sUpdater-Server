@@ -39,6 +39,6 @@ $dir = "/" . Config::SERVER_SUBDIR;
 	<link rel="apple-touch-icon" sizes="180x180" href="<?= "$dir/dashboard/img/favicon/favicon-180.png" ?>">
 	<meta name="msapplication-TileColor" content="#FFFFFF">
 	<meta name="msapplication-TileImage" content="<?= "$dir/dashboard/img/favicon/favicon-144.png" ?>">
-	<meta name="msapplication-config" content="<?= "$dir/dashboard/imgbrowserconfig.xml" ?>">
+	<meta name="msapplication-config" content="<?= "$dir/dashboard/img/browserconfig.xml" ?>">
 </head>
 <body>
