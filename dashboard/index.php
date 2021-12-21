@@ -6,7 +6,7 @@ include("inc/nav.php");
 
 <div class="container">
     <h1>Dashboard</h1>
-    <a href="apps.php">Manage apps</a>
+    <a href="import.php">Import XML</a>
 </div>
 
 <?php
