@@ -12,80 +12,18 @@ if (file_exists($xmlPath)) {
         $stmt = $db->prepare("SELECT id FROM apps WHERE name = ?");   
         $stmt->execute([$appName]);
         $appId = $stmt->fetchColumn();
-        $changelogId = null;
-        $descriptionId = null;
-
-        if ($app->changelog) {
-            if ($appId != "") {
-                $stmt = $db->prepare("SELECT changelog_id FROM apps WHERE id = ?");   
-                $stmt->execute([$appId]);
-                $changelogId = $stmt->fetchColumn();
-            } else {
-                $changelogExists = false;
-            }
-    
-            if ($changelogId != "") {
-                $stmt = $db->prepare("UPDATE changelogs SET text = ? WHERE id = ?");   
-                $updated = $stmt->execute([$app->changelog, $changelogId]);
-                
-                if ($updated)
-                    echo "Changelog for $appName updated in db<br/>";
-                else 
-                    echo "Failed to update changelog for $appName in db<br/>";
-            } else {
-                $stmt = $db->prepare("INSERT INTO changelogs (text) VALUES (?)");   
-                $added = $stmt->execute([$app->changelog]);
-                
-                if ($added) {
-                    $changelogId = $db->lastInsertId();
-                    echo "Changelog for $appName added to db<br/>";
-                }
-                else {
-                    echo "Failed to add changelog for $appName to db<br/>";
-                }
-            }
-        }
-
-        if ($app->description) {
-            if ($appId != "") {
-                $stmt = $db->prepare("SELECT description_id FROM apps WHERE id = ?");   
-                $stmt->execute([$appId]);
-                $descriptionId = $stmt->fetchColumn();
-            }
-    
-            if ($descriptionId != "") {
-                $stmt = $db->prepare("UPDATE descriptions SET text = ? WHERE id = ?");   
-                $updated = $stmt->execute([$app->description, $descriptionId]);
-                
-                if ($updated)
-                    echo "Description for $appName updated in db<br/>";
-                else 
-                    echo "Failed to update description for $appName in db<br/>";
-            } else {
-                $stmt = $db->prepare("INSERT INTO descriptions (text) VALUES (?)");   
-                $added = $stmt->execute([$app->description]);
-                
-                if ($added) {
-                    $descriptionId = $db->lastInsertId();
-                    echo "Description for $appName added to db<br/>";
-                }
-                else {
-                    echo "Failed to add description for $appName to db<br/>";
-                }
-            }
-        }
 
         if ($appId != "") {
-            $stmt = $db->prepare("UPDATE apps SET name = ?, version = ?, noupdate = ?, changelog_id = ?, description_id = ? WHERE id = ?");   
-            $updated = $stmt->execute([$appName, $app->version, $app->type == "noupdate" ? 1 : 0, $changelogId, $descriptionId, $appId]);
+            $stmt = $db->prepare("UPDATE apps SET name = ?, version = ?, noupdate = ? WHERE id = ?");   
+            $updated = $stmt->execute([$appName, $app->version, $app->type == "noupdate" ? 1 : 0, $appId]);
             
             if ($updated)
                 echo "App $appName updated in db<br/>";
             else 
                 echo "Failed to update app $appName in db<br/>";
         } else {
-            $stmt = $db->prepare("INSERT INTO apps (name, version, noupdate, changelog_id, description_id) VALUES (?, ?, ?, ?, ?)");   
-            $added = $stmt->execute([$appName, $app->version, $app->type == "noupdate" ? 1 : 0, $changelogId, $descriptionId]);
+            $stmt = $db->prepare("INSERT INTO apps (name, version, noupdate) VALUES (?, ?, ?)");   
+            $added = $stmt->execute([$appName, $app->version, $app->type == "noupdate" ? 1 : 0]);
             $appId = $db->lastInsertId();
             
             if ($added)
@@ -147,79 +85,19 @@ if (file_exists($xmlPath)) {
         $appName = $pApp["name"];
         $stmt = $db->prepare("SELECT id FROM portableapps WHERE name = ?");   
         $stmt->execute([$appName]);
-        $appId = $stmt->fetchColumn();
-        $changelogId = null;
-        $descriptionId = null;
-
-        if ($pApp->changelog) {
-            if ($appId != "") {
-                $stmt = $db->prepare("SELECT changelog_id FROM portableapps WHERE id = ?");   
-                $stmt->execute([$appId]);
-                $changelogId = $stmt->fetchColumn();
-            }
-    
-            if ($changelogId != "") {
-                $stmt = $db->prepare("UPDATE changelogs SET text = ? WHERE id = ?");   
-                $updated = $stmt->execute([$pApp->changelog, $changelogId]);
-                
-                if ($updated)
-                    echo "Changelog for Portable App $appName updated in db<br/>";
-                else 
-                    echo "Failed to update changelog for Portable App $appName in db<br/>";
-            } else {
-                $stmt = $db->prepare("INSERT INTO changelogs (text) VALUES (?)");   
-                $added = $stmt->execute([$pApp->changelog]);
-                
-                if ($added) {
-                    $changelogId = $db->lastInsertId();
-                    echo "Changelog for Portable App $appName added to db<br/>";
-                }
-                else {
-                    echo "Failed to add changelog for Portable App $appName to db<br/>";
-                }
-            }
-        }
-
-        if ($pApp->description) {
-            if ($appId != "") {
-                $stmt = $db->prepare("SELECT description_id FROM portableapps WHERE id = ?");   
-                $stmt->execute([$appId]);
-                $descriptionId = $stmt->fetchColumn();
-            }
-    
-            if ($descriptionId != "") {
-                $stmt = $db->prepare("UPDATE descriptions SET text = ? WHERE id = ?");   
-                $updated = $stmt->execute([$pApp->description, $descriptionId]);
-                
-                if ($updated)
-                    echo "Description for Portable App $appName updated in db<br/>";
-                else 
-                    echo "Failed to update description for Portable App $appName in db<br/>";
-            } else {
-                $stmt = $db->prepare("INSERT INTO descriptions (text) VALUES (?)");   
-                $added = $stmt->execute([$pApp->description]);
-                
-                if ($added) {
-                    $descriptionId = $db->lastInsertId();
-                    echo "Description for Portable App $appName added to db<br/>";
-                }
-                else {
-                    echo "Failed to add description for Portable App $appName to db<br/>";
-                }
-            }
-        }
+        $appId = $stmt->fetchColumn();        
         
         if ($appId != "") {
-            $stmt = $db->prepare("UPDATE portableapps SET name = ?, version = ?, arch = ?, changelog_id = ?, description_id = ? WHERE id = ?");   
-            $updated = $stmt->execute([$appName, $pApp->version, array_search($pApp->arch, $archs), $changelogId, $descriptionId, $appId]);
+            $stmt = $db->prepare("UPDATE portableapps SET name = ?, version = ?, arch = ? WHERE id = ?");   
+            $updated = $stmt->execute([$appName, $pApp->version, array_search($pApp->arch, $archs), $appId]);
             
             if ($updated)
                 echo "Portable App $appName updated in db<br/>";
             else 
                 echo "Failed to update Portable App $appName in db<br/>";
         } else {
-            $stmt = $db->prepare("INSERT INTO portableapps (name, version, arch, changelog_id, description_id) VALUES (?, ?, ?, ?, ?)");   
-            $added = $stmt->execute([$appName, $pApp->version, array_search($pApp->arch, $archs), $changelogId, $descriptionId]);
+            $stmt = $db->prepare("INSERT INTO portableapps (name, version, arch) VALUES (?, ?, ?)");   
+            $added = $stmt->execute([$appName, $pApp->version, array_search($pApp->arch, $archs)]);
             $appId = $db->lastInsertId();
             
             if ($added)
