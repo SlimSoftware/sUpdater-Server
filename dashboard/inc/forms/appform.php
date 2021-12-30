@@ -2,6 +2,10 @@
 require_once(__DIR__ . "/../../../Utilities.php");
 ?>
 
+<script>
+    <?php require_once(__DIR__ . "/../../../utilities.js"); ?>
+</script>
+
 <form method="POST">
     <h5><b>General info</b></h5>
     <div class="form-group col-md-3">
@@ -53,7 +57,10 @@ require_once(__DIR__ . "/../../../Utilities.php");
     <h5><b>Installer Info</b></h5>
     <div class="form-group">
         <label for="dlInput">Download link</label>
-        <input type="text" class="form-control" id="dlInput" name="dl" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
+        <div class="input-group">
+            <input type="text" class="form-control" id="dlInput" name="dl" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
+            <a class="btn btn-primary" onclick="openDL()">Test link</a>
+        </div>
         <details>
             <summary>Available variables</summary>
             <p>%ver% = <?= isset($app["version"]) ? $app["version"] : "The app's full version number (example: 6.3.1)" ?><br/>
