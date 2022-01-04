@@ -159,9 +159,5 @@ include("inc/nav.php");
     endif;
     ?>
 </div>
-
-<?php
-include("inc/scripts.php");
-?>
 </body>
 </html>

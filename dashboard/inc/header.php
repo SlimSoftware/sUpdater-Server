@@ -40,5 +40,8 @@ $dir = "/" . Config::SERVER_SUBDIR;
 	<meta name="msapplication-TileColor" content="#FFFFFF">
 	<meta name="msapplication-TileImage" content="<?= "$dir/dashboard/img/favicon/favicon-144.png" ?>">
 	<meta name="msapplication-config" content="<?= "$dir/dashboard/img/browserconfig.xml" ?>">
+	<?php
+	include_once(__DIR__ . "\scripts.php");
+	?>
 </head>
 <body>

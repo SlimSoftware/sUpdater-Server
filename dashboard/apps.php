@@ -41,9 +41,5 @@ $apps = $stmt->fetchAll();
         </table>
     </div>
 </div>
-
-<?php
-include("inc/scripts.php");
-?>
 </body>
 </html>

@@ -36,9 +36,5 @@ include("inc/nav.php");
         <input class="btn btn-primary" type="submit" value="Log In" />  
     </form>
 </div>
-
-<?php
-include("inc/scripts.php");
-?>
 </body>
 </html>

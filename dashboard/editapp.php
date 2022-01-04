@@ -59,9 +59,5 @@ include("inc/nav.php");
     include("inc/forms/appform.php");
     ?>
 </div>
-
-<?php
-include("inc/scripts.php");
-?>
 </body>
 </html>
