@@ -20,6 +20,13 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
                 `noupdate` tinyint(1) NOT NULL DEFAULT '0',
                 PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+            "portableapps" => "CREATE TABLE `portableapps` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `name` varchar(200) NOT NULL,
+                `version` varchar(50) NOT NULL,
+                `arch` tinyint(4) NOT NULL,
+                PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
             "changelogs" => "CREATE TABLE `changelogs` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `app_id` int(11) DEFAULT NULL,
@@ -67,19 +74,6 @@ if (!isset($_POST["user"]) && !isset($_POST["pass"])) {
                 `username` varchar(50) NOT NULL,
                 `password` varchar(255) NOT NULL,
                 PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
-            "portableapps" => "CREATE TABLE `portableapps` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `name` varchar(200) NOT NULL,
-                `version` varchar(50) NOT NULL,
-                `arch` tinyint(4) NOT NULL,
-                `changelog_id` int(11) DEFAULT NULL,
-                `description_id` int(11) DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                KEY `FK_portableapps_changelogs` (`changelog_id`),
-                KEY `FK_portableapps_descriptions` (`description_id`),
-                CONSTRAINT `FK_portableapps_changelogs` FOREIGN KEY (`changelog_id`) REFERENCES `changelogs` (`id`),
-                CONSTRAINT `FK_portableapps_descriptions` FOREIGN KEY (`description_id`) REFERENCES `descriptions` (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
             "archives" => "CREATE TABLE `archives` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
