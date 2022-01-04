@@ -58,9 +58,10 @@ require_once(__DIR__ . "/../../../Utilities.php");
     <div class="form-group">
         <label for="dlInput">Download link</label>
         <div class="input-group">
-            <input type="text" class="form-control" id="dlInput" name="dl" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
+            <input type="text" class="form-control" id="dlInput" name="dl" onchange="updateDLHint()" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
             <a class="btn btn-primary" onclick="openDL()">Test link</a>
         </div>
+        <span id="dlParsedHint"></span>
         <details>
             <summary>Available variables</summary>
             <p>%ver% = <?= isset($app["version"]) ? $app["version"] : "The app's full version number (example: 6.3.1)" ?><br/>
@@ -77,3 +78,31 @@ require_once(__DIR__ . "/../../../Utilities.php");
     <input type="hidden" name="id" value="<?= isset($_GET["id"]) ? $_GET["id"] : "" ?>" />
     <input class="btn btn-primary" type="submit" value="Save" />
 </form>
+
+<script>
+    function updateDLHint() {
+        $(document).ready(function(){
+            let dl = document.querySelector('#dlInput').value;
+            let parsedDL = dl;
+            let version = document.querySelector('#versionInput').value;      
+
+            if (containsVersionVariable(dl)) {
+                dl = replaceVersionVariable(dl, version);
+            }
+            if (containsDotlessVariable(dl)) {
+                dl = replaceDotlessVariable(dl, version);
+            }
+            if (containsMajorMinorVariable(dl)) {
+                dl = replaceMajorMinorVariable(dl, text);
+            }
+            
+            if (parsedDL != dl) {
+                $('#dlParsedHint').text(`Preview: ${dl}`);
+            } else {
+                $('#dlParsedHint').text("");
+            }
+        });
+    }
+
+    updateDLHint();
+</script>
