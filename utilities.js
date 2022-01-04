@@ -38,19 +38,26 @@ function containsMajorMinorVariable(txt) {
     return txt.includes(majorMinorVariable);
 }
 
+function parseDL(dl, version) {
+    let parsedDL;
+    
+    if (containsVersionVariable(dl)) {
+        parsedDL = replaceVersionVariable(dl, version);
+    }
+    if (containsDotlessVariable(dl)) {
+        parsedDL = replaceDotlessVariable(dl, version);
+    }
+    if (containsMajorMinorVariable(dl)) {
+        parsedDL = replaceMajorMinorVariable(dl, version);
+    }
+
+    return parsedDL;
+}
+
 function openDL() {
     let dl = document.querySelector('#dlInput').value;
     let version = document.querySelector('#versionInput').value;
+    let parsedDL = parseDL(dl, version);
 
-    if (containsVersionVariable(dl)) {
-        dl = replaceVersionVariable(dl, version);
-    }
-    if (containsDotlessVariable(dl)) {
-        dl = replaceDotlessVariable(dl, version);
-    }
-    if (containsMajorMinorVariable(dl)) {
-        dl = replaceMajorMinorVariable(dl, version);
-    }
-
-    window.open(dl, "_blank");  
+    window.open(parsedDL, "_blank");  
 }
