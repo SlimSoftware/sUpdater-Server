@@ -15,7 +15,7 @@ require_once(__DIR__ . "/../../../Utilities.php");
 
     <div class="form-group col-md-3">
         <label for="versionInput">Version</label>
-        <input type="text" class="form-control" id="versionInput" name="version" value="<?= isset($app["version"]) ? $app["version"] : "" ?>" required /></p>
+        <input type="text" class="form-control" id="versionInput" name="version" onchange="updateDLHint()" value="<?= isset($app["version"]) ? $app["version"] : "" ?>" required /></p>
     </div>
     
     <div class="frm-check">
