@@ -39,7 +39,7 @@ function containsMajorMinorVariable(txt) {
 }
 
 function parseDL(dl, version) {
-    let parsedDL;
+    let parsedDL = dl;
     
     if (containsVersionVariable(dl)) {
         parsedDL = replaceVersionVariable(dl, version);
