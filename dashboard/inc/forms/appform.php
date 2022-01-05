@@ -61,7 +61,7 @@ require_once(__DIR__ . "/../../../Utilities.php");
             <input type="text" class="form-control" id="dlInput" name="dl" onchange="updateDLHint()" value="<?= isset($installer["dl"]) ? $installer["dl"] : "" ?>" required />
             <a class="btn btn-primary" onclick="openDL()">Test link</a>
         </div>
-        <span class="text-muted">Preview: <span id="dlParsedHint"></span></span>
+        <span id="dlParsedHintContainer" class="text-muted d-none">Preview: <span id="dlParsedHint"></span></span>
         <details>
             <summary>Available variables</summary>
             <p>%ver% = <?= isset($app["version"]) ? $app["version"] : "The app's full version number (example: 6.3.1)" ?><br/>
@@ -87,9 +87,10 @@ require_once(__DIR__ . "/../../../Utilities.php");
             let parsedDL = parseDL(dl, version);      
             
             if (parsedDL != dl) {
-                $('#dlParsedHint').text(parsedDL);
+                $("#dlParsedHint").text(parsedDL);
+                $("#dlParsedHintContainer").show();
             } else {
-                $('#dlParsedHint').text("");
+                $("#dlParsedHintContainer").hide();
             }
         });
     }
