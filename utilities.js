@@ -15,15 +15,15 @@ function convertToMajorMinorVersion(version)
 }
 
 function replaceVersionVariable(txt, version) {
-    return txt.replace(versionVariable, version);
+    return txt.replaceAll(versionVariable, version);
 }
 
 function replaceDotlessVariable(txt, version) {
-    return txt.replace(dotlessVariable, convertToDotlessVersion(version));
+    return txt.replaceAll(dotlessVariable, convertToDotlessVersion(version));
 }
 
 function replaceMajorMinorVariable(txt, version) {
-    return txt.replace(majorMinorVariable, convertToMajorMinorVersion(version));
+    return txt.replaceAll(majorMinorVariable, convertToMajorMinorVersion(version));
 }
 
 function containsVersionVariable(txt) {
