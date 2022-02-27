@@ -41,14 +41,14 @@ function containsMajorMinorVariable(txt) {
 function parseDL(dl, version) {
     let parsedDL = dl;
     
-    if (containsVersionVariable(dl)) {
-        parsedDL = replaceVersionVariable(dl, version);
+    if (containsVersionVariable(parsedDL)) {
+        parsedDL = replaceVersionVariable(parsedDL, version);
     }
-    if (containsDotlessVariable(dl)) {
-        parsedDL = replaceDotlessVariable(dl, version);
+    if (containsDotlessVariable(parsedDL)) {
+        parsedDL = replaceDotlessVariable(parsedDL, version);
     }
-    if (containsMajorMinorVariable(dl)) {
-        parsedDL = replaceMajorMinorVariable(dl, version);
+    if (containsMajorMinorVariable(parsedDL)) {
+        parsedDL = replaceMajorMinorVariable(parsedDL, version);
     }
 
     return parsedDL;
