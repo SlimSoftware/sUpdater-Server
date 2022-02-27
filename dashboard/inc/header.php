@@ -8,7 +8,7 @@ if (!isset($_SESSION["user"]) && $pageName !== "login.php" && $pageName !== "ins
 }
 
 include_once(__DIR__ . "/../../Config.php");
-$dir = "/" . Config::SERVER_SUBDIR;
+$dir = Config::SERVER_SUBDIR;
 ?>
 
 <!DOCTYPE html>

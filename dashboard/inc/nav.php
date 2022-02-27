@@ -1,6 +1,6 @@
 <?php
 include_once(__DIR__ . "\..\..\Config.php");
-$dir = "/" . Config::SERVER_SUBDIR . "/dashboard";
+$dir = Config::SERVER_SUBDIR . "/dashboard";
 $filename = basename($_SERVER['SCRIPT_NAME']);
 ?>
 
