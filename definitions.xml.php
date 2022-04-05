@@ -35,7 +35,7 @@ foreach ($apps as $app) {
     }
 
     $appElement->addChild("hasChangelog", isset($app["changelog_id"]) ? 1 : 0);
-    $appElement->addChild("hasDescription", isset($app["description_id"]) ? 1 : 0);
+    $appElement->addChild("hasWebsite", isset($app["description_id"]) ? 1 : 0);
 
     if ($app["regkey"]) {
         $appElement->addChild("regkey", $app["regkey"]);
