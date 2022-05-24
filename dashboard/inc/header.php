@@ -2,13 +2,13 @@
 session_start();
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 
-if (!isset($_SESSION["user"]) && $pageName !== "login.php" && $pageName !== "install.php") {
-    header("Location: login.php");
-    exit();
-}
-
 include_once(__DIR__ . "/../../Config.php");
 $dir = Config::SERVER_SUBDIR;
+
+if (!isset($_SESSION["user"]) && $pageName !== "login.php" && $pageName !== "install.php") {
+    header("Location: $dir/dashboard/login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ $dir = Config::SERVER_SUBDIR;
 	<link rel="icon" sizes="16x16 32x32 64x64" href="<?= "$dir/dashboard/img/favicon/favicon.ico" ?> ">
 	<link rel="icon" type="image/png" sizes="196x196" href="<?= "$dir/dashboard/img/favicon/favicon-192.png" ?>">
 	<link rel="icon" type="image/png" sizes="160x160" href="<?= "$dir/dashboard/img/favicon/favicon-160.png" ?>">
-	<link rel="icon" type="image/png" sizes="96x96" href="<?= "$dir ../img/favicon/favicon-96.png" ?>">
+	<link rel="icon" type="image/png" sizes="96x96" href="<?= "$dir/dashboard/img/favicon/favicon-96.png" ?>">
 	<link rel="icon" type="image/png" sizes="64x64" href="<?= "$dir/dashboard/img/favicon/favicon-64.png" ?>">
 	<link rel="icon" type="image/png" sizes="32x32" href="<?= "$dir/dashboard/img/favicon/favicon-32.png" ?>">
 	<link rel="icon" type="image/png" sizes="16x16" href="<?= "$dir/dashboard/img/favicon/favicon-16.png" ?>">
