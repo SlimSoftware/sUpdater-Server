@@ -91,18 +91,21 @@ require_once(__DIR__ . "/../../../Utilities.php");
 
 <script>
     function updateDLHint() {
-        $(document).ready(function(){
-            let dl = document.querySelector('#dlInput').value;
-            let version = document.querySelector('#versionInput').value;
-            let parsedDL = parseDL(dl, version);      
-            
-            if (parsedDL != dl) {
-                $("#dlParsedHint").text(parsedDL);
-                $("#dlParsedHintContainer").show();
-            } else {
-                $("#dlParsedHintContainer").hide();
+        const dl = document.querySelector("#dlInput").value;
+        const version = document.querySelector("#versionInput").value;
+        const parsedDL = parseDL(dl, version);
+        const dlParsedHintContainer = document.querySelector("#dlParsedHintContainer");      
+        
+        if (parsedDL != dl) {
+            const dlParsedHintElement = document.querySelector("#dlParsedHint");
+            dlParsedHintElement.textContent = parsedDL;
+        
+            if (dlParsedHintContainer.style.display !== "block") {
+                dlParsedHintContainer.style.display = "block";
             }
-        });
+        } else if (dlParsedHintContainer.style.display !== "none") {
+            dlParsedHintContainer.style.display = "none";
+        }
     }
 
     updateDLHint();

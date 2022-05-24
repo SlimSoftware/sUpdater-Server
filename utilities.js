@@ -55,9 +55,9 @@ function parseDL(dl, version) {
 }
 
 function openDL() {
-    let dl = document.querySelector('#dlInput').value;
-    let version = document.querySelector('#versionInput').value;
-    let parsedDL = parseDL(dl, version);
+    const dl = document.querySelector('#dlInput').value;
+    const version = document.querySelector('#versionInput').value;
+    const parsedDL = parseDL(dl, version);
 
     window.open(parsedDL, "_blank");  
 }
