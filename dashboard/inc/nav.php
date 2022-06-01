@@ -31,7 +31,7 @@ $filename = basename($_SERVER['SCRIPT_NAME']);
 					aria-haspopup="true" aria-expanded="false">
 					Hi <?= $_SESSION["user"] ?>
 				</a>
-				<ul class="dropdown-menu" aria-labelledby="userDropdown">
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
           			<li><a class="dropdown-item" href="<?= "$dir/logout.php" ?>">Log out</a></li>
 				</ul>
 			</li>
