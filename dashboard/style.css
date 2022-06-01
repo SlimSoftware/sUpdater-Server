@@ -7,16 +7,16 @@ body {
     padding-left: 5px;
 }
 
-.nav-item a:hover, a.navbar-brand:hover, .dropdown-item:hover {
+.dropdown-item:focus {
+    background-color: rgb(0, 186, 0) !important;
+}
+
+.nav-item a:hover, a.navbar-brand:hover {
     color: rgb(0, 86, 0) !important;
 }
 
 .navbar a.active {
     font-weight: bold;
-}
-
-.dropdown-item:focus {
-    background-color: rgb(0, 186, 0) !important;
 }
 
 .container {
@@ -31,7 +31,7 @@ a:not(.btn, .nav-link, .navbar-brand, .dropdown-item:focus) {
     color: rgb(0, 186, 0) !important;
 }
 
-a:hover:not(.btn, .nav-link, .navbar-brand) {
+a:hover:not(.btn, .nav-link, .navbar-brand, .dropdown-item:focus) {
     color: rgb(0, 226, 0) !important;
 }
 
