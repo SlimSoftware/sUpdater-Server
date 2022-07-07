@@ -24,12 +24,12 @@ require_once(__DIR__ . "/../../../Utilities.php");
         <label for="noupdateCheckbox" class="form-check-label">Use this app's own updater to check for updates</label>
     </div>
 
-    <div class="form-group">
+    <div class="form-group d-none">
         <label for="changelogInput">Changelog URL</label>
         <input type="text" class="form-control" id="changelogInput" name="changelog" value="<?= isset($changelog["url"]) ? $app["version"] : "" ?>" /></p>
     </div>
 
-    <div class="form-group">
+    <div class="form-group d-none">
         <label for="siteInput">Website URL</label>
         <input type="text" class="form-control" id="siteInput" name="site"value="<?= isset($site["url"]) ? $site["url"] : "" ?>" /></p>
     </div>
