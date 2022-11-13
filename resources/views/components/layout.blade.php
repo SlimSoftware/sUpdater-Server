@@ -30,6 +30,7 @@
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     </head>
     <body>
+        <x-navbar />
         <main class="container">
             {{ $slot }}
         </main>     

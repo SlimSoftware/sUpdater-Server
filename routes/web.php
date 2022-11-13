@@ -15,4 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('/apps', function () {
+    return view('welcome');
+})->name('apps');
+
+Route::get('/portable-apps', function () {
+    return view('welcome');
+})->name('portable_apps');
