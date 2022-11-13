@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('app_id');
             $table->foreign('app_id')->references('id')->on('apps');
-            $table->string('dl');
+            $table->string('download_link');
             $table->string('launch_args');
             $table->timestamps();
         });
