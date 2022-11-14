@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('home');
 
 Route::get('/apps', function () {
-    return view('welcome');
+    return view('apps');
 })->name('apps');
 
 Route::get('/portable-apps', function () {
-    return view('welcome');
+    return view('portable_apps');
 })->name('portable_apps');
