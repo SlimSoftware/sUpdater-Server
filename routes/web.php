@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,9 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/apps', function () {
-    return view('apps');
-})->name('apps');
+Route::get('/apps', [AppController::class, 'index'])->name('apps');
+
+Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
 
 Route::get('/portable-apps', function () {
     return view('portable_apps');

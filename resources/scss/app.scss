@@ -2,3 +2,9 @@ $primary: #00ba00;
 $secondary: white;
 
 @import "bootstrap/scss/bootstrap";
+
+.btn-primary {
+    --bs-btn-color: white;
+    --bs-btn-hover-color: white;
+    --bs-btn-active-color: white;
+}
