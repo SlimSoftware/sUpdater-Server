@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 Route::get('/apps', [AppController::class, 'index'])->name('apps');
 
+Route::get('/apps/new', [AppController::class, 'new'])->name('apps.new');
+
 Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
 
 Route::get('/portable-apps', function () {

@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class App extends Model
 {
-    use HasFactory;
+    public function installer()
+    {
+        return $this->hasOne(Installer::class);
+    }
+
 }
