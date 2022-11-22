@@ -9,7 +9,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="/">
-			<img src="img/brand.png" width="32" height="32" class="d-inline-block align-top" alt="">
+			<img src="/img/brand.png" width="32" height="32" class="d-inline-block align-top" alt="">
 			{{ config('app.name') }}
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
