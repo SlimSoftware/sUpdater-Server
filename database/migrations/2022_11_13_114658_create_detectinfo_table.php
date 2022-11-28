@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreignId('app_id');
             $table->foreign('app_id')->references('id')->on('apps');
             $table->tinyInteger('arch')->unsigned();
-            $table->string('reg_key');
-            $table->string('reg_value');
-            $table->string('exe_path');
+            $table->string('reg_key')->nullable();
+            $table->string('reg_value')->nullable();
+            $table->string('exe_path')->nullable();
 
             $table->timestamps();
         });
