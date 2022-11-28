@@ -34,28 +34,28 @@
     <div class="mb-3 col-md-2">
         <label for="archSelect">Arch</label>
         <select class="form-select" id="archSelect" name="arch">
-            <option value="0" @selected(isset($detectInfo["arch"]) && $detectInfo["arch"] === 0)>Any</option>
-            <option value="1" @selected(isset($detectInfo["arch"]) && $detectInfo["arch"] === 1)>32-bit</option>
-            <option value="2" @selected(isset($detectInfo["arch"]) && $detectInfo["arch"] === 2)>64-bit</option>
+            <option value="0" @selected(isset($app->detectInfo->arch) && $app->detectInfo->arch === 0)>Any</option>
+            <option value="1" @selected(isset($app->detectInfo->arch) && $app->detectInfo->arch === 1)>32-bit</option>
+            <option value="2" @selected(isset($app->detectInfo->arch) && $app->detectInfo->arch === 2)>64-bit</option>
         </select>
     </div>
 
     <div class="mb-3">
         <label for="regKeyInput">Registry key</label>
         <input type="text" class="form-control" id="regKeyInput" name="regkey" 
-            value="{{ isset($detectInfo->reg_key) ? $detectInfo->reg_key : '' }}" />
+            value="{{ isset($app->detectInfo->reg_key) ? $app->detectInfo->reg_key : '' }}" />
     </div>
 
     <div class="mb-3 col-md-3">
         <label for="regValueInput">Registry value</label>
         <input type="text" class="form-control" id="regValueInput" name="regvalue" 
-            value="{{ isset($detectInfo->reg_value) ? $detectInfo->reg_value : '' }}" />
+            value="{{ isset($app->detectInfo->reg_value) ? $app->detectInfo->reg_value : '' }}" />
     </div>
 
     <div class="mb-3">
         <label for="exePathInput">Executable path</label>
         <input type="text" class="form-control" id="exePathInput" name="exepath" 
-            value="{{ isset($detectInfo->exe_path) ? $detectInfo->exe_path : '' }}" />
+            value="{{ isset($app->detectInfo->exe_path) ? $app->detectInfo->exe_path : '' }}" />
         <details>
             <summary>Available variables</summary>
             <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br/>
@@ -67,7 +67,8 @@
     <div class="mb-3">
         <label for="dlInput">Download link</label>
         <div class="input-group">
-            <input type="text" class="form-control" id="dlInput" name="dl" value="{{ isset($installer->dl) ? $installer->dl : ''}}" />
+            <input type="text" class="form-control" id="dlInput" name="dl" 
+                value="{{ isset($app->installer->download_link) ? $app->installer->download_link : ''}}" />
             <a class="btn btn-primary">Test link</a>
         </div>
         <span id="dlParsedHintContainer" class="text-muted" style="display: none;">Preview: <span id="dlParsedHint"></span></span>
@@ -82,7 +83,7 @@
     <div class="mb-3">
         <label for="launchArgsInput">Launch arguments</label>
         <input type="text" class="form-control" id="launchArgsInput" name="launchArgs" 
-            value="{{ isset($installer->launch_args) ? $installer->launch_args : '' }}" required />
+            value="{{ isset($app->installer->launch_args) ? $app->installer->launch_args : '' }}" required />
     </div>
 
     <input type="hidden" name="id" value="{{ isset($_GET["id"]) ? $_GET["id"] : '' }}" />
