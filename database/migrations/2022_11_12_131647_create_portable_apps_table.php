@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('version');
             $table->tinyInteger('arch')->unsigned();
+
+            $table->string('website_url')->nullable();
+            $table->string('release_notes_url')->nullable();
+
             $table->timestamps();
         });
     }

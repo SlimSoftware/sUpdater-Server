@@ -19,15 +19,15 @@
     </div>
 
     <div class="mb-3">
-        <label for="changelogInput">Changelog URL</label>
-        <input type="text" class="form-control" id="changelogInput" name="changelog" 
-            value="{{ isset($changelog->url) ? $changelog->url : '' }}" />
+        <label for="releaseNotesInput">Release notes URL</label>
+        <input type="text" class="form-control" id="releaseNotesInput" name="releaseNotesUrl" 
+            value="{{ isset($app->release_notes_url) ? $app->release_notes_url : '' }}" />
     </div>
 
     <div class="mb-3">
         <label for="websiteInput">Website URL</label>
-        <input type="text" class="form-control" id="websiteInput" name="website" 
-            value="{{ isset($website->url) ? $website->url : '' }}" />
+        <input type="text" class="form-control" id="websiteInput" name="websiteUrl" 
+            value="{{ isset($app->website_url) ? $app->website_url : '' }}" />
     </div>
 
     <h5><b>Detect info</b></h5>
