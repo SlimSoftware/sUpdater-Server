@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\PortableAppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/apps/new', [AppController::class, 'new'])->name('apps.new');
 
 Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
 
-Route::get('/portable-apps', function () {
-    return view('portable_apps');
-})->name('portable_apps');
+Route::get('/portable-apps', [PortableAppController::class, 'index'])->name('portable_apps');
+
+Route::get('/portable-apps/new', [PortableAppController::class, 'new'])->name('portable_apps.new');
+
+Route::get('/portable-apps/edit/{id}', [PortableAppController::class, 'edit'])->name('portable_apps.edit');
