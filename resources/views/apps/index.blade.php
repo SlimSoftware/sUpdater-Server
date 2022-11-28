@@ -1,5 +1,5 @@
 <x-layout title="Apps">
-    <a class="btn btn-primary mb-2" href="apps/new">Add new</a>
+    <a class="btn btn-primary mb-2" href="{{ route('apps.new') }}">Add new</a>
 
     @if (isset($apps))
         <table class="table table-striped table-bordered">
