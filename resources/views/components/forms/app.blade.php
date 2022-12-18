@@ -1,8 +1,10 @@
 <form method="POST" class="mb-3">
+    @csrf
+
     <h5><b>General</b></h5>
     <div class="mb-3 col-md-3">
         <label for="nameInput">Name</label>
-        <input type="text" class="form-control" id="nameInput" name="appName" 
+        <input type="text" class="form-control" id="nameInput" name="name" 
             value="{{ isset($app->name) ? $app->name : '' }}" required />
     </div>
 
@@ -42,19 +44,19 @@
 
     <div class="mb-3">
         <label for="regKeyInput">Registry key</label>
-        <input type="text" class="form-control" id="regKeyInput" name="regkey" 
+        <input type="text" class="form-control" id="regKeyInput" name="regKey" 
             value="{{ isset($app->detectInfo) ? $app->detectInfo->reg_key : '' }}" />
     </div>
 
     <div class="mb-3 col-md-3">
         <label for="regValueInput">Registry value</label>
-        <input type="text" class="form-control" id="regValueInput" name="regvalue" 
+        <input type="text" class="form-control" id="regValueInput" name="regValue" 
             value="{{ isset($app->detectInfo) ? $app->detectInfo->reg_value : '' }}" />
     </div>
 
     <div class="mb-3">
         <label for="exePathInput">Executable path</label>
-        <input type="text" class="form-control" id="exePathInput" name="exepath" 
+        <input type="text" class="form-control" id="exePathInput" name="exePath" 
             value="{{ isset($app->detectInfo) ? $app->detectInfo->exe_path : '' }}" />
         <details>
             <summary>Available variables</summary>
@@ -67,7 +69,7 @@
     <div class="mb-3">
         <label for="dlInput">Download link</label>
         <div class="input-group">
-            <input type="text" class="form-control" id="dlInput" name="dl" 
+            <input type="text" class="form-control" id="dlInput" name="downloadLink" required
                 value="{{ isset($app->installer) ? $app->installer->download_link : ''}}" />
             <a class="btn btn-primary">Test link</a>
         </div>

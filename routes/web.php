@@ -23,7 +23,13 @@ Route::get('/apps', [AppController::class, 'index'])->name('apps');
 
 Route::get('/apps/new', [AppController::class, 'new'])->name('apps.new');
 
+Route::post('/apps/new', [AppController::class, 'create']);
+
 Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
+
+Route::post('/apps/edit/{id}', [AppController::class, 'update']);
+
+Route::delete('/apps/delete/{id}', [AppController::class, 'delete'])->name('apps.delete');
 
 Route::get('/portable-apps', [PortableAppController::class, 'index'])->name('portable_apps');
 
