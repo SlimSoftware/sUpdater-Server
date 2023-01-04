@@ -27,11 +27,11 @@
         <meta name="msapplication-TileImage" content="/img/favicon/favicon-144.png">
         <meta name="msapplication-config" content="/img/browserconfig.xml">
 
-        @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+        @vite(['resources/scss/app.scss', 'resources/js/app.ts'])
     </head>
     <body>
         <x-navbar />   
-        <main class="container mt-2">
+        <main class="container mt-2" id="app">
             @if (isset($title))
                 <h1>{{ $title }}</h1>
             @endif
