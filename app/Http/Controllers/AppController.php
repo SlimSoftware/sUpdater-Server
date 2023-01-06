@@ -65,7 +65,7 @@ class AppController extends Controller
      */
     public function edit(int $id)
     {
-        $app = App::find($id);
+        $app = App::with('detectInfo')->find($id)->get();
         return view('apps.edit', ['app' => $app]);
     }
 
