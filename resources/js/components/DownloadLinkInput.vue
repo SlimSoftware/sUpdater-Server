@@ -5,8 +5,8 @@
             v-model="downloadLink" />
         <a class="btn btn-primary">Test link</a>
     </div>
-    <span id="dlParsedHintContainer" class="text-muted" :style="previewHintContainerStyle">
-        Preview: <span id="dlParsedHint">{{ previewDownloadLink }}</span>
+    <span class="text-muted" :style="previewHintContainerStyle">
+        Preview: {{ previewDownloadLink }}
     </span>
     <AvailableVariablesExpander :variables="variables" :variableIndicator="variableIndicator" />
 </template>

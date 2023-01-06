@@ -20,7 +20,9 @@ export default defineConfig({
                 },
             },
         }),
-        Components(undefined)
+        Components({
+            dirs: ['resources/js/components']
+        })
     ],
     resolve: {
         alias: {

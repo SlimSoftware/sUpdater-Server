@@ -12,7 +12,7 @@
             :value="app?.version" required />
     </div>
     
-    <div class="frm-check mb-2">
+    <div class="form-check mb-2">
         <input type="checkbox" id="noupdateCheckbox" name="noupdate" 
             class="form-check-input" v-model="noUpdateChecked" />
         <label for="noupdateCheckbox" class="form-check-label">Use this app's own updater to check for updates</label>
@@ -43,19 +43,19 @@
     <div class="mb-3">
         <label for="regKeyInput">Registry key</label>
         <input type="text" class="form-control" id="regKeyInput" name="regKey" 
-            :value="app?.detectInfo.reg_key" />
+            :value="app?.detect_info.reg_key" />
     </div>
 
     <div class="mb-3 col-md-3">
         <label for="regValueInput">Registry value</label>
         <input type="text" class="form-control" id="regValueInput" name="regValue" 
-        :value="app?.detectInfo.reg_value" />
+        :value="app?.detect_info.reg_value" />
     </div>
 
     <div class="mb-3">
         <label for="exePathInput">Executable path</label>
         <input type="text" class="form-control" id="exePathInput" name="exePath" 
-            :value="app?.detectInfo.exe_path" />
+            :value="app?.detect_info.exe_path" />
         <details>
             <summary>Available variables</summary>
             <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br/>
@@ -65,7 +65,7 @@
 
     <h5><b>Installer Info</b></h5>
     <div class="mb-3">
-        <!-- <DownloadLinkInput :link="app?.installer.download_link" :version="app?.version" /> -->
+        <DownloadLinkInput :link="app?.installer.download_link" :version="app?.version" />
     </div>
 
     <div class="mb-3">
@@ -92,6 +92,6 @@ const noUpdateChecked = computed(() => {
 });
 
 const selectedArch = computed(() => {
-    return app.value !== undefined ? app.value.detectInfo.arch : 0;
+    return app.value !== undefined ? app.value.detect_info.arch : 0;
 });
 </script>
