@@ -3,7 +3,7 @@
     <div class="input-group">
         <input type="text" class="form-control" id="dlInput" name="downloadLink" required
             v-model="downloadLink" />
-        <a class="btn btn-primary">Test link</a>
+        <a class="btn btn-primary" @click="openDownloadLink">Test link</a>
     </div>
     <span class="text-muted" :style="previewHintContainerStyle">
         Preview: {{ previewDownloadLink }}
@@ -57,4 +57,8 @@
 
         return { display: displayValue };
     });
+
+    function openDownloadLink() {
+        window.open(previewDownloadLink.value, "_blank");  
+    }
 </script>
