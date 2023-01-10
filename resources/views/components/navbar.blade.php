@@ -1,6 +1,5 @@
 @php
     $routes = [
-        'home' => 'Home', 
         'apps' => 'Apps', 
         'portable_apps' => 'Portable Apps'
     ];

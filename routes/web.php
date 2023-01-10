@@ -14,10 +14,7 @@ use App\Http\Controllers\PortableAppController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [AppController::class, 'index'])->name('apps');
 
 Route::get('/apps', [AppController::class, 'index'])->name('apps');
 
