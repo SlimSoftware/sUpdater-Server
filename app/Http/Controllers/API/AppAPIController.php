@@ -110,4 +110,15 @@ class AppAPIController extends Controller
         $minor = $numbers[1];
         return "$major.$minor";
     }
+
+    /**
+     * Get a specific app
+     * URL: /api/v2/apps/{id}
+     * Method: GET
+     */
+    public function app(int $id) 
+    {
+        $app = App::with(['detectInfo', 'installer'])->findOrFail($id);
+        return response()->json($app);
+    }
 }
