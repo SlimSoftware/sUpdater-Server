@@ -9,7 +9,7 @@
 
         <div class="mb-3 col-md-3">
             <label for="versionInput">Version</label>
-            <input type="text" class="form-control" id="versionInput" name="version" v-model="version.value" required />
+            <input type="text" class="form-control" id="versionInput" name="version" v-model.lazy="version.value" required />
         </div>
 
         <div class="form-check mb-2">
@@ -64,7 +64,7 @@
 
         <h5><b>Installer Info</b></h5>
         <div class="mb-3">
-            <DownloadLinkInput :link="app.installer.download_link" :version="app.version" />
+            <DownloadLinkInput :link="app.installer.download_link" :version="version.value" />
         </div>
 
         <div class="mb-3">

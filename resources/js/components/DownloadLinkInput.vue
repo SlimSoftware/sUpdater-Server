@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, computed } from 'vue';
+    import { ref, computed, watch } from 'vue';
     import { parseText, containsVariables } from '../variable-parser';
 
     const props = defineProps({
@@ -21,12 +21,16 @@
     });
 
     const downloadLink = ref(props.link);
-    const variables = {
-        ver: props.version ? props.version : '',
-        verDotless: props.version ? props.version.replace('.', '') : '',
-        'verX.Y': props.version ? splitVersion(props.version, 2) : ''
-    };
+    const variables = ref(getVariables());
     const variableIndicator = '%';
+
+    function getVariables() {
+        return {
+            ver: props.version ? props.version : '',
+            verDotless: props.version ? props.version.replace('.', '') : '',
+            'verX.Y': props.version ? splitVersion(props.version, 2) : ''
+        };
+    }
 
     function splitVersion(version: string, digits: number)
     {
@@ -45,17 +49,22 @@
 
     const previewDownloadLink = computed(() => {
         if (downloadLink.value !== undefined)
-            return parseText(downloadLink.value, variables);
+            return parseText(downloadLink.value, variables.value);
     });
 
     const previewHintContainerStyle = computed(() => {
         let displayValue = 'none';
 
-        if (downloadLink.value !== undefined && containsVariables(downloadLink.value, variables)) {
+        if (downloadLink.value !== undefined && containsVariables(downloadLink.value, variables.value)) {
             displayValue = 'block';
         }
 
         return { display: displayValue };
+    });
+
+    watch(() => props.version, (current, previous) => {
+        variables.value = getVariables();
+        console.log(variables.value)
     });
 
     function openDownloadLink() {
