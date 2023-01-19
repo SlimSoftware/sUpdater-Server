@@ -12,7 +12,7 @@ export function parseText(text: string, variables: object) {
             const toReplaceVariable = `${VARIABLE_INDICATOR}${variableName}${VARIABLE_INDICATOR}`;
 
             if (text.includes(toReplaceVariable)) {
-                text = text.replace(toReplaceVariable, variableValue);
+                text = text.replaceAll(toReplaceVariable, variableValue);
             }
         }
     }
