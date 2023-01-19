@@ -1,13 +1,24 @@
-import { ref } from 'vue';
+const API_BASE_URL = '/api/v2';
 
-export function useFetch(url: string) {
-  const data = ref();
-  const error = ref();
+/**
+ * Helper function to fecth JSON data from an API
+ * @param url The URL to fetch from
+ * @param API Whether the given URL is an endpoint of the API, if so automatically appends the API base URL
+ */
+export async function useFetch(url: string, API: boolean = true) {
+    let response, json, error = null;
+    if (API) {
+        url = `${API_BASE_URL}/${url}`;
+    }
 
-  fetch(url)
-    .then((res) => res.json())
-    .then((json) => (data.value = json))
-    .catch((err) => (error.value = err));
+    try {
+        response = await fetch(url);
+        json = await response.json();
+    } catch (err) {
+        if (err instanceof Error) {
+            error = err;
+        }
+    }
 
-  return { data, error };
+    return { json, response, error };
 }

@@ -1,6 +1,6 @@
 <template>
-    <div v-if="error" class="text-danger">An error occurred while fetching the app: {{ error.message }}</div>
-    <div v-else-if="app">
+    <div v-if="errorMessage" class="text-danger">An error occurred while fetching the app: {{ errorMessage }}</div>
+    <div v-else-if="!isLoading">
         <h5><b>General</b></h5>
         <div class="mb-3 col-md-3">
             <label for="nameInput">Name</label>
@@ -9,7 +9,7 @@
 
         <div class="mb-3 col-md-3">
             <label for="versionInput">Version</label>
-            <input type="text" class="form-control" id="versionInput" name="version" :value="app.version" required />
+            <input type="text" class="form-control" id="versionInput" name="version" v-model="version.value" required />
         </div>
 
         <div class="form-check mb-2">
@@ -79,11 +79,25 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue';
 import { useFetch } from '../../fetch';
 
 const props = defineProps({
     id: String
 });
 
-const { data: app, error } = useFetch(`/api/v2/app/${props.id}`);
+const isLoading = ref(true);
+const app = ref();
+const version = ref();
+const errorMessage = ref();
+
+onMounted(() => {
+    useFetch(`app/${props.id}`).then(({ json, error }) => {
+        app.value = json;
+        errorMessage.value = error?.message;
+        version.value = ref(json.version);
+        isLoading.value = false;
+    });
+});
+
 </script>
