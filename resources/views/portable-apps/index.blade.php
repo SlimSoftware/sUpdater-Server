@@ -1,7 +1,7 @@
 <x-layout title="Portable Apps">
     <a class="btn btn-primary mb-2" href="{{ route('portable_apps.new') }}">Add new</a>
 
-    @if (isset($portableApps))
+    @unless($portableApps->isEmpty())
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -21,6 +21,6 @@
             </tbody>
         </table>
     @else
-        <p><em>No Portable Apps available</b></em>
-    @endif
+        <p><em>No Portable Apps available yet</em></p>
+    @endunless
 </x-layout>

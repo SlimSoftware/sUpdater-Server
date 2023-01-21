@@ -1,7 +1,7 @@
 <x-layout title="Apps">
     <a class="btn btn-primary mb-2" href="{{ route('apps.new') }}">Add new</a>
 
-    @if (isset($apps))
+    @unless($apps->isEmpty())
         <table class="table table-sm table-striped table-bordered w-auto">
             <thead>
                 <tr>
@@ -36,6 +36,6 @@
             </tbody>
         </table>
     @else
-        <p><em>No apps available</b></em>
-    @endif
+        <p><em>No apps available yet</em></p>
+    @endunless
 </x-layout>
