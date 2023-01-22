@@ -9,7 +9,7 @@
 
         <div class="mb-3 col-md-3">
             <label for="versionInput">Version</label>
-            <input type="text" class="form-control" id="versionInput" name="version" v-model.lazy="version.value" required />
+            <input type="text" class="form-control" id="versionInput" name="version" v-model.lazy="version.value" placeholder="(latest)" />
         </div>
 
         <div class="form-check mb-2">
