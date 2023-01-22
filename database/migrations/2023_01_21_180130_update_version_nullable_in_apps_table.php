@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('apps', function (Blueprint $table) {
-            $table->string('name')->nullable()->change();
+            $table->string('version')->nullable()->change();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('apps', function (Blueprint $table) {
-            $table->string('name')->change();
+            $table->string('version')->change();
         });
     }
 };
