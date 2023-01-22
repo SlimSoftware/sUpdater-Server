@@ -13,6 +13,15 @@ class App extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function getVersionAttribute($value)
+    {
+        if ($value !== null) {
+            return $value;
+        } else {
+            return '(latest)';
+        }
+    }
+
     public function detectInfo()
     {
         return $this->hasOne(DetectInfo::class);
