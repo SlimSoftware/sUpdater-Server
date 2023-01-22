@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AppAPIController;
+use App\Http\Controllers\API\LegacyAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/v2/app/{id}', [AppAPIController::class, 'app']);
 
-Route::get('/v1/apps', [AppAPIController::class, 'apps_v1']);
+Route::get('/v1/apps', [LegacyAPIController::class, 'apps_v1']);
