@@ -42,8 +42,7 @@ class AppController extends Controller
             'arch' => $request->input('arch'),
             'reg_key' => $request->input('regKey'),
             'reg_value' => $request->input('regValue'),
-            'exe_path' => $request->input('exePath'),
-            'download_link' => $request->input('downloadLink')
+            'exe_path' => $request->input('exePath')
         ]);
         $detectInfo->app()->associate($app);
         $detectInfo->save();
