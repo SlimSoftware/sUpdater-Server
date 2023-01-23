@@ -92,12 +92,21 @@ const version = ref();
 const errorMessage = ref();
 
 onMounted(() => {
-    useFetch(`app/${props.id}`).then(({ json, error }) => {
-        app.value = json;
-        errorMessage.value = error?.message;
-        version.value = ref(json.version);
+    if (props.id !== '') {
+        useFetch(`app/${props.id}`).then(({ json, error }) => {
+            app.value = json;
+            errorMessage.value = error?.message;
+            version.value = json.version;
+            isLoading.value = false;
+        });
+    } else {
+        app.value = {
+            detect_info: {},
+            installer: []
+        };
+        version.value = '';
         isLoading.value = false;
-    });
+    }
 });
 
 </script>
