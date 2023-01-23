@@ -9,7 +9,7 @@
 
         <div class="mb-3 col-md-3">
             <label for="versionInput">Version</label>
-            <input type="text" class="form-control" id="versionInput" name="version" v-model.lazy="version.value" placeholder="(latest)" />
+            <input type="text" class="form-control" id="versionInput" name="version" v-model.lazy="version" placeholder="(latest)" />
         </div>
 
         <div class="form-check mb-2">
@@ -96,7 +96,13 @@ onMounted(() => {
         useFetch(`app/${props.id}`).then(({ json, error }) => {
             app.value = json;
             errorMessage.value = error?.message;
-            version.value = json.version;
+
+            if (json?.version !== '(latest)') {
+                version.value = json.version;
+            } else {
+                version.value = '';
+            }
+
             isLoading.value = false;
         });
     } else {
