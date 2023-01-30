@@ -62,9 +62,8 @@
         return { display: displayValue };
     });
 
-    watch(() => props.version, (current, previous) => {
+    watch(() => props.version, () => {
         variables.value = getVariables();
-        console.log(variables.value)
     });
 
     function openDownloadLink() {
