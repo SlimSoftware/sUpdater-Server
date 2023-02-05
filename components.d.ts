@@ -8,7 +8,9 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppForm: typeof import('./resources/js/components/forms/AppForm.vue')['default']
+    AppItem: typeof import('./resources/js/components/AppItem.vue')['default']
     AvailableVariablesExpander: typeof import('./resources/js/components/AvailableVariablesExpander.vue')['default']
+    DeleteButton: typeof import('./resources/js/components/DeleteButton.vue')['default']
     DownloadLinkInput: typeof import('./resources/js/components/DownloadLinkInput.vue')['default']
   }
 }

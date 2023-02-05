@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/v2/app/{id}', [AppAPIController::class, 'app']);
+Route::get('/v2/app/{id}', [AppAPIController::class, 'get']);
+Route::delete('/v2/app/{id}', [AppAPIController::class, 'delete']);
 
 Route::get('/v1/apps', [LegacyAPIController::class, 'apps_v1']);

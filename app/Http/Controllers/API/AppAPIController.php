@@ -9,13 +9,28 @@ use App\Models\App;
 class AppAPIController extends Controller
 {
     /**
-     * Get a specific app
+     * Get an app
      * URL: /api/v2/apps/{id}
      * Method: GET
      */
-    public function app(int $id) 
+    public function get(int $id) 
     {
         $app = App::with(['detectInfo', 'installer'])->findOrFail($id);
         return response()->json($app);
+    }
+
+    /**
+     * Delete an app
+     * URL: /api/v2/apps/{id}
+     * Method: DELETE
+     */
+    public function delete(int $id) 
+    {
+        $app = App::findOrFail($id);
+        $app->detectInfo()->delete();
+        $app->installer()->delete();
+
+        $app->delete();
+        return response()->noContent();
     }
 }

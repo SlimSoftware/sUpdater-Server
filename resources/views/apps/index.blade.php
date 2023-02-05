@@ -13,25 +13,7 @@
             </thead>
             <tbody>
                 @foreach ($apps as $app)
-                    <tr>
-                        <td class="align-middle w-75">{{ $app->name }}</td>
-                        <td class="align-middle w-25">{{ $app->version }}</td>
-                        <td>
-                            <a class="btn btn-primary btn-sm" href="{{ route('apps.edit', $app->id) }}">
-                                <i class="bi-pencil-fill"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <form action="{{ route('apps.delete', $app->id) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="bi-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                    <tr is="vue:app-item" id="{{ $app->id }}" name="{{ $app->name }}" version="{{ $app->version }}"></tr>
                 @endforeach
             </tbody>
         </table>
