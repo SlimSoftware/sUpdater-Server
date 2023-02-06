@@ -15,7 +15,7 @@ class AppAPIController extends Controller
      */
     public function get(int $id) 
     {
-        $app = App::with(['detectInfo', 'installer'])->findOrFail($id);
+        $app = App::findOrFail($id);
         return response()->json($app);
     }
 

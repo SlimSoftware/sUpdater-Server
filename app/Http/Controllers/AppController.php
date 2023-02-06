@@ -64,8 +64,29 @@ class AppController extends Controller
      */
     public function edit(int $id)
     {
-        return view('apps.edit', ['id' => $id]);
+        return view('apps.edit.general', ['id' => $id]);
     }
+
+    /**
+     * Edit the detection info of an existing app
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit_detectinfo(int $id)
+    {
+        return view('apps.edit.detectinfo', ['id' => $id]);
+    }
+    
+    /**
+     * Edit the installers of an existing app
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit_installers(int $id)
+    {
+        return view('apps.edit.installers', ['id' => $id]);
+    }
+
 
     /**
      * Store the edited app

@@ -1,3 +1,3 @@
 <x-layout title="Edit App">
-    <x-forms.app :id="$id" />
+    <x-forms.app.general :id="$id" />
 </x-layout>

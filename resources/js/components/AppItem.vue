@@ -29,7 +29,7 @@ const itemVisible = ref(true);
 
 async function onDeleteConfirmed()
 {
-    const { response } = await useFetch(`app/${props.id}`, 'DELETE');
+    const { response } = await useFetch(`apps/${props.id}`, 'DELETE');
     if (response?.status === 204) {
         itemVisible.value = false;
     }   

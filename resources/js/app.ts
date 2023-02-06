@@ -15,8 +15,14 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import AppForm from './components/forms/AppForm.vue';
+import AppForm from './components/forms/app/AppForm.vue';
 app.component('app-form', AppForm);
+
+import DetectInfoForm from './components/forms/app/DetectInfoForm.vue';
+app.component('detectinfo-form', DetectInfoForm);
+
+import InstallerForm from './components/forms/app/InstallerForm.vue';
+app.component('installer-form', InstallerForm);
 
 import AppItem from './components/AppItem.vue';
 app.component('app-item', AppItem);
