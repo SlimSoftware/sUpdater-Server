@@ -15,7 +15,7 @@ class InstallerAPIController extends Controller
      */
     public function get(int $id) 
     {
-        $installer = Installer::with('app')->where('app_id', $id)->first();
+        $installer = Installer::where('app_id', $id)->with('app')->first();
         return response()->json($installer);
     }
 }

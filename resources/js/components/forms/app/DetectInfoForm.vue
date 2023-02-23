@@ -47,7 +47,6 @@ const props = defineProps({
 
 const isLoading = ref(true);
 const detectInfo = ref();
-const version = ref();
 const errorMessage = ref();
 
 onMounted(() => {
@@ -59,7 +58,6 @@ onMounted(() => {
         });
     } else {
         detectInfo.value = {};
-        version.value = '';
         isLoading.value = false;
     }
 });

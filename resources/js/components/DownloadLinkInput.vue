@@ -14,6 +14,7 @@
 <script lang="ts" setup>
     import { ref, computed, watch } from 'vue';
     import { parseText, containsVariables } from '../variable-parser';
+    import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
     const props = defineProps({
         link: String,
