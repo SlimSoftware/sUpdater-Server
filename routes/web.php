@@ -24,10 +24,6 @@ Route::post('/apps/new', [AppController::class, 'create']);
 
 Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
 
-Route::get('/apps/edit/{id}/detectinfo', [AppController::class, 'edit_detectinfo'])->name('apps.edit.detectinfo');
-
-Route::get('/apps/edit/{id}/installers', [AppController::class, 'edit_installers'])->name('apps.edit.installers');
-
 Route::post('/apps/edit/{id}', [AppController::class, 'update']);
 
 Route::delete('/apps/delete/{id}', [AppController::class, 'delete'])->name('apps.delete');

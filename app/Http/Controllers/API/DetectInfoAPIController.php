@@ -15,7 +15,7 @@ class DetectInfoAPIController extends Controller
      */
     public function get(int $id) 
     {
-        $detectInfo = DetectInfo::where('app_id', $id)->first();
+        $detectInfo = DetectInfo::where('app_id', $id)->get();
         return response()->json($detectInfo);
     }
 }

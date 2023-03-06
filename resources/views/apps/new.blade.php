@@ -1,3 +1,3 @@
 <x-layout title="Add App">
-    <x-forms.app.general />
+    <app-form />
 </x-layout>
