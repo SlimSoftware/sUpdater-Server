@@ -1,5 +1,7 @@
 <template>
-    <table class="table table-sm table-striped table-bordered w-auto mt-3">
+    <a class="btn btn-primary mb-2" @click="addClicked">Add</a>
+
+    <table class="table table-sm table-striped table-bordered w-auto">
         <thead>
             <tr>
                 <th scope="col">Arch</th>
@@ -21,8 +23,6 @@
             </tr>
         </tbody>
     </table>
-
-    <input class="btn btn-primary" value="Add" />
 
     <div v-if="selectedDetectInfo">
         <div class="mb-3 col-md-2">
@@ -71,10 +71,13 @@ const props = defineProps({
     }
 });
 
-console.log(props.detectInfo);
-
 const selectedIndex = ref(-1);
 const selectedDetectInfo = computed(() => {
+    if (selectedIndex.value === 0) {
+        const info = <DetectInfo>{};
+        return info;
+    }
+
     return selectedIndex.value !== -1 ? props.detectInfo[selectedIndex.value] : null;
 });
 
@@ -85,6 +88,10 @@ function getArchString(arch: number) {
         return '32-bit';
     else if (arch === 2)
         return '64-bit';
+}
+
+function addClicked() {
+    selectedIndex.value = 0;
 }
 
 function editClicked(index: number) {

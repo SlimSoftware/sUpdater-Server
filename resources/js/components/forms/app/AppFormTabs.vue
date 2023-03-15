@@ -1,5 +1,5 @@
 <template>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
             <a :class="{'nav-link': true, 'active': activePage === 0}" @click="switchPage(0)">General</a>
         </li>
