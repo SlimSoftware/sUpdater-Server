@@ -63,7 +63,7 @@ const app = ref();
 const errorMessage = ref();
 
 onMounted(() => {
-    if (props.id !== '') {
+    if (props.id) {
         useFetch(`apps/${props.id}`).then(({ json, error }) => {
             app.value = json;
             errorMessage.value = error?.message;
