@@ -25,38 +25,43 @@
     </table>
 
     <div v-if="selectedDetectInfo">
-        <div class="mb-3 col-md-2">
-            <label for="archSelect">Arch</label>
-            <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch">
-                <option value="0">{{ getArchString(0) }}</option>
-                <option value="1">{{ getArchString(1) }}</option>
-                <option value="2">{{ getArchString(2) }}</option>
-            </select>
-        </div>
+        <form :action="formAction" method="POST">
+            <div class="mb-3 col-md-2">
+                <label for="archSelect">Arch</label>
+                <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch">
+                    <option value="0">{{ getArchString(0) }}</option>
+                    <option value="1">{{ getArchString(1) }}</option>
+                    <option value="2">{{ getArchString(2) }}</option>
+                </select>
+            </div>
 
-        <div class="mb-3">
-            <label for="regKeyInput">Registry key</label>
-            <input type="text" class="form-control" id="regKeyInput" name="regKey" :value="selectedDetectInfo.reg_key" />
-        </div>
+            <div class="mb-3">
+                <label for="regKeyInput">Registry key</label>
+                <input type="text" class="form-control" id="regKeyInput" name="regKey" :value="selectedDetectInfo.reg_key" />
+            </div>
 
-        <div class="mb-3 col-md-3">
-            <label for="regValueInput">Registry value</label>
-            <input type="text" class="form-control" id="regValueInput" name="regValue"
-                :value="selectedDetectInfo.reg_value" />
-        </div>
+            <div class="mb-3 col-md-3">
+                <label for="regValueInput">Registry value</label>
+                <input type="text" class="form-control" id="regValueInput" name="regValue"
+                    :value="selectedDetectInfo.reg_value" />
+            </div>
 
-        <div class="mb-3">
-            <label for="exePathInput">Executable path</label>
-            <input type="text" class="form-control" id="exePathInput" name="exePath" :value="selectedDetectInfo.exe_path" />
-            <details>
-                <summary>Available variables</summary>
-                <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br />
-                    %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems</p>
-            </details>
-        </div>
+            <div class="mb-3">
+                <label for="exePathInput">Executable path</label>
+                <input type="text" class="form-control" id="exePathInput" name="exePath" :value="selectedDetectInfo.exe_path" />
+                <details>
+                    <summary>Available variables</summary>
+                    <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br />
+                        %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems</p>
+                </details>
+            </div>
 
-        <input type="hidden" name="id" :value="selectedDetectInfo.id" />
-        <input class="btn btn-primary" type="submit" value="Save" />
+            <input v-if="selectedDetectInfo" type="hidden" name="id" :value="selectedDetectInfo.id" />
+            <input v-else type="hidden" name="app_id" :value="appId" />
+            <input type="hidden" name="_method" :value="selectedDetectInfo.id ? 'PUT' : 'POST'" />
+
+            <input class="btn btn-primary" type="submit" :value="saveButtonText" />
+        </form>
     </div>
 </template>
 
@@ -68,17 +73,28 @@ const props = defineProps({
     detectInfo: {
         type: Array<DetectInfo>,
         default: () => []
+    },
+    appId: {
+        type: Number
     }
 });
 
 const selectedIndex = ref(-1);
 const selectedDetectInfo = computed(() => {
-    if (selectedIndex.value === 0) {
+    if (selectedIndex.value === -2) {
         const info = <DetectInfo>{};
         return info;
     }
 
-    return selectedIndex.value !== -1 ? props.detectInfo[selectedIndex.value] : null;
+    return selectedIndex.value > -1 ? props.detectInfo[selectedIndex.value] : null;
+});
+
+const formAction = computed(() => {
+    return selectedDetectInfo.value?.id ? `detectinfo/${selectedDetectInfo.value.id}` : 'detectinfo'
+});
+
+const saveButtonText = computed(() => {
+    return selectedDetectInfo.value?.id ? 'Edit' : 'Save';
 });
 
 function getArchString(arch: number) {
@@ -91,7 +107,7 @@ function getArchString(arch: number) {
 }
 
 function addClicked() {
-    selectedIndex.value = 0;
+    selectedIndex.value = -2;
 }
 
 function editClicked(index: number) {

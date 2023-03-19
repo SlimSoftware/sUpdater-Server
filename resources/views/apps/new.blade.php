@@ -1,3 +1,7 @@
 <x-layout title="Add App">
-    <app-form />
+    <app-form>
+        <template #csrf>
+            {{ csrf_field() }}
+        </template>
+    </app-form>
 </x-layout>

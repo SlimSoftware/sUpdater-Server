@@ -19,12 +19,12 @@ Route::redirect('/', '/apps');
 Route::get('/apps', [AppController::class, 'index'])->name('apps');
 
 Route::get('/apps/new', [AppController::class, 'new'])->name('apps.new');
-
 Route::post('/apps/new', [AppController::class, 'create']);
 
 Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
 
-Route::post('/apps/edit/{id}', [AppController::class, 'update']);
+Route::post('/apps/edit/detectinfo', [DetectInfoController::class, 'create']);
+Route::put('/apps/edit/detectinfo', [DetectInfoController::class, 'edit']);
 
 Route::delete('/apps/delete/{id}', [AppController::class, 'delete'])->name('apps.delete');
 
