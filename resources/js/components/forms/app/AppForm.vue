@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { useFetch } from '../../../fetch';
+import api from '../../../api';
 import AppFormTabs from './AppFormTabs.vue';
 import DetectInfoForm from './DetectInfoForm.vue';
 import InstallersForm from './InstallersForm.vue';
@@ -62,13 +62,17 @@ const isLoading = ref(true);
 const app = ref();
 const errorMessage = ref();
 
-onMounted(() => {
+onMounted(async () => {
     if (props.id) {
-        useFetch(`apps/${props.id}`).then(({ json, error }) => {
-            app.value = json;
-            errorMessage.value = error?.message;
-            isLoading.value = false;
-        });
+        let response;
+        try {
+            response = await api.get(`apps/${props.id}`);
+            app.value = response.data;
+        } catch (error) {
+            if (error instanceof Error)
+                errorMessage.value = error?.message;
+        }     
+        isLoading.value = false;
     } else {
         app.value = {};
         isLoading.value = false;

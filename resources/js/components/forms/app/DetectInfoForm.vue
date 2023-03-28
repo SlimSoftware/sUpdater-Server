@@ -25,7 +25,7 @@
     </table>
 
     <div v-if="selectedDetectInfo">
-        <form :action="formAction" method="POST">
+        <form @submit.prevent="save">
             <div class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
                 <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch">
@@ -37,18 +37,18 @@
 
             <div class="mb-3">
                 <label for="regKeyInput">Registry key</label>
-                <input type="text" class="form-control" id="regKeyInput" name="regKey" :value="selectedDetectInfo.reg_key" />
+                <input type="text" class="form-control" id="regKeyInput" name="regKey" v-model="selectedDetectInfo.reg_key" />
             </div>
 
             <div class="mb-3 col-md-3">
                 <label for="regValueInput">Registry value</label>
                 <input type="text" class="form-control" id="regValueInput" name="regValue"
-                    :value="selectedDetectInfo.reg_value" />
+                    v-model="selectedDetectInfo.reg_value" />
             </div>
 
             <div class="mb-3">
                 <label for="exePathInput">Executable path</label>
-                <input type="text" class="form-control" id="exePathInput" name="exePath" :value="selectedDetectInfo.exe_path" />
+                <input type="text" class="form-control" id="exePathInput" name="exePath" v-model="selectedDetectInfo.exe_path" />
                 <details>
                     <summary>Available variables</summary>
                     <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br />
@@ -56,17 +56,14 @@
                 </details>
             </div>
 
-            <input v-if="selectedDetectInfo" type="hidden" name="id" :value="selectedDetectInfo.id" />
-            <input v-else type="hidden" name="app_id" :value="appId" />
-            <input type="hidden" name="_method" :value="selectedDetectInfo.id ? 'PUT' : 'POST'" />
-
-            <input class="btn btn-primary" type="submit" :value="saveButtonText" />
+            <input class="btn btn-primary" :value="saveButtonText" type="submit" />
         </form>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
 
 const props = defineProps({
@@ -82,15 +79,14 @@ const props = defineProps({
 const selectedIndex = ref(-1);
 const selectedDetectInfo = computed(() => {
     if (selectedIndex.value === -2) {
-        const info = <DetectInfo>{};
-        return info;
+        return <DetectInfo>{};
+    }
+    const info = selectedIndex.value > -1 ? props.detectInfo[selectedIndex.value] : null;
+    if (info && props.appId) {
+        info.app_id = props.appId;
     }
 
-    return selectedIndex.value > -1 ? props.detectInfo[selectedIndex.value] : null;
-});
-
-const formAction = computed(() => {
-    return selectedDetectInfo.value?.id ? `detectinfo/${selectedDetectInfo.value.id}` : 'detectinfo'
+    return info;
 });
 
 const saveButtonText = computed(() => {
@@ -113,6 +109,19 @@ function addClicked() {
 function editClicked(index: number) {
     if (selectedIndex.value != index) {
         selectedIndex.value = index;
+    }
+}
+
+async function save() {
+    try {
+        const response = await api.request({
+            baseURL: '/apps/edit',
+            url: selectedDetectInfo.value?.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
+            method: selectedDetectInfo.value?.id ? 'PUT' : 'POST',
+            data: selectedDetectInfo.value
+        });
+    } catch (error) {
+        console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
     }
 }
 </script>
