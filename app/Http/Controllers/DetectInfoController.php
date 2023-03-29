@@ -22,37 +22,27 @@ class DetectInfoController extends Controller
         $detectInfo->app()->associate($app);
         $detectInfo->save();
 
-        return redirect()->route('apps.edit', $request->app_id);
+        return response()->noContent();
     }
 
     /**
-     * Store the edited app
+     * Store the edited detectinfo
      *
      * @return \Illuminate\View\View
      */
     public function update(Request $request, int $id)
     {
-        $app = App::find($id);
-        $app->update([
-            'name' => $request->input('name'),
-            'version' => $request->input('version'),
-            'noupdate' => $request->boolean('noupdate')
-        ]);
+        $detectInfo = DetectInfo::findOrFail($id);
 
-        $app->detectInfo->update([
+        $detectInfo->update([
             'arch' => $request->input('arch'),
-            'reg_key' => $request->input('regKey'),
-            'reg_value' => $request->input('regValue'),
-            'exe_path' => $request->input('exePath'),
-            'download_link' => $request->input('downloadLink')
+            'reg_key' => $request->input('reg_key'),
+            'reg_value' => $request->input('reg_value'),
+            'exe_path' => $request->input('exe_path'),
+            'download_link' => $request->input('download_link')
         ]);
 
-        $app->installer->update([
-            'download_link' => $request->input('downloadLink'),
-            'launch_args' => $request->input('launchArgs')
-        ]);
-
-        return redirect()->route('apps');
+        return response()->noContent();
     }
 
 }
