@@ -38,7 +38,7 @@
         </template>
 
         <template v-slot:detectInfoContent>
-            <DetectInfoForm :detect-info="app?.detectinfo" :app-id="app?.id" />
+            <DetectInfoForm :detect-info="app?.detectinfo" :app-id="app?.id" @saved="fetchApp" />
         </template>
 
         <template v-slot:installersContent>
@@ -62,7 +62,11 @@ const isLoading = ref(true);
 const app = ref();
 const errorMessage = ref();
 
-onMounted(async () => {
+onMounted(() => {
+    fetchApp();
+});
+
+async function fetchApp() {
     if (props.id) {
         let response;
         try {
@@ -77,5 +81,5 @@ onMounted(async () => {
         app.value = {};
         isLoading.value = false;
     }
-});
+}
 </script>

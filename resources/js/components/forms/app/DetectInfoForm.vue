@@ -29,9 +29,9 @@
             <div class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
                 <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch">
-                    <option value="0">{{ getArchString(0) }}</option>
-                    <option value="1">{{ getArchString(1) }}</option>
-                    <option value="2">{{ getArchString(2) }}</option>
+                    <option :value="0">{{ getArchString(0) }}</option>
+                    <option :value="1">{{ getArchString(1) }}</option>
+                    <option :value="2">{{ getArchString(2) }}</option>
                 </select>
             </div>
 
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
 
@@ -75,6 +75,8 @@ const props = defineProps({
         type: Number
     }
 });
+
+const emit = defineEmits(['saved']);
 
 const selectedIndex = ref(-1);
 const selectedDetectInfo = computed(() => {
@@ -126,6 +128,8 @@ async function save() {
             method: selectedDetectInfo.value?.id ? 'PUT' : 'POST',
             data: selectedDetectInfo.value
         });
+
+        emit('saved');
     } catch (error) {
         console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
     }
