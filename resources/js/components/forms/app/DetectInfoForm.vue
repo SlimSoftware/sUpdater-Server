@@ -78,12 +78,18 @@ const props = defineProps({
 
 const selectedIndex = ref(-1);
 const selectedDetectInfo = computed(() => {
+    let info;
+
     if (selectedIndex.value === -2) {
-        return <DetectInfo>{};
-    }
-    const info = selectedIndex.value > -1 ? props.detectInfo[selectedIndex.value] : null;
-    if (info && props.appId) {
-        info.app_id = props.appId;
+        info = <DetectInfo>{};
+        if (props.appId) {
+            info.app_id = props.appId;
+        }
+    } else {
+        info = selectedIndex.value > -1 ? props.detectInfo[selectedIndex.value] : null;
+        if (info && props.appId) {
+            info.app_id = props.appId;
+        }
     }
 
     return info;
@@ -114,7 +120,7 @@ function editClicked(index: number) {
 
 async function save() {
     try {
-        const response = await api.request({
+        await api.request({
             baseURL: '/apps/edit',
             url: selectedDetectInfo.value?.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
             method: selectedDetectInfo.value?.id ? 'PUT' : 'POST',

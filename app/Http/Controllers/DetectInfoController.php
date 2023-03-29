@@ -8,19 +8,18 @@ use App\Models\DetectInfo;
 
 class DetectInfoController extends Controller
 {
-
     public function create(Request $request)
     {
         $app = App::findOrFail($request->app_id);
 
-        $detectInfo = DetectInfo::create([
+        $detectInfo = new DetectInfo([
             'arch' => $request->input('arch'),
-            'reg_key' => $request->input('regKey'),
-            'reg_value' => $request->input('regValue'),
-            'exe_path' => $request->input('exePath'),
-            'download_link' => $request->input('downloadLink')
+            'reg_key' => $request->input('reg_key'),
+            'reg_value' => $request->input('reg_value'),
+            'exe_path' => $request->input('exe_path'),
+            'download_link' => $request->input('download_link')
         ]);
-        $detectInfo->app->associate($app);
+        $detectInfo->app()->associate($app);
         $detectInfo->save();
 
         return redirect()->route('apps.edit', $request->app_id);
