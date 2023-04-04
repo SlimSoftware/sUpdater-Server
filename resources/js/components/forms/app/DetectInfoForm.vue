@@ -18,7 +18,7 @@
                     </a>
                 </td>
                 <td>
-                    <DeleteButton :id="info.id.toString()" @delete-confirmed="(info.id)" />
+                    <DeleteButton @delete-confirmed="deleteConfirmed(info.id)" />
                 </td>
             </tr>
         </tbody>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRefs } from 'vue';
+import { computed, ref } from 'vue';
 import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
 
@@ -78,7 +78,9 @@ const props = defineProps({
 
 const emit = defineEmits(['saved']);
 
+const detectInfo = ref(props.detectInfo);
 const selectedIndex = ref(-1);
+
 const selectedDetectInfo = computed(() => {
     let info;
 
@@ -88,7 +90,7 @@ const selectedDetectInfo = computed(() => {
             info.app_id = props.appId;
         }
     } else {
-        info = selectedIndex.value > -1 ? props.detectInfo[selectedIndex.value] : null;
+        info = selectedIndex.value > -1 ? detectInfo.value[selectedIndex.value] : null;
         if (info && props.appId) {
             info.app_id = props.appId;
         }
@@ -132,6 +134,17 @@ async function save() {
         emit('saved');
     } catch (error) {
         console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
+    }
+}
+
+async function deleteConfirmed(id: Number) {
+    try {
+        await api.delete(`detectinfo/${id}`);
+
+        detectInfo.value = detectInfo.value.filter(i => i.id !== id);
+        selectedIndex.value = -1;
+    } catch (error) {
+        console.log('An error occurred while deleting detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
     }
 }
 </script>

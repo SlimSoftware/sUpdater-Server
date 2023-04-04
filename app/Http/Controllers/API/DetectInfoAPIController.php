@@ -15,7 +15,13 @@ class DetectInfoAPIController extends Controller
      */
     public function get(int $id) 
     {
-        $detectInfo = DetectInfo::where('app_id', $id)->get();
+        $detectInfo = DetectInfo::findOrFail($id);
         return response()->json($detectInfo);
+    }
+
+    public function delete(int $id) {
+        $detectInfo = DetectInfo::findOrFail($id);
+        $detectInfo->delete();
+        return response()->noContent();
     }
 }
