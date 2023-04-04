@@ -38,7 +38,7 @@
         </template>
 
         <template v-slot:detectInfoContent>
-            <DetectInfoForm :detect-info="app?.detectinfo" :app-id="app?.id" @saved="fetchApp" />
+            <DetectInfoForm :detect-info="app?.detectinfo" :app-id="app?.id" />
         </template>
 
         <template v-slot:installersContent>

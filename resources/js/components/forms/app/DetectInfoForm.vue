@@ -76,8 +76,6 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['saved']);
-
 const detectInfo = ref(props.detectInfo);
 const selectedIndex = ref(-1);
 
@@ -123,17 +121,21 @@ function editClicked(index: number) {
 }
 
 async function save() {
-    try {
-        await api.request({
-            baseURL: '/apps/edit',
-            url: selectedDetectInfo.value?.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
-            method: selectedDetectInfo.value?.id ? 'PUT' : 'POST',
-            data: selectedDetectInfo.value
-        });
+    if (selectedDetectInfo.value) {
+        try {
+            await api.request({
+                baseURL: '/apps/edit',
+                url: selectedDetectInfo.value.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
+                method: selectedDetectInfo.value.id ? 'PUT' : 'POST',
+                data: selectedDetectInfo.value
+            });
 
-        emit('saved');
-    } catch (error) {
-        console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
+            detectInfo.value.push(selectedDetectInfo.value);
+            selectedIndex.value = -2;
+
+        } catch (error) {
+            console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
+        }
     }
 }
 
