@@ -5,17 +5,11 @@
 </template>
 
 <script lang="ts" setup>
-import { useFetch } from '../fetch';
-
-const props = defineProps({
-    id: String
-});
-
 const emit = defineEmits(['deleteConfirmed']);
 
 async function deleteClicked()
 {
-    const confirmed = confirm('Are you sure you want to delete this app?');
+    const confirmed = confirm('Are you sure you want to delete this?');
     if (confirmed) {
         emit('deleteConfirmed');
     }
