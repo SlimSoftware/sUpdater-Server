@@ -38,11 +38,11 @@
         </template>
 
         <template v-slot:detectInfoContent>
-            <DetectInfoForm :detect-info="app?.detectinfo" :app-id="app?.id" />
+            <DetectInfoForm :detectinfo="app?.detectinfo" :app-id="app?.id" />
         </template>
 
         <template v-slot:installersContent>
-            <InstallersForm />
+            <InstallersForm :installers="app?.installers" :detectinfo="app?.detectinfo" :app-id="app?.id" />
         </template>
     </AppFormTabs>
 </template>

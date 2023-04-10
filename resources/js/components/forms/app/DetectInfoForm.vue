@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="info, index in detectInfo">
+            <tr v-for="info, index in detectinfo">
                 <td>{{ getArchString(info.arch) }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
@@ -67,7 +67,7 @@ import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
 
 const props = defineProps({
-    detectInfo: {
+    detectinfo: {
         type: Array<DetectInfo>,
         default: () => []
     },
@@ -76,7 +76,7 @@ const props = defineProps({
     }
 });
 
-const detectInfo = ref(props.detectInfo);
+const detectinfo = ref(props.detectinfo);
 const selectedIndex = ref(-1);
 
 const selectedDetectInfo = computed(() => {
@@ -88,7 +88,7 @@ const selectedDetectInfo = computed(() => {
             info.app_id = props.appId;
         }
     } else {
-        info = selectedIndex.value > -1 ? detectInfo.value[selectedIndex.value] : null;
+        info = selectedIndex.value > -1 ? detectinfo.value[selectedIndex.value] : null;
         if (info && props.appId) {
             info.app_id = props.appId;
         }
@@ -131,7 +131,7 @@ async function save() {
             });
 
             if (!selectedDetectInfo.value.id) {
-                detectInfo.value.push(selectedDetectInfo.value);
+                detectinfo.value.push(selectedDetectInfo.value);
                 selectedIndex.value = -2;
             } else {
                 selectedIndex.value = -1;
@@ -139,7 +139,7 @@ async function save() {
                        
 
         } catch (error) {
-            console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
+            console.log('An error occurred while saving detect info'.concat(error instanceof Error ? ` ${error.message}` : ''));
         }
     }
 }
@@ -148,10 +148,10 @@ async function deleteConfirmed(id: Number) {
     try {
         await api.delete(`detectinfo/${id}`);
 
-        detectInfo.value = detectInfo.value.filter(i => i.id !== id);
+        detectinfo.value = detectinfo.value.filter(i => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
-        console.log('An error occurred while deleting detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
+        console.log('An error occurred while deleting detect info'.concat(error instanceof Error ? ` ${error.message}` : ''));
     }
 }
 </script>

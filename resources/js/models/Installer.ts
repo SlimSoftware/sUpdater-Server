@@ -1,6 +1,6 @@
 interface Installer {
     id: number,
-    detectinfo: DetectInfo,
+    detectinfo_id: number,
     download_link: string,
     launch_args: string
 }

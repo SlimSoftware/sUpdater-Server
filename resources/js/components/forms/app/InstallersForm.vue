@@ -9,14 +9,14 @@
         </thead>
         <tbody>
             <tr v-for="installer, index in installers">
-                <td>{{ installer.detectinfo.arch }}</td>
+                <td>{{ getArchNameForInstaller(installer) }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
                         <i class="bi-pencil-fill"></i>
                     </a>
                 </td>
                 <td>
-                    <DeleteButton :id="installer.id.toString()" @delete-confirmed="(installer.id)" />
+                    <DeleteButton @delete-confirmed="(installer.id)" />
                 </td>
             </tr>
         </tbody>
@@ -48,9 +48,16 @@ const props = defineProps({
         type: Array<Installer>,
         default: () => []
     },
+    detectinfo: {
+        type: Array<DetectInfo>,
+        default: () => []
+    },
     version: {
         type: String,
         default: () => ''
+    },
+    appId: {
+        type: Number
     }
 });
 
@@ -63,5 +70,19 @@ function editClicked(index: number) {
     if (selectedIndex.value != index) {
         selectedIndex.value = index; 
     }
+}
+
+function getArchNameForInstaller(installer: Installer) {
+    const archIndex = props.detectinfo.find(d => d.id === installer.detectinfo_id)?.arch;
+    return archIndex ? getArchString(archIndex) : '';
+}
+
+function getArchString(arch: number) {
+    if (arch === 0)
+        return 'Any';
+    else if (arch === 1)
+        return '32-bit';
+    else if (arch === 2)
+        return '64-bit';
 }
 </script>

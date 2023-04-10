@@ -13,6 +13,10 @@ class Installer extends Model
      */
     protected $guarded = ['id', 'app_id', 'created_at', 'updated_at'];
 
+    public function detectinfo() {
+        return $this->belongsTo(DetectInfo::class);
+    }
+
     public function app()
     {
         return $this->belongsTo(App::class);

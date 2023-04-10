@@ -27,7 +27,7 @@ class App extends Model
         return $this->hasMany(DetectInfo::class);
     }
 
-    public function installer()
+    public function installers()
     {
         return $this->hasMany(Installer::class);
     }

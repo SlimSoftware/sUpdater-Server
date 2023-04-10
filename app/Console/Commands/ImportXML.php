@@ -66,16 +66,20 @@ class ImportXML extends Command
                     'exe_path' => $app->exePath
                 ];
 
+                $savedDetectInfo = null;
                 if ($existingDetectInfo === null) {
                     $this->info("Creating DetectInfo for $appName");
                     $detectInfo = new DetectInfo($valueArray);
-                    $detectInfo->app()->associate($existingApp)->save();
+                    $detectInfo->app()->associate($existingApp);
+                    $detectInfo->save();
+                    $savedDetectInfo = $detectInfo;
                 } else {
                     $this->info("Updating DetectInfo for $appName ($app->arch)");
-                    $existingDetectInfo->update($valueArray);
+                    $existingDetectInfo->update($valueArray);   
+                    $savedDetectInfo = $existingDetectInfo;               
                 }
 
-                $existingInstaller = $existingApp->has('installer') ? $existingApp->installer->first() : null;
+                $existingInstaller = $existingApp->has('installers') ? $existingApp->installers->first() : null;
                 $valueArray = [
                     'download_link' => $app->dl,
                     'launch_args' => $app->switch
@@ -84,7 +88,9 @@ class ImportXML extends Command
                 if ($existingInstaller === null) {
                     $this->info("Creating installer for $appName");
                     $installer = new Installer($valueArray);
-                    $installer->app()->associate($existingApp)->save();
+                    $installer->app()->associate($existingApp);
+                    $installer->detectInfo()->associate($savedDetectInfo);
+                    $installer->save();
                 } else {
                     $this->info("Updating first installer for $appName");
                     $existingInstaller->update($valueArray);
