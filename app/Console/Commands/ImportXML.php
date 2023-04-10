@@ -89,6 +89,8 @@ class ImportXML extends Command
                     $this->info("Updating first installer for $appName");
                     $existingInstaller->update($valueArray);
                 }
+
+                $this->newLine();
             }
         } else {
             $this->error('Import file not found!');
