@@ -132,9 +132,11 @@ async function save() {
 
             if (!selectedDetectInfo.value.id) {
                 detectInfo.value.push(selectedDetectInfo.value);
+                selectedIndex.value = -2;
+            } else {
+                selectedIndex.value = -1;
             }
-            
-            selectedIndex.value = -2;
+                       
 
         } catch (error) {
             console.log('An error occurred while saving detectinfo'.concat(error instanceof Error ? ` ${error.message}` : ''));
