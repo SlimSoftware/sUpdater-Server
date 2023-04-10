@@ -22,8 +22,8 @@ class LegacyAPIController extends Controller
         $apps = App::orderBy('name')->get();
 
         foreach ($apps as $app) {
-            $detectInfo = $app->detectInfo;
-            $installer = $app->installer;
+            $detectInfo = $app->detectInfo[0];
+            $installer = $app->installer[0];
 
             $appElement = $xml->addChild('app');
             $appElement->addAttribute("name", $app->name);
