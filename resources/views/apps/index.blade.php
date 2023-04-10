@@ -1,5 +1,5 @@
 <x-layout title="Apps">
-    <a class="btn btn-primary mb-2" href="{{ route('apps.new') }}">Add new</a>
+    <a class="btn btn-primary mb-2" href="{{ route('apps.new') }}">Add</a>
 
     @unless($apps->isEmpty())
         <table class="table table-sm table-striped table-bordered w-auto">
