@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useFetch } from '../fetch';
+import api from '../api';
 import DeleteButton from './DeleteButton.vue';
 
 const props = defineProps({
@@ -29,7 +29,7 @@ const itemVisible = ref(true);
 
 async function onDeleteConfirmed()
 {
-    const { response } = await useFetch(`apps/${props.id}`, 'DELETE');
+    const response = await api.delete(`apps/${props.id}`);
     if (response?.status === 204) {
         itemVisible.value = false;
     }   
