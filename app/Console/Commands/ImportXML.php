@@ -57,9 +57,10 @@ class ImportXML extends Command
                     $existingApp->update($valueArray);
                 }
 
-                $existingDetectInfo = $existingApp->has('detectInfo') ? $existingApp->detectInfo : null;
+                $archIndex = array_search($app->arch, self::ARCHS);
+                $existingDetectInfo = $existingApp->has('detectInfo') ? $existingApp->detectInfo->firstWhere('arch', $archIndex) : null;
                 $valueArray = [
-                    'arch' => array_search($app->arch, self::ARCHS),
+                    'arch' => $archIndex,
                     'reg_key' => $app->regkey,
                     'reg_value' => $app->regkey,
                     'exe_path' => $app->exePath
@@ -70,11 +71,11 @@ class ImportXML extends Command
                     $detectInfo = new DetectInfo($valueArray);
                     $detectInfo->app()->associate($existingApp)->save();
                 } else {
-                    $this->info("Updating DetectInfo for $appName");
+                    $this->info("Updating DetectInfo for $appName ($app->arch)");
                     $existingDetectInfo->update($valueArray);
                 }
 
-                $existingInstaller = $existingApp->has('installer') ? $existingApp->installer : null;
+                $existingInstaller = $existingApp->has('installer') ? $existingApp->installer->first() : null;
                 $valueArray = [
                     'download_link' => $app->dl,
                     'launch_args' => $app->switch
@@ -85,7 +86,7 @@ class ImportXML extends Command
                     $installer = new Installer($valueArray);
                     $installer->app()->associate($existingApp)->save();
                 } else {
-                    $this->info("Updating installer for $appName");
+                    $this->info("Updating first installer for $appName");
                     $existingInstaller->update($valueArray);
                 }
             }
