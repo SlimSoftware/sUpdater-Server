@@ -130,7 +130,10 @@ async function save() {
                 data: selectedDetectInfo.value
             });
 
-            detectInfo.value.push(selectedDetectInfo.value);
+            if (!selectedDetectInfo.value.id) {
+                detectInfo.value.push(selectedDetectInfo.value);
+            }
+            
             selectedIndex.value = -2;
 
         } catch (error) {
