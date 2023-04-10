@@ -62,7 +62,7 @@ class ImportXML extends Command
                 $valueArray = [
                     'arch' => $archIndex,
                     'reg_key' => $app->regkey,
-                    'reg_value' => $app->regkey,
+                    'reg_value' => $app->regvalue,
                     'exe_path' => $app->exePath
                 ];
 
