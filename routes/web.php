@@ -26,6 +26,7 @@ Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit')
 
 Route::post('/apps/edit/detectinfo', [DetectInfoController::class, 'create']);
 Route::put('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'update']);
+Route::delete('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'delete']);
 
 Route::delete('/apps/delete/{id}', [AppController::class, 'delete'])->name('apps.delete');
 

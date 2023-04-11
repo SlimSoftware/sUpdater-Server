@@ -18,19 +18,4 @@ class AppAPIController extends Controller
         $app = App::with(['detectinfo', 'installers'])->findOrFail($id);
         return response()->json($app);
     }
-
-    /**
-     * Delete an app
-     * URL: /api/v2/apps/{id}
-     * Method: DELETE
-     */
-    public function delete(int $id) 
-    {
-        $app = App::findOrFail($id);
-        $app->detectInfo()->delete();
-        $app->installer()->delete();
-
-        $app->delete();
-        return response()->noContent();
-    }
 }

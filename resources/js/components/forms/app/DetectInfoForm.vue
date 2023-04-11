@@ -146,7 +146,11 @@ async function save() {
 
 async function deleteConfirmed(id: Number) {
     try {
-        await api.delete(`detectinfo/${id}`);
+        await api.request({        
+            method: 'DELETE',
+            baseURL: '/apps/edit',
+            url: `detectinfo/${id}`
+        });
 
         detectinfo.value = detectinfo.value.filter(i => i.id !== id);
         selectedIndex.value = -1;

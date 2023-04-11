@@ -25,11 +25,6 @@ class DetectInfoController extends Controller
         return response()->noContent();
     }
 
-    /**
-     * Store the edited detectinfo
-     *
-     * @return \Illuminate\View\View
-     */
     public function update(Request $request, int $id)
     {
         $detectInfo = DetectInfo::findOrFail($id);
@@ -45,4 +40,9 @@ class DetectInfoController extends Controller
         return response()->noContent();
     }
 
+    public function delete(int $id) {
+        $detectInfo = DetectInfo::findOrFail($id);
+        $detectInfo->delete();
+        return response()->noContent();
+    }
 }
