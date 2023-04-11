@@ -23,6 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// API v2
 Route::get('/v2/apps/{id}', [AppAPIController::class, 'get']);
+Route::get('/v2/apps/release-notes/{id}', [AppAPIController::class, 'releaseNotes']);
+Route::get('/v2/apps/website/{id}', [AppAPIController::class, 'website']);
 
-Route::get('/v1/apps', [LegacyAPIController::class, 'apps_v1']);
+// API v1
+Route::get('/apps', [LegacyAPIController::class, 'apps_v1']);
+Route::get('/changelog', [AppAPIController::class, 'releaseNotes']);
+Route::get('/website', [AppAPIController::class, 'website']);

@@ -7,6 +7,8 @@ use SimpleXMLElement;
 
 use App\Models\App;
 use App\Models\PortableApp;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Request;
 
 class LegacyAPIController extends Controller
 {
@@ -109,5 +111,39 @@ class LegacyAPIController extends Controller
         $major = $numbers[0];
         $minor = $numbers[1];
         return "$major.$minor";
+    }
+
+    /**
+     * Redirects to the release notes URL for this app
+     * URL: /api/v1/changelog
+     * Method: GET
+     */
+    public function changelog(Request $request) {
+        if ($request->query('id')) {
+            $model = App::findOrFail($request->query('id'));
+        } else if ($request->query('pid')) {
+            $model = PortableApp::findOrFail($request->query('pid'));
+        } else {
+            return response()->status(400);
+        }
+
+        return redirect($model->release_notes_url);
+    }
+
+    /**
+     * Redirects to the website URL for this app
+     * URL: /api/v1/website
+     * Method: GET
+     */
+    public function website(Request $request) {
+        if ($request->query('id')) {
+            $model = App::findOrFail($request->query('id'));
+        } else if ($request->query('pid')) {
+            $model = PortableApp::findOrFail($request->query('pid'));
+        } else {
+            return response()->status(400);
+        }
+
+        return redirect($model->website_url);
     }
 }
