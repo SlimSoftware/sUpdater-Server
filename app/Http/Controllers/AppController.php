@@ -30,33 +30,6 @@ class AppController extends Controller
         return view('apps.new');
     }
 
-    public function create(Request $request)
-    {
-        $app = App::create([
-            'name' => $request->input('name'),
-            'version' => $request->input('version'),
-            'noupdate' => $request->boolean('noupdate')
-        ]);
-
-        $detectInfo = new DetectInfo([
-            'arch' => $request->input('arch'),
-            'reg_key' => $request->input('regKey'),
-            'reg_value' => $request->input('regValue'),
-            'exe_path' => $request->input('exePath')
-        ]);
-        $detectInfo->app()->associate($app);
-        $detectInfo->save();
-
-        $installer = new Installer([
-            'download_link' => $request->input('downloadLink'),
-            'launch_args' => $request->input('launchArgs')
-        ]);
-        $installer->app()->associate($app);
-        $installer->save();
-
-        return redirect()->route('apps');
-    }
-
     /**
      * Edit an existing app
      *
@@ -67,6 +40,21 @@ class AppController extends Controller
         return view('apps.edit', ['id' => $id]);
     }
 
+    public function create(Request $request)
+    {
+        $app = App::create([
+            'name' => $request->string('name'),
+            'version' => $request->string('version'),
+            'noupdate' => $request->boolean('noupdate'),
+            'release_notes_url' => $request->string('release_notes_url'),
+            'website_url' => $request->string('website_url')
+        ]);
+
+        return response()->json([
+            'id' => $app->id
+        ]);
+    }
+
     /**
      * Store the edited app
      *
@@ -74,27 +62,16 @@ class AppController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $app = App::find($id);
+        $app = App::findOrFail($id);
         $app->update([
-            'name' => $request->input('name'),
-            'version' => $request->input('version'),
-            'noupdate' => $request->boolean('noupdate')
+            'name' => $request->string('name'),
+            'version' => $request->string('version'),
+            'noupdate' => $request->boolean('noupdate'),
+            'release_notes_url' => $request->string('release_notes_url'),
+            'website_url' => $request->string('website_url')
         ]);
 
-        $app->detectInfo->update([
-            'arch' => $request->input('arch'),
-            'reg_key' => $request->input('regKey'),
-            'reg_value' => $request->input('regValue'),
-            'exe_path' => $request->input('exePath'),
-            'download_link' => $request->input('downloadLink')
-        ]);
-
-        $app->installer->update([
-            'download_link' => $request->input('downloadLink'),
-            'launch_args' => $request->input('launchArgs')
-        ]);
-
-        return redirect()->route('apps');
+        return response()->noContent();
     }
 
     /**
@@ -104,9 +81,9 @@ class AppController extends Controller
      */
     public function delete(int $id)
     {
-        $app = App::find($id);
+        $app = App::findOrFail($id);
         $app->detectInfo()->delete();
-        $app->installer()->delete();
+        $app->installers()->delete();
         $app->delete();
 
         return redirect()->route('apps');

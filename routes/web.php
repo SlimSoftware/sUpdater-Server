@@ -23,6 +23,7 @@ Route::get('/apps/new', [AppController::class, 'new'])->name('apps.new');
 Route::post('/apps/new', [AppController::class, 'create']);
 
 Route::get('/apps/edit/{id}', [AppController::class, 'edit'])->name('apps.edit');
+Route::put('/apps/edit/{id}', [AppController::class, 'update']);
 
 Route::post('/apps/edit/detectinfo', [DetectInfoController::class, 'create']);
 Route::put('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'update']);
