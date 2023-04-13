@@ -45,9 +45,10 @@ class ImportXML extends Command
                 $existingApp = App::where('name', $appName)->first();
                 $valueArray = [
                     'name' => $appName,
-                    'version' => $app->version === '(latest)' ? null : $app->version,
-                    'noupdate' => $app->type === 'noupdate' ? true : false
+                    'version' => $app->version == '(latest)' ? null : $app->version,
+                    'noupdate' => $app->type == 'noupdate' ? true : false
                 ];
+                $this->info($app->version);
 
                 if ($existingApp === null) {
                     $this->info("Creating app $appName");
