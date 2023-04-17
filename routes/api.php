@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // API v2
+Route::get('/v2/apps', [AppAPIController::class, 'getAll']);
 Route::get('/v2/apps/{id}', [AppAPIController::class, 'get']);
 Route::get('/v2/apps/release-notes/{id}', [AppAPIController::class, 'releaseNotes']);
 Route::get('/v2/apps/website/{id}', [AppAPIController::class, 'website']);

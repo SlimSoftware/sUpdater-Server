@@ -5,8 +5,11 @@
                 An error occurred while fetching the app: {{ errorMessage }}
             </div>
             <div v-else-if="!isLoading">
-                <div v-if="editSuccess" class="text-primary mb-2">
-                    Changes saved sucessfully
+                <div v-if="addSuccess" class="text-primary mb-2">
+                    App added successfully, you can now add its detection info and installers.
+                </div>
+                <div v-else-if="editSuccess" class="text-primary mb-2">
+                    Changes saved successfully
                 </div>
                 <form @submit.prevent="save">
                     <div class="mb-3 col-md-3">
@@ -65,6 +68,7 @@ const props = defineProps({
 const isLoading = ref(true);
 const app = ref<App | null>(null);
 const appForm = ref(<AppForm>{});
+const addSuccess = ref(false);
 const editSuccess = ref(false);
 const errorMessage = ref();
 
@@ -96,6 +100,10 @@ async function fetchApp() {
 
 async function save() {
     try {
+        if (appForm.value.version?.trim() === '') {
+            appForm.value.version = null;
+        }
+
         const response = await api.request({
             baseURL: '/apps',
             url: props.id ? `/edit/${props.id}` : '/new',

@@ -18,7 +18,7 @@ const app = createApp({});
 import AppForm from './components/forms/app/AppForm.vue';
 app.component('app-form', AppForm);
 
-import AppItem from './components/AppItem.vue';
-app.component('app-item', AppItem);
+import AppList from './components/AppList.vue';
+app.component('app-list', AppList);
 
 app.mount('#app');

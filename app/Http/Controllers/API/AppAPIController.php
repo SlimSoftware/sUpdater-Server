@@ -9,6 +9,17 @@ use App\Models\App;
 class AppAPIController extends Controller
 {
     /**
+     * Get all apps
+     * URL: /api/v2/apps
+     * Method: GET
+     */
+    public function getAll() 
+    {
+        $apps = App::all();
+        return response()->json($apps);
+    }
+
+    /**
      * Get an app
      * URL: /api/v2/apps/{id}
      * Method: GET
