@@ -29,6 +29,10 @@ Route::post('/apps/edit/detectinfo', [DetectInfoController::class, 'create']);
 Route::put('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'update']);
 Route::delete('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'delete']);
 
+Route::post('/apps/edit/installers', [InstallerController::class, 'create']);
+Route::put('/apps/edit/installers/{id}', [DetectInfoController::class, 'update']);
+Route::delete('/apps/edit/installers/{id}', [DetectInfoController::class, 'delete']);
+
 Route::delete('/apps/delete/{id}', [AppController::class, 'delete'])->name('apps.delete');
 
 Route::get('/portable-apps', [PortableAppController::class, 'index'])->name('portable_apps');

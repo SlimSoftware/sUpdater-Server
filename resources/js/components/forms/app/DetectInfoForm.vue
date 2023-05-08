@@ -1,7 +1,7 @@
 <template>
     <a class="btn btn-primary mb-2" @click="addClicked">Add</a>
 
-    <table class="table table-sm table-striped table-bordered w-auto">
+    <table class="table table-sm table-striped table-bordered w-auto mt-2">
         <thead>
             <tr>
                 <th scope="col">Arch</th>
@@ -77,6 +77,8 @@ const props = defineProps({
 });
 
 const detectinfo = ref(props.detectinfo);
+
+/** The index of the detectinfo to edit. -1 = none selected, -2 = new */
 const selectedIndex = ref(-1);
 
 const selectedDetectInfo = computed(() => {
@@ -139,7 +141,7 @@ async function save() {
                        
 
         } catch (error) {
-            console.log('An error occurred while saving detect info'.concat(error instanceof Error ? ` ${error.message}` : ''));
+            console.log('An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
         }
     }
 }
@@ -155,7 +157,7 @@ async function deleteConfirmed(id: Number) {
         detectinfo.value = detectinfo.value.filter(i => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
-        console.log('An error occurred while deleting detect info'.concat(error instanceof Error ? ` ${error.message}` : ''));
+        console.log('An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
     }
 }
 </script>

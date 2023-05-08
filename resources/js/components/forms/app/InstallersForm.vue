@@ -1,5 +1,7 @@
 <template>
-    <table class="table table-sm table-striped table-bordered w-auto mt-3">
+    <a class="btn btn-primary mb-2" @click="addClicked">Add</a>
+
+    <table class="table table-sm table-striped table-bordered w-auto mt-2">
         <thead>
             <tr>
                 <th scope="col">Arch</th>
@@ -16,13 +18,22 @@
                     </a>
                 </td>
                 <td>
-                    <DeleteButton @delete-confirmed="(installer.id)" />
+                    <DeleteButton @delete-confirmed="deleteConfirmed(installer.id)" />
                 </td>
             </tr>
         </tbody>
     </table>
 
     <div v-if="selectedInstaller">
+        <div class="mb-3 col-md-2" v-if="selectedIndex === -2">
+            <label for="archSelect">Arch</label>
+            <select class="form-select" id="archSelect" name="arch" v-model="selectedInstaller.arch">
+                <option :value="0">{{ getArchString(0) }}</option>
+                <option :value="1">{{ getArchString(1) }}</option>
+                <option :value="2">{{ getArchString(2) }}</option>
+            </select>
+        </div>
+
         <div class="mb-3">
             <DownloadLinkInput :link="selectedInstaller.download_link" :version="version" />
         </div>
@@ -42,6 +53,7 @@
 import { computed, ref } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
 import DownloadLinkInput from '../../DownloadLinkInput.vue';
+import api from '../../../api';
 
 const props = defineProps({
     installers: {
@@ -61,10 +73,32 @@ const props = defineProps({
     }
 });
 
+const installers = ref(props.installers);
+
+/** The index of the installer to edit. -1 = none selected, -2 = new */
 const selectedIndex = ref(-1);
+
 const selectedInstaller = computed(() => {
-    return selectedIndex.value !== -1 ? props.installers[selectedIndex.value] : null;
+    let installer;
+
+    if (selectedIndex.value === -2) {
+        installer = <Installer>{};
+        if (props.appId) {
+            installer.app_id = props.appId;
+        }
+    } else {
+        installer = selectedIndex.value > -1 ? installers.value[selectedIndex.value] : null;
+        if (installer && props.appId) {
+            installer.app_id = props.appId;
+        }
+    }
+
+    return installer;
 });
+
+function addClicked() {
+    selectedIndex.value = -2;
+}
 
 function editClicked(index: number) {
     if (selectedIndex.value != index) {
@@ -84,5 +118,44 @@ function getArchString(arch: number) {
         return '32-bit';
     else if (arch === 2)
         return '64-bit';
+}
+
+async function save() {
+    if (selectedInstaller.value) {
+        try {
+            await api.request({
+                baseURL: '/apps/edit',
+                url: selectedInstaller.value.id ? `installers/${selectedInstaller.value?.id}` : 'installers',
+                method: selectedInstaller.value.id ? 'PUT' : 'POST',
+                data: selectedInstaller.value
+            });
+
+            if (!selectedInstaller.value.id) {
+                installers.value.push(selectedInstaller.value);
+                selectedIndex.value = -2;
+            } else {
+                selectedIndex.value = -1;
+            }
+                       
+
+        } catch (error) {
+            console.log('An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
+        }
+    }
+}
+
+async function deleteConfirmed(id: Number) {
+    try {
+        await api.request({        
+            method: 'DELETE',
+            baseURL: '/apps/edit',
+            url: `installers/${id}`
+        });
+
+        installers.value = installers.value.filter(i => i.id !== id);
+        selectedIndex.value = -1;
+    } catch (error) {
+        console.log('An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
+    }
 }
 </script>
