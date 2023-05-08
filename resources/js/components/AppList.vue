@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr is="vue:AppItem" v-for="app in apps" :key="app.id" :app="app"></tr>
+            <AppItem v-for="app in apps" :key="app.id" :app="app" />
         </tbody>
     </table>
 
@@ -34,7 +34,7 @@ async function fetchApps() {
     } catch (error) {
         if (error instanceof Error) {
             fetchError.value = true;
-            console.warn('Error fetching apps' + error?.message ?? '');
+            console.error('Error fetching apps' + error?.message ?? '');
         }
     }
 }
