@@ -12,62 +12,66 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, computed, watch } from 'vue';
-    import { parseText, containsVariables } from '../variable-parser';
-    import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
+import { ref, computed, watch } from 'vue';
+import { parseText, containsVariables } from '../variable-parser';
+import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
-    const props = defineProps({
-        link: String,
-        version: String
-    });
+const props = defineProps({
+    link: String,
+    version: String
+});
 
-    const downloadLink = ref(props.link);
-    const variables = ref(getVariables());
-    const variableIndicator = '%';
+const downloadLink = ref(props.link);
+const variables = ref(getVariables());
+const variableIndicator = '%';
 
-    function getVariables() {
-        return {
-            ver: props.version ? props.version : '',
-            verDotless: props.version ? props.version.replace('.', '') : '',
-            'verX.Y': props.version ? splitVersion(props.version, 2) : ''
-        };
-    }
+function getVariables() {
+    return {
+        ver: props.version ? props.version : '',
+        verDotless: props.version ? props.version.replace('.', '') : '',
+        'verX.Y': props.version ? splitVersion(props.version, 2) : ''
+    };
+}
 
-    function splitVersion(version: string, digits: number)
-    {
-        let newVersion = '';
-        let numbers = version.split(".", digits);
-        for (let i = 0; i < digits; i++) {
-            newVersion += numbers[i];
+function splitVersion(version: string, digits: number)
+{
+    let newVersion = '';
+    let numbers = version.split(".", digits);
+    for (let i = 0; i < digits; i++) {
+        newVersion += numbers[i];
 
-            if (i < digits - 1) {
-                newVersion += '.';
-            }
+        if (i < digits - 1) {
+            newVersion += '.';
         }
-        
-        return newVersion;
+    }
+    
+    return newVersion;
+}
+
+const previewDownloadLink = computed(() => {
+    if (downloadLink.value !== undefined)
+        return parseText(downloadLink.value, variables.value);
+});
+
+const previewHintContainerStyle = computed(() => {
+    let displayValue = 'none';
+
+    if (downloadLink.value !== undefined && containsVariables(downloadLink.value, variables.value)) {
+        displayValue = 'block';
     }
 
-    const previewDownloadLink = computed(() => {
-        if (downloadLink.value !== undefined)
-            return parseText(downloadLink.value, variables.value);
-    });
+    return { display: displayValue };
+});
 
-    const previewHintContainerStyle = computed(() => {
-        let displayValue = 'none';
+watch(() => props.version, () => {
+    variables.value = getVariables();
+});
 
-        if (downloadLink.value !== undefined && containsVariables(downloadLink.value, variables.value)) {
-            displayValue = 'block';
-        }
+watch(() => props.link, (value) => {
+    downloadLink.value = value;
+});
 
-        return { display: displayValue };
-    });
-
-    watch(() => props.version, () => {
-        variables.value = getVariables();
-    });
-
-    function openDownloadLink() {
-        window.open(previewDownloadLink.value, "_blank");  
-    }
+function openDownloadLink() {
+    window.open(previewDownloadLink.value, "_blank");  
+}
 </script>
