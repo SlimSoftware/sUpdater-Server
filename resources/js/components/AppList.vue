@@ -1,7 +1,13 @@
 <template>
     <a class="btn btn-primary mb-2" href="/apps/new">Add</a>
 
-    <table v-if="apps.length > 0" class="table table-sm table-striped table-bordered w-auto">
+    <div v-if="isLoading" class="d-flex justify-content-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <table v-else-if="apps.length > 0" class="table table-sm table-striped table-bordered w-auto">
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -24,13 +30,14 @@ import api from '../api';
 import AppItem from './AppItem.vue';
 
 const apps = ref<App[]>([]);
+const isLoading = ref(true);
 const fetchError = ref(false);
 
 async function fetchApps() {
-    let response;
     try {
-        response = await api.get('apps');
+        const response = await api.get('apps');
         apps.value = response.data;
+        isLoading.value = false;
     } catch (error) {
         if (error instanceof Error) {
             fetchError.value = true;
