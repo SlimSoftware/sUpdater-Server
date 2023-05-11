@@ -33,17 +33,16 @@
         </div>
 
         <div class="mb-3">
-            <DownloadLinkInput :link="selectedInstaller.download_link" :version="version" />
+            <DownloadLinkInput :version="version" v-model="selectedInstaller.download_link" />
         </div>
 
         <div class="mb-3">
             <label for="launchArgsInput">Launch arguments</label>
             <input type="text" class="form-control" id="launchArgsInput" name="launchArgs"
-                :value="selectedInstaller.launch_args" />
+                v-model="selectedInstaller.launch_args" />
         </div>
 
-        <input type="hidden" name="id" :value="selectedInstaller.id" />
-        <input class="btn btn-primary" type="submit" value="Save" />
+        <button class="btn btn-primary" type="submit" @click="save">Save</button>   
     </div>
 </template>
 
@@ -65,7 +64,6 @@ const props = defineProps({
     },
     version: {
         type: String,
-        default: () => ''
     },
     appId: {
         type: Number
@@ -126,10 +124,9 @@ async function save() {
             } else {
                 selectedIndex.value = -1;
             }
-                       
-
+                    
         } catch (error) {
-            console.log('An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
+            console.error('An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
         }
     }
 }
@@ -145,7 +142,7 @@ async function deleteConfirmed(id: Number) {
         installers.value = installers.value.filter(i => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
-        console.log('An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
+        console.error('An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
     }
 }
 </script>

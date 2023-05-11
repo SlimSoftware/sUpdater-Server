@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\App;
+use App\Models\DetectInfo;
 use App\Models\Installer;
 
 class InstallerController extends Controller
@@ -11,15 +12,15 @@ class InstallerController extends Controller
     public function create(Request $request)
     {
         $app = App::findOrFail($request->app_id);
+        $detectInfo = DetectInfo::findOrFail($request->detectinfo_id);
 
         $installer = new Installer([
             'arch' => $request->input('arch'),
-            'reg_key' => $request->input('reg_key'),
-            'reg_value' => $request->input('reg_value'),
-            'exe_path' => $request->input('exe_path'),
-            'download_link' => $request->input('download_link')
+            'download_link' => $request->input('download_link'),
+            'launch_args' => $request->input('launch_args')
         ]);
         $installer->app()->associate($app);
+        $installer->detectinfo()->associate($detectInfo);
         $installer->save();
 
         return response()->noContent();
@@ -31,10 +32,8 @@ class InstallerController extends Controller
 
         $installer->update([
             'arch' => $request->input('arch'),
-            'reg_key' => $request->input('reg_key'),
-            'reg_value' => $request->input('reg_value'),
-            'exe_path' => $request->input('exe_path'),
-            'download_link' => $request->input('download_link')
+            'download_link' => $request->input('download_link'),
+            'launch_args' => $request->input('launch_args')
         ]);
 
         return response()->noContent();

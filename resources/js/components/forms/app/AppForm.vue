@@ -49,7 +49,7 @@
         </template>
 
         <template v-slot:installersContent>
-            <InstallersForm :installers="app?.installers" :detectinfo="app?.detectinfo" :app-id="app?.id" />
+            <InstallersForm :installers="app?.installers" :detectinfo="app?.detectinfo" :app-id="app?.id" :version="app?.version != undefined ? app.version : ''"/>
         </template>
     </AppFormTabs>
 </template>
@@ -66,7 +66,7 @@ const props = defineProps({
 });
 
 const isLoading = ref(true);
-const app = ref<App | null>(null);
+const app = ref<App>();
 const appForm = ref(<AppForm>{});
 const addSuccess = ref(false);
 const editSuccess = ref(false);
@@ -91,8 +91,9 @@ async function fetchApp() {
             if (error instanceof Error) {
                 errorMessage.value = error?.message;
             }
+        } finally {
+            isLoading.value = false;
         }
-        isLoading.value = false;
     } else {
         isLoading.value = false;
     }
@@ -117,7 +118,7 @@ async function save() {
             editSuccess.value = true;
         }
     } catch (error) {
-        console.log('An error occurred while saving app'.concat(error instanceof Error ? ` ${error.message}` : ''));
+        console.error('An error occurred while saving app'.concat(error instanceof Error ? ` ${error.message}` : ''));
         editSuccess.value = false;
     }
 }

@@ -131,7 +131,7 @@ async function save() {
                        
 
         } catch (error) {
-            console.log('An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
+            console.error('An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
         }
     }
 }
@@ -147,7 +147,7 @@ async function deleteConfirmed(id: Number) {
         detectinfo.value = detectinfo.value.filter(i => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
-        console.log('An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
+        console.error('An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
     }
 }
 </script>

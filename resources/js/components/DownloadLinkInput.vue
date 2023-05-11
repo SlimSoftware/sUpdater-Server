@@ -1,8 +1,7 @@
 <template>
     <label for="dlInput">Download link</label>
     <div class="input-group">
-        <input type="text" class="form-control" id="dlInput" name="downloadLink" required
-            v-model="downloadLink" />
+        <input type="text" class="form-control" id="dlInput" name="downloadLink" required v-model="downloadLink" />
         <a class="btn btn-primary" @click="openDownloadLink">Test link</a>
     </div>
     <span class="text-muted" :style="previewHintContainerStyle">
@@ -17,11 +16,20 @@ import { parseText, containsVariables } from '../variable-parser';
 import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
 const props = defineProps({
-    link: String,
-    version: String
+    version: String,
+    modelValue: String
+});
+const emit = defineEmits(['update:modelValue']);
+
+const downloadLink = computed({
+    get() {
+        return props.modelValue
+    },
+    set(value) {
+        emit('update:modelValue', value)
+    }
 });
 
-const downloadLink = ref(props.link);
 const variables = ref(getVariables());
 const variableIndicator = '%';
 
@@ -65,10 +73,6 @@ const previewHintContainerStyle = computed(() => {
 
 watch(() => props.version, () => {
     variables.value = getVariables();
-});
-
-watch(() => props.link, (value) => {
-    downloadLink.value = value;
 });
 
 function openDownloadLink() {
