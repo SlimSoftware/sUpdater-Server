@@ -11,7 +11,7 @@
         </thead>
         <tbody>
             <tr v-for="info, index in detectinfo">
-                <td>{{ getArchString(info.arch) }}</td>
+                <td>{{ Arch[info.arch] }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
                         <i class="bi-pencil-fill"></i>
@@ -29,9 +29,7 @@
             <div class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
                 <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch">
-                    <option :value="0">{{ getArchString(0) }}</option>
-                    <option :value="1">{{ getArchString(1) }}</option>
-                    <option :value="2">{{ getArchString(2) }}</option>
+                    <option v-for="(arch, index) in Arch" :value="index">{{ arch }}</option>
                 </select>
             </div>
 
@@ -65,6 +63,7 @@
 import { computed, ref } from 'vue';
 import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
+import Arch from '../../../enums/Arch'
 
 const props = defineProps({
     detectinfo: {
@@ -102,15 +101,6 @@ const selectedDetectInfo = computed(() => {
 const saveButtonText = computed(() => {
     return selectedDetectInfo.value?.id ? 'Edit' : 'Save';
 });
-
-function getArchString(arch: number) {
-    if (arch === 0)
-        return 'Any';
-    else if (arch === 1)
-        return '32-bit';
-    else if (arch === 2)
-        return '64-bit';
-}
 
 function addClicked() {
     selectedIndex.value = -2;
