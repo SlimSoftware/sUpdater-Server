@@ -76,21 +76,21 @@ const installers = ref(props.installers);
 const selectedIndex = ref(-1);
 
 const selectedInstaller = computed(() => {
-    let installer;
+    let installer = ref();
 
     if (selectedIndex.value === -2) {
-        installer = <Installer>{};
+        installer.value = <Installer>{};
         if (props.appId) {
-            installer.app_id = props.appId;
+            installer.value.app_id = props.appId;
         }
     } else {
-        installer = selectedIndex.value > -1 ? installers.value[selectedIndex.value] : null;
-        if (installer && props.appId) {
-            installer.app_id = props.appId;
+        installer.value = selectedIndex.value > -1 ? installers.value[selectedIndex.value] : null;
+        if (installer.value && props.appId) {
+            installer.value.app_id = props.appId;
         }
     }
 
-    return installer;
+    return installer.value;
 });
 
 function addClicked() {
