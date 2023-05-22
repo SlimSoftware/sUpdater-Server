@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="form-check mb-2">
-                        <input type="checkbox" class="form-check-input" v-model="appForm.noupdate" />
+                        <input type="checkbox" class="form-check-input" id="noupdateCheckbox" v-model="appForm.noupdate" />
                         <label for="noupdateCheckbox" class="form-check-label">
                             Use this app's own updater to check for updates
                         </label>
