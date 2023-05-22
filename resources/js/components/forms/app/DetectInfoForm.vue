@@ -28,7 +28,7 @@
         <form @submit.prevent="save">
             <div class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
-                <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch">
+                <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch" required>
                     <option v-for="(arch, index) in Arch" :value="index">{{ arch }}</option>
                 </select>
             </div>
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
 import Arch from '../../../enums/Arch'

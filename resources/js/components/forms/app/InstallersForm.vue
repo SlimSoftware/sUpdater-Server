@@ -26,9 +26,9 @@
 
     <div v-if="selectedInstaller">
         <div class="mb-3 col-md-2" v-if="selectedIndex === -2">
-            <label for="archSelect">Arch</label>
-            <select class="form-select" id="archSelect" name="arch" v-model="selectedInstaller.arch">
-                <option v-for="(arch, index) in Arch" :value="index">{{ arch }}</option>
+            <label for="archSelect">Arch <i class="bi bi-question-circle" title="Arch not listed? Add a detectinfo entry for this arch first!"></i></label>
+            <select class="form-select" id="archSelect" name="arch" v-model="selectedInstaller.arch" required>
+                <option v-for="(arch, index) in getAvailableInstallerArchs()" :value="Arch.indexOf(arch)">{{ arch }}</option>
             </select>
         </div>
 
@@ -42,12 +42,12 @@
                 v-model="selectedInstaller.launch_args" />
         </div>
 
-        <button class="btn btn-primary" type="submit" @click="save">Save</button>   
+        <button class="btn btn-primary" type="submit" @click="save">Save</button>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
 import DownloadLinkInput from '../../DownloadLinkInput.vue';
 import api from '../../../api';
@@ -75,7 +75,7 @@ const installers = ref(props.installers);
 /** The index of the installer to edit. -1 = none selected, -2 = new */
 const selectedIndex = ref(-1);
 
-const selectedInstaller = computed(() => {
+const selectedInstaller = computed((): Installer => {
     let installer = ref();
 
     if (selectedIndex.value === -2) {
@@ -93,19 +93,41 @@ const selectedInstaller = computed(() => {
     return installer.value;
 });
 
+watch(() => selectedInstaller.value?.arch, () => {
+    if (selectedInstaller.value) {
+        const detectInfoId = getDetectInfoFromArch(selectedInstaller.value.arch)?.id;
+        if (!detectInfoId) {
+            console.error('Detectinfo not found for installer');
+            return;
+        }
+
+        selectedInstaller.value.detectinfo_id = detectInfoId;
+    }
+})
+
 function addClicked() {
     selectedIndex.value = -2;
 }
 
 function editClicked(index: number) {
     if (selectedIndex.value != index) {
-        selectedIndex.value = index; 
+        selectedIndex.value = index;
     }
+}
+
+function getDetectInfoFromArch(arch: number) {
+    return props.detectinfo.find(d => d.arch === arch);
 }
 
 function getArchNameForInstaller(installer: Installer) {
     const archIndex = props.detectinfo.find(d => d.id === installer.detectinfo_id)?.arch;
     return archIndex ? Arch[archIndex] : '';
+}
+
+/** Returns all archs that have detectinfo */
+function getAvailableInstallerArchs() {
+    const allArchs = props.detectinfo.map(d => d.arch);
+    return Arch.filter((_arch, index) => allArchs.includes(index));
 }
 
 async function save() {
@@ -124,7 +146,7 @@ async function save() {
             } else {
                 selectedIndex.value = -1;
             }
-                    
+
         } catch (error) {
             console.error('An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : ''));
         }
@@ -133,7 +155,7 @@ async function save() {
 
 async function deleteConfirmed(id: Number) {
     try {
-        await api.request({        
+        await api.request({
             method: 'DELETE',
             baseURL: '/apps/edit',
             url: `installers/${id}`
