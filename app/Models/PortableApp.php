@@ -13,6 +13,13 @@ class PortableApp extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function archive()
     {
         return $this->hasOne(Archive::class);

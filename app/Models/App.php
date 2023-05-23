@@ -23,6 +23,13 @@ class App extends Model
         'noupdate' => 'boolean',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function detectInfo()
     {
         return $this->hasMany(DetectInfo::class);

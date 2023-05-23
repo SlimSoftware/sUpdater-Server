@@ -12,4 +12,11 @@ class Archive extends Model
      * @var array
      */
     protected $guarded = ['id', 'portable_app_id', 'created_at', 'updated_at'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at'];
 }
