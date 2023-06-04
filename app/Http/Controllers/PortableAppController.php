@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\PortableApp;
 
 class PortableAppController extends Controller
@@ -12,7 +11,7 @@ class PortableAppController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
         $portableApps = PortableApp::orderBy('name')->get();
         return view('portable-apps.index', ['portableApps' => $portableApps]);
@@ -23,7 +22,7 @@ class PortableAppController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function new(Request $request)
+    public function new()
     {
         return view('portable-apps.new');
     }
@@ -33,7 +32,7 @@ class PortableAppController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit(Request $request, int $id)
+    public function edit(int $id)
     {
         $portableApp = PortableApp::find($id);
         return view('portable-apps.edit', ['portableApp' => $portableApp]);

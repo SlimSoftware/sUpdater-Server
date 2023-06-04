@@ -1,12 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\AppAPIController;
+use App\Http\Controllers\API\LegacyAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\API\AppAPIController;
-use App\Http\Controllers\API\DetectInfoAPIController;
-use App\Http\Controllers\API\InstallerAPIController;
-use App\Http\Controllers\API\LegacyAPIController;
 
 /*
 |--------------------------------------------------------------------------

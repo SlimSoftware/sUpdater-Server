@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\App;
-use App\Models\DetectInfo;
-use App\Models\Installer;
+use Illuminate\Http\Request;
 
 class AppController extends Controller
 {
@@ -47,11 +45,11 @@ class AppController extends Controller
             'version' => $request->string('version'),
             'noupdate' => $request->boolean('noupdate'),
             'release_notes_url' => $request->string('release_notes_url'),
-            'website_url' => $request->string('website_url')
+            'website_url' => $request->string('website_url'),
         ]);
 
         return response()->json([
-            'id' => $app->id
+            'id' => $app->id,
         ]);
     }
 
@@ -68,7 +66,7 @@ class AppController extends Controller
             'version' => $request->string('version'),
             'noupdate' => $request->boolean('noupdate'),
             'release_notes_url' => $request->string('release_notes_url'),
-            'website_url' => $request->string('website_url')
+            'website_url' => $request->string('website_url'),
         ]);
 
         return response()->noContent();

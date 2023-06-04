@@ -1,6 +1,6 @@
 <template>
     <AppFormTabs :is-new="id === undefined">
-        <template v-slot:appContent>
+        <template #appContent>
             <div v-if="errorMessage" class="text-danger">
                 An error occurred while fetching the app: {{ errorMessage }}
             </div>
@@ -8,22 +8,32 @@
                 <div v-if="addSuccess" class="text-primary mb-2">
                     App added successfully, you can now add its detection info and installers.
                 </div>
-                <div v-else-if="editSuccess" class="text-primary mb-2">
-                    Changes saved successfully
-                </div>
+                <div v-else-if="editSuccess" class="text-primary mb-2">Changes saved successfully</div>
                 <form @submit.prevent="save">
                     <div class="mb-3 col-md-3">
                         <label for="nameInput">Name</label>
-                        <input type="text" class="form-control" id="nameInput" name="name" v-model="appForm.name" required />
+                        <input
+                            id="nameInput"
+                            v-model="appForm.name"
+                            type="text"
+                            class="form-control"
+                            name="name"
+                            required
+                        />
                     </div>
 
                     <div class="mb-3 col-md-3">
                         <label for="versionInput">Version</label>
-                        <input type="text" class="form-control" v-model="appForm.version" placeholder="(latest)" />
+                        <input v-model="appForm.version" type="text" class="form-control" placeholder="(latest)" />
                     </div>
 
                     <div class="form-check mb-2">
-                        <input type="checkbox" class="form-check-input" id="noupdateCheckbox" v-model="appForm.noupdate" />
+                        <input
+                            id="noupdateCheckbox"
+                            v-model="appForm.noupdate"
+                            type="checkbox"
+                            class="form-check-input"
+                        />
                         <label for="noupdateCheckbox" class="form-check-label">
                             Use this app's own updater to check for updates
                         </label>
@@ -31,12 +41,12 @@
 
                     <div class="mb-3">
                         <label for="releaseNotesInput">Release notes URL</label>
-                        <input type="text" class="form-control" v-model="appForm.release_notes_url" />
+                        <input v-model="appForm.release_notes_url" type="text" class="form-control" />
                     </div>
 
                     <div class="mb-3">
                         <label for="websiteInput">Website URL</label>
-                        <input type="text" class="form-control" v-model="appForm.website_url" />
+                        <input v-model="appForm.website_url" type="text" class="form-control" />
                     </div>
 
                     <input class="btn btn-primary" type="submit" value="Save" />
@@ -44,12 +54,17 @@
             </div>
         </template>
 
-        <template v-slot:detectInfoContent>
+        <template #detectInfoContent>
             <DetectInfoForm :detectinfo="app?.detectinfo" :app-id="app?.id" />
         </template>
 
-        <template v-slot:installersContent>
-            <InstallersForm :installers="app?.installers" :detectinfo="app?.detectinfo" :app-id="app?.id" :version="app?.version != undefined ? app.version : ''"/>
+        <template #installersContent>
+            <InstallersForm
+                :installers="app?.installers"
+                :detectinfo="app?.detectinfo"
+                :app-id="app?.id"
+                :version="app?.version != undefined ? app.version : ''"
+            />
         </template>
     </AppFormTabs>
 </template>
@@ -62,7 +77,7 @@ import DetectInfoForm from './DetectInfoForm.vue';
 import InstallersForm from './InstallersForm.vue';
 
 const props = defineProps({
-    id: String
+    id: String,
 });
 
 const isLoading = ref(true);
@@ -109,7 +124,7 @@ async function save() {
             baseURL: '/apps',
             url: props.id ? `/edit/${props.id}` : '/new',
             method: props.id ? 'PUT' : 'POST',
-            data: appForm.value
+            data: appForm.value,
         });
 
         if (!props.id) {

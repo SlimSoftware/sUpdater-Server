@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\App;
 use App\Models\DetectInfo;
+use Illuminate\Http\Request;
 
 class DetectInfoController extends Controller
 {
@@ -17,7 +17,7 @@ class DetectInfoController extends Controller
             'reg_key' => $request->input('reg_key'),
             'reg_value' => $request->input('reg_value'),
             'exe_path' => $request->input('exe_path'),
-            'download_link' => $request->input('download_link')
+            'download_link' => $request->input('download_link'),
         ]);
         $detectInfo->app()->associate($app);
         $detectInfo->save();
@@ -34,13 +34,14 @@ class DetectInfoController extends Controller
             'reg_key' => $request->input('reg_key'),
             'reg_value' => $request->input('reg_value'),
             'exe_path' => $request->input('exe_path'),
-            'download_link' => $request->input('download_link')
+            'download_link' => $request->input('download_link'),
         ]);
 
         return response()->noContent();
     }
 
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
         $detectInfo = DetectInfo::findOrFail($id);
         $detectInfo->delete();
         return response()->noContent();

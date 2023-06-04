@@ -15,7 +15,7 @@
                     <tr>
                         <td class="align-middle">{{ $portableApp->name }}</td>
                         <td class="align-middle">{{ $portableApp->version }}</td>
-                        <td><a class="btn btn-primary" href="{{ route('portable_apps.edit', $portableApp->id) }}" >Edit</a></td>
+                        <td><a class="btn btn-primary" href="{{ route('portable_apps.edit', $portableApp->id) }}">Edit</a></td>
                     </tr>
                 @endforeach
             </tbody>

@@ -20,7 +20,8 @@ class Installer extends Model
      */
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function detectinfo() {
+    public function detectinfo()
+    {
         return $this->belongsTo(DetectInfo::class);
     }
 

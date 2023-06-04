@@ -3,13 +3,13 @@
         <summary>Available variables</summary>
         <div v-for="(variableValue, variableName) in variables">
             {{ variableIndicator }}{{ variableName }}{{ variableIndicator }} = {{ variableValue }}
-        </div> 
+        </div>
     </details>
 </template>
 
 <script lang="ts" setup>
-    defineProps({
-        variables: Object,
-        variableIndicator: String
-    });
-</script> 
+defineProps({
+    variables: Object,
+    variableIndicator: String,
+});
+</script>

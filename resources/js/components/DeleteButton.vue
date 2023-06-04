@@ -7,8 +7,7 @@
 <script lang="ts" setup>
 const emit = defineEmits(['deleteConfirmed']);
 
-async function deleteClicked()
-{
+async function deleteClicked() {
     const confirmed = confirm('Are you sure you want to delete this?');
     if (confirmed) {
         emit('deleteConfirmed');

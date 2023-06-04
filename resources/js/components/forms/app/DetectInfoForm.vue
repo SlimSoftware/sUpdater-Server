@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="info, index in detectinfo">
+            <tr v-for="(info, index) in detectinfo" :key="index">
                 <td>{{ Arch[info.arch] }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
@@ -28,29 +28,48 @@
         <form @submit.prevent="save">
             <div class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
-                <select class="form-select" id="archSelect" name="arch" v-model="selectedDetectInfo.arch" required>
-                    <option v-for="(arch, index) in Arch" :value="index">{{ arch }}</option>
+                <select id="archSelect" v-model="selectedDetectInfo.arch" class="form-select" name="arch" required>
+                    <option v-for="(arch, index) in Arch" :key="index" :value="index">{{ arch }}</option>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label for="regKeyInput">Registry key</label>
-                <input type="text" class="form-control" id="regKeyInput" name="regKey" v-model="selectedDetectInfo.reg_key" />
+                <input
+                    id="regKeyInput"
+                    v-model="selectedDetectInfo.reg_key"
+                    type="text"
+                    class="form-control"
+                    name="regKey"
+                />
             </div>
 
             <div class="mb-3 col-md-3">
                 <label for="regValueInput">Registry value</label>
-                <input type="text" class="form-control" id="regValueInput" name="regValue"
-                    v-model="selectedDetectInfo.reg_value" />
+                <input
+                    id="regValueInput"
+                    v-model="selectedDetectInfo.reg_value"
+                    type="text"
+                    class="form-control"
+                    name="regValue"
+                />
             </div>
 
             <div class="mb-3">
                 <label for="exePathInput">Executable path</label>
-                <input type="text" class="form-control" id="exePathInput" name="exePath" v-model="selectedDetectInfo.exe_path" />
+                <input
+                    id="exePathInput"
+                    v-model="selectedDetectInfo.exe_path"
+                    type="text"
+                    class="form-control"
+                    name="exePath"
+                />
                 <details>
                     <summary>Available variables</summary>
-                    <p>%pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br />
-                        %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems</p>
+                    <p>
+                        %pf64% = Program Files on 64 bit systems, does not detect on 32 bit systems<br />
+                        %pf32% = Program Files (x86) on 64 bit systems, Program Files on 32 bit systems
+                    </p>
                 </details>
             </div>
 
@@ -60,19 +79,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
-import Arch from '../../../enums/Arch'
+import Arch from '../../../enums/Arch';
 
 const props = defineProps({
     detectinfo: {
         type: Array<DetectInfo>,
-        default: () => []
+        default: () => [],
     },
     appId: {
-        type: Number
-    }
+        type: Number,
+    },
 });
 
 const detectinfo = ref(props.detectinfo);
@@ -119,7 +138,7 @@ async function save() {
                 baseURL: '/apps/edit',
                 url: selectedDetectInfo.value.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
                 method: selectedDetectInfo.value.id ? 'PUT' : 'POST',
-                data: selectedDetectInfo.value
+                data: selectedDetectInfo.value,
             });
 
             if (!selectedDetectInfo.value.id) {
@@ -128,26 +147,28 @@ async function save() {
             } else {
                 selectedIndex.value = -1;
             }
-                       
-
         } catch (error) {
-            console.error('An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
+            console.error(
+                'An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : ''),
+            );
         }
     }
 }
 
-async function deleteConfirmed(id: Number) {
+async function deleteConfirmed(id: number) {
     try {
-        await api.request({        
+        await api.request({
             method: 'DELETE',
             baseURL: '/apps/edit',
-            url: `detectinfo/${id}`
+            url: `detectinfo/${id}`,
         });
 
-        detectinfo.value = detectinfo.value.filter(i => i.id !== id);
+        detectinfo.value = detectinfo.value.filter((i) => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
-        console.error('An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : ''));
+        console.error(
+            'An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : ''),
+        );
     }
 }
 </script>

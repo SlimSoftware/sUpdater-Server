@@ -25,7 +25,7 @@ class ImportXML extends Command
     protected $description = 'Import data from the legacy xml format';
 
     const FILE_PATH = 'import.xml';
-    const ARCHS = ["*", "x86", "x64"];
+    const ARCHS = ['*', 'x86', 'x64'];
 
     /**
      * Execute the console command.
@@ -37,7 +37,7 @@ class ImportXML extends Command
         if (Storage::disk('local')->exists(self::FILE_PATH)) {
             $xmlPath = storage_path('app/' . self::FILE_PATH);
             $this->info("Import file found at $xmlPath");
-            
+
             $xml = simplexml_load_file($xmlPath);
 
             foreach ($xml->app as $app) {
@@ -46,7 +46,7 @@ class ImportXML extends Command
                 $valueArray = [
                     'name' => $appName,
                     'version' => $app->version == '(latest)' ? null : $app->version,
-                    'noupdate' => $app->type == 'noupdate' ? true : false
+                    'noupdate' => $app->type == 'noupdate' ? true : false,
                 ];
                 $this->info($app->version);
 
@@ -59,12 +59,14 @@ class ImportXML extends Command
                 }
 
                 $archIndex = array_search($app->arch, self::ARCHS);
-                $existingDetectInfo = $existingApp->has('detectInfo') ? $existingApp->detectInfo->firstWhere('arch', $archIndex) : null;
+                $existingDetectInfo = $existingApp->has('detectInfo')
+                    ? $existingApp->detectInfo->firstWhere('arch', $archIndex)
+                    : null;
                 $valueArray = [
                     'arch' => $archIndex,
                     'reg_key' => $app->regkey,
                     'reg_value' => $app->regvalue,
-                    'exe_path' => $app->exePath
+                    'exe_path' => $app->exePath,
                 ];
 
                 $savedDetectInfo = null;
@@ -76,14 +78,14 @@ class ImportXML extends Command
                     $savedDetectInfo = $detectInfo;
                 } else {
                     $this->info("Updating DetectInfo for $appName ($app->arch)");
-                    $existingDetectInfo->update($valueArray);   
-                    $savedDetectInfo = $existingDetectInfo;               
+                    $existingDetectInfo->update($valueArray);
+                    $savedDetectInfo = $existingDetectInfo;
                 }
 
                 $existingInstaller = $existingApp->has('installers') ? $existingApp->installers->first() : null;
                 $valueArray = [
                     'download_link' => $app->dl,
-                    'launch_args' => $app->switch
+                    'launch_args' => $app->switch,
                 ];
 
                 if ($existingInstaller === null) {

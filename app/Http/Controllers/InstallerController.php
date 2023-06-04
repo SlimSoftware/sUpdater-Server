@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\App;
 use App\Models\DetectInfo;
 use App\Models\Installer;
+use Illuminate\Http\Request;
 
 class InstallerController extends Controller
 {
@@ -17,7 +17,7 @@ class InstallerController extends Controller
         $installer = new Installer([
             'arch' => $request->input('arch'),
             'download_link' => $request->input('download_link'),
-            'launch_args' => $request->input('launch_args')
+            'launch_args' => $request->input('launch_args'),
         ]);
         $installer->app()->associate($app);
         $installer->detectinfo()->associate($detectInfo);
@@ -33,13 +33,14 @@ class InstallerController extends Controller
         $installer->update([
             'arch' => $request->input('arch'),
             'download_link' => $request->input('download_link'),
-            'launch_args' => $request->input('launch_args')
+            'launch_args' => $request->input('launch_args'),
         ]);
 
         return response()->noContent();
     }
 
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
         $installer = Installer::findOrFail($id);
         $installer->delete();
         return response()->noContent();

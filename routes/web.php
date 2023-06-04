@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\DetectInfoController;
 use App\Http\Controllers\InstallerController;
 use App\Http\Controllers\PortableAppController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

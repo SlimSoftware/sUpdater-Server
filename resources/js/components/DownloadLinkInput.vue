@@ -1,13 +1,11 @@
 <template>
     <label for="dlInput">Download link</label>
     <div class="input-group">
-        <input type="text" class="form-control" id="dlInput" name="downloadLink" required v-model="downloadLink" />
+        <input id="dlInput" v-model="downloadLink" type="text" class="form-control" name="downloadLink" required />
         <a class="btn btn-primary" @click="openDownloadLink">Test link</a>
     </div>
-    <span class="text-muted" :style="previewHintContainerStyle">
-        Preview: {{ previewDownloadLink }}
-    </span>
-    <AvailableVariablesExpander :variables="variables" :variableIndicator="variableIndicator" />
+    <span class="text-muted" :style="previewHintContainerStyle">Preview: {{ previewDownloadLink }} </span>
+    <AvailableVariablesExpander :variables="variables" :variable-indicator="variableIndicator" />
 </template>
 
 <script lang="ts" setup>
@@ -17,17 +15,17 @@ import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
 const props = defineProps({
     version: String,
-    modelValue: String
+    modelValue: String,
 });
 const emit = defineEmits(['update:modelValue']);
 
 const downloadLink = computed({
     get() {
-        return props.modelValue
+        return props.modelValue;
     },
     set(value) {
-        emit('update:modelValue', value)
-    }
+        emit('update:modelValue', value);
+    },
 });
 
 const variables = ref(getVariables());
@@ -37,14 +35,13 @@ function getVariables() {
     return {
         ver: props.version ? props.version : '',
         verDotless: props.version ? props.version.replace('.', '') : '',
-        'verX.Y': props.version ? splitVersion(props.version, 2) : ''
+        'verX.Y': props.version ? splitVersion(props.version, 2) : '',
     };
 }
 
-function splitVersion(version: string, digits: number)
-{
+function splitVersion(version: string, digits: number) {
     let newVersion = '';
-    let numbers = version.split(".", digits);
+    let numbers = version.split('.', digits);
     for (let i = 0; i < digits; i++) {
         newVersion += numbers[i];
 
@@ -52,13 +49,15 @@ function splitVersion(version: string, digits: number)
             newVersion += '.';
         }
     }
-    
+
     return newVersion;
 }
 
 const previewDownloadLink = computed(() => {
-    if (downloadLink.value !== undefined)
+    if (downloadLink.value !== undefined) {
         return parseText(downloadLink.value, variables.value);
+    }
+    return '';
 });
 
 const previewHintContainerStyle = computed(() => {
@@ -71,11 +70,14 @@ const previewHintContainerStyle = computed(() => {
     return { display: displayValue };
 });
 
-watch(() => props.version, () => {
-    variables.value = getVariables();
-});
+watch(
+    () => props.version,
+    () => {
+        variables.value = getVariables();
+    },
+);
 
 function openDownloadLink() {
-    window.open(previewDownloadLink.value, "_blank");  
+    window.open(previewDownloadLink.value, '_blank');
 }
 </script>
