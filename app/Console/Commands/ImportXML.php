@@ -48,7 +48,6 @@ class ImportXML extends Command
                     'version' => $app->version == '(latest)' ? null : $app->version,
                     'noupdate' => $app->type == 'noupdate' ? true : false,
                 ];
-                $this->info($app->version);
 
                 if ($existingApp === null) {
                     $this->info("Creating app $appName");
@@ -83,8 +82,12 @@ class ImportXML extends Command
                 }
 
                 $existingInstaller = $existingApp->has('installers') ? $existingApp->installers->first() : null;
+                $dl = $app->dl;
+                $dl = str_replace('%verDotless%', '%ver.0%', $dl);
+                $dl = str_replace('%verMajorMinor%', '%ver.1%', $dl);
+
                 $valueArray = [
-                    'download_link' => $app->dl,
+                    'download_link' => $dl,
                     'launch_args' => $app->switch,
                 ];
 

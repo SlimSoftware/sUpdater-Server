@@ -4,14 +4,14 @@
             <a :class="{ 'nav-link': true, active: activePage === 0 }" @click="switchPage(0)">General</a>
         </li>
         <li class="nav-item">
-            <a :class="{ 'nav-link': true, active: activePage === 1, disabled: isNew }" @click="switchPage(1)">
-                Detection
-            </a>
+            <a :class="{ 'nav-link': true, active: activePage === 1, disabled: isNew }" @click="switchPage(1)"
+                >Detection</a
+            >
         </li>
         <li class="nav-item">
-            <a :class="{ 'nav-link': true, active: activePage === 2, disabled: isNew }" @click="switchPage(2)">
-                Installers
-            </a>
+            <a :class="{ 'nav-link': true, active: activePage === 2, disabled: isNew }" @click="switchPage(2)"
+                >Installers</a
+            >
         </li>
     </ul>
 

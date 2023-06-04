@@ -34,8 +34,10 @@ const variableIndicator = '%';
 function getVariables() {
     return {
         ver: props.version ? props.version : '',
-        verDotless: props.version ? props.version.replace('.', '') : '',
-        'verX.Y': props.version ? splitVersion(props.version, 2) : '',
+        'ver.0': props.version ? props.version.replaceAll('.', '') : '',
+        'ver.1': props.version ? splitVersion(props.version, 2) : '',
+        'ver.2': props.version ? splitVersion(props.version, 3) : '',
+        'ver.3': props.version ? splitVersion(props.version, 4) : '',
     };
 }
 
@@ -43,6 +45,10 @@ function splitVersion(version: string, digits: number) {
     let newVersion = '';
     let numbers = version.split('.', digits);
     for (let i = 0; i < digits; i++) {
+        if (numbers[i] === undefined) {
+            break;
+        }
+
         newVersion += numbers[i];
 
         if (i < digits - 1) {
