@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Installer extends Model
@@ -20,6 +21,13 @@ class Installer extends Model
      */
     protected $hidden = ['created_at', 'updated_at'];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['download_link_parsed'];
+
     public function detectinfo()
     {
         return $this->belongsTo(DetectInfo::class);
@@ -30,7 +38,12 @@ class Installer extends Model
         return $this->belongsTo(App::class);
     }
 
-    public function parsedDownloadLink(): string
+    protected function downloadLinkParsed(): Attribute
+    {
+        return new Attribute(get: fn() => $this->parseDownloadLink($this->download_link));
+    }
+
+    private function parseDownloadLink(): string
     {
         $version = $this->app->version;
         $dl = $this->download_link;
