@@ -19,29 +19,18 @@ class LegacyAPIController extends Controller
     {
         $xml = new SimpleXMLElement('<defenitions version="1.0"></defenitions>');
         $archs = ['*', 'x86', 'x64'];
-        $apps = App::orderBy('name')->get();
+        $apps = App::with(['detectInfo', 'installers'])->orderBy('name')->get();
 
         foreach ($apps as $app) {
             $detectInfo = $app->detectInfo[0];
-            $installer = $app->installer[0];
+            $installer = $app->installers[0];
 
             $appElement = $xml->addChild('app');
             $appElement->addAttribute('name', $app->name);
             $appElement->addChild('id', $app->id);
             $appElement->addChild('arch', $archs[$detectInfo->arch]);
 
-            $dl = $installer->download_link;
-
-            if (strpos($dl, '%ver%') !== false) {
-                $dl = str_replace('%ver%', $app->version, $dl);
-            }
-            if (strpos($dl, '%verMajorMinor%') !== false) {
-                $dl = str_replace('%verMajorMinor%', self::convertToMajorMinorVersion($app->version), $dl);
-            }
-            if (strpos($dl, '%verDotless%') !== false) {
-                $dl = str_replace('%verDotless%', self::convertToDotlessVersion($app->version), $dl);
-            }
-
+            $dl = $installer->parsedDownloadLink();
             $appElement->addChild('dl', $dl);
 
             if ($detectInfo->exe_path) {
@@ -73,18 +62,7 @@ class LegacyAPIController extends Controller
             $appElement->addChild('id', $portableApp->id);
             $appElement->addChild('arch', $archs[$portableApp->arch]);
 
-            $dl = $archive->dl;
-
-            if (strpos($dl, '%ver%') !== false) {
-                $dl = str_replace('%ver%', $portableApp->version, $dl);
-            }
-            if (strpos($dl, '%verMajorMinor%') !== false) {
-                $dl = str_replace('%verMajorMinor%', self::convertToMajorMinorVersion($portableApp->version), $dl);
-            }
-            if (strpos($dl, '%verDotless%') !== false) {
-                $dl = str_replace('%verDotless%', self::convertToDotlessVersion($portableApp->version), $dl);
-            }
-
+            $dl = $archive->parsedDownloadLink();
             $appElement->addChild('dl', $dl);
 
             $appElement->addChild('hasChangelog', isset($portableApp->release_notes_url) ? 1 : 0);
@@ -96,19 +74,6 @@ class LegacyAPIController extends Controller
         }
 
         return response($xml->asXML(), 200)->header('Content-Type', 'application/xml');
-    }
-
-    private static function convertToDotlessVersion(string $version)
-    {
-        return str_replace('.', '', $version);
-    }
-
-    private static function convertToMajorMinorVersion(string $version)
-    {
-        $numbers = explode('.', $version, 3);
-        $major = $numbers[0];
-        $minor = $numbers[1];
-        return "$major.$minor";
     }
 
     /**

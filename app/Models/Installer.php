@@ -29,4 +29,29 @@ class Installer extends Model
     {
         return $this->belongsTo(App::class);
     }
+
+    public function parsedDownloadLink(): string
+    {
+        $version = $this->app->version;
+        $dl = $this->download_link;
+
+        $dl = str_replace('%ver.0%', str_replace('.', '', $version), $dl);
+        $dl = str_replace('%ver.1%', $this->splitVersion($version, 2), $dl);
+        $dl = str_replace('%ver.2%', $this->splitVersion($version, 3), $dl);
+        $dl = str_replace('%ver.3%', $this->splitVersion($version, 4), $dl);
+
+        return $dl;
+    }
+
+    private function splitVersion(?string $version, int $digits)
+    {
+        if (!$version) {
+            return '';
+        }
+
+        $numbers = explode($version, '.', $digits);
+        $newVersion = implode('.', $numbers);
+
+        return $newVersion;
+    }
 }

@@ -42,21 +42,8 @@ function getVariables() {
 }
 
 function splitVersion(version: string, digits: number) {
-    let newVersion = '';
-    let numbers = version.split('.', digits);
-    for (let i = 0; i < digits; i++) {
-        if (numbers[i] === undefined) {
-            break;
-        }
-
-        newVersion += numbers[i];
-
-        if (i < digits - 1) {
-            newVersion += '.';
-        }
-    }
-
-    return newVersion;
+    const numbers = version.split('.', digits);
+    return numbers.join('.');
 }
 
 const previewDownloadLink = computed(() => {
