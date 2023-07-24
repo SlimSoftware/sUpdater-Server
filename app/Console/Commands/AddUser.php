@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
-class ImportXML extends Command
+class AddUser extends Command
 {
     /**
      * The name and signature of the console command.
@@ -22,6 +22,7 @@ class ImportXML extends Command
      * @var string
      */
     protected $description = 'Add a new user that can log in to the webinterface';
+
     /**
      * Execute the console command.
      *
@@ -31,7 +32,7 @@ class ImportXML extends Command
     {
         $password = $this->secret('Please enter the password for the new user');
         try {
-            $user = User::create([
+            User::create([
                 'username' => $this->argument('username'),
                 'password' => Hash::make($password),
             ]);
