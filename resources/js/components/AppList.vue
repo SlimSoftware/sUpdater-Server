@@ -10,8 +10,8 @@
     <table v-else-if="apps.length > 0" class="table table-sm table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Version</th>
+                <th scope="col" class="w-75">Name</th>
+                <th scope="col" class="w-25">Version</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
             </tr>

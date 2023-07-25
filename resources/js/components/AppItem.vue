@@ -1,7 +1,7 @@
 <template>
     <tr v-if="itemVisible">
-        <td class="align-middle w-75">{{ app.name }}</td>
-        <td class="align-middle w-25">{{ app.version || '(latest)' }}</td>
+        <td class="align-middle">{{ app.name }}</td>
+        <td class="align-middle">{{ app.version || '(latest)' }}</td>
         <td>
             <a class="btn btn-primary btn-sm" :href="`apps/edit/${app.id}`">
                 <i class="bi-pencil-fill"></i>
