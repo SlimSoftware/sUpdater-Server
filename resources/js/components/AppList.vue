@@ -1,5 +1,5 @@
 <template>
-    <a class="btn btn-primary mb-2" href="/apps/new">Add</a>
+    <a class="btn btn-primary mb-3" href="/apps/new">Add</a>
 
     <div v-if="isLoading" class="d-flex justify-content-center">
         <div class="spinner-border text-primary" role="status">
@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <table v-else-if="apps.length > 0" class="table table-sm table-striped table-bordered w-auto">
+    <table v-else-if="apps.length > 0" class="table table-sm table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -48,3 +48,10 @@ async function fetchApps() {
 
 fetchApps();
 </script>
+
+<style>
+th,
+td {
+    padding: 5px 7.5px !important;
+}
+</style>
