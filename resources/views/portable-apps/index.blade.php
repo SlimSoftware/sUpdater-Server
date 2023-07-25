@@ -1,13 +1,14 @@
 <x-layout title="Portable Apps">
-    <a class="btn btn-primary mb-2" href="{{ route('portable_apps.new') }}">Add new</a>
+    <a class="btn btn-primary mb-2" style="cursor: not-allowed">Add</a>
 
-    @unless($portableApps->isEmpty())
-        <table class="table table-striped table-bordered">
+    @unless ($portableApps->isEmpty())
+        <table class="table table-sm table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th class="w-100">Name</th>
                     <th>Version</th>
                     <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -15,7 +16,16 @@
                     <tr>
                         <td class="align-middle">{{ $portableApp->name }}</td>
                         <td class="align-middle">{{ $portableApp->version }}</td>
-                        <td><a class="btn btn-primary" href="{{ route('portable_apps.edit', $portableApp->id) }}">Edit</a></td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" style="cursor: not-allowed">
+                                <i class="bi-pencil-fill"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" style="cursor: not-allowed">
+                                <i class="bi-trash"></i>
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -24,3 +34,10 @@
         <p><em>No Portable Apps available yet</em></p>
     @endunless
 </x-layout>
+
+<style>
+    th,
+    td {
+        padding: 5px 7.5px !important;
+    }
+</style>
