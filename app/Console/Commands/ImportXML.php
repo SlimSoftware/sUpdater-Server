@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\App;
+use App\Models\Archive;
 use App\Models\DetectInfo;
 use App\Models\Installer;
+use App\Models\PortableApp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,6 +28,7 @@ class ImportXML extends Command
 
     const FILE_PATH = 'import.xml';
     const ARCHS = ['*', 'x86', 'x64'];
+    const EXTRACT_MODES = ['single', 'folder'];
 
     /**
      * Execute the console command.
@@ -100,6 +103,54 @@ class ImportXML extends Command
                 } else {
                     $this->info("Updating first installer for $appName");
                     $existingInstaller->update($valueArray);
+                }
+
+                $this->newLine();
+            }
+
+            foreach ($xml->portable as $portableApp) {
+                $portableName = $portableApp['name'];
+                $existingPortableApp = PortableApp::where('name', $portableName)->first();
+                $extractModeIndex = array_search($portableApp->extractmode, self::EXTRACT_MODES);
+                $valueArray = [
+                    'name' => $portableName,
+                    'version' => $portableApp->version == '(latest)' ? null : $portableApp->version,
+                    'arch' => $archIndex,
+                ];
+
+                $existingArchive = null;
+                if ($existingPortableApp === null) {
+                    $this->info("Creating Portable App $portableName");
+                    $savedPortableApp = PortableApp::create($valueArray);
+                } else {
+                    $this->info("Updating Portable App $portableName");
+                    $existingApp->update($valueArray);
+
+                    if ($existingPortableApp->has('archives')) {
+                        $existingArchive = $existingPortableApp->archives->first();
+                    }
+
+                    $savedPortableApp = $existingPortableApp;
+                }
+
+                $dl = $portableApp->dl;
+                $dl = str_replace('%verDotless%', '%ver.0%', $dl);
+                $dl = str_replace('%verMajorMinor%', '%ver.1%', $dl);
+
+                $valueArray = [
+                    'download_link' => $dl,
+                    'extract_mode' => $extractModeIndex,
+                    'launch_file' => $portableApp->launch,
+                ];
+
+                if ($existingArchive === null) {
+                    $this->info("Creating archive for $portableName");
+                    $archive = new Archive($valueArray);
+                    $archive->portableApp()->associate($savedPortableApp);
+                    $archive->save();
+                } else {
+                    $this->info("Updating first archive for $portableName");
+                    $existingArchive->update($valueArray);
                 }
 
                 $this->newLine();

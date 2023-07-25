@@ -20,8 +20,8 @@ class PortableApp extends Model
      */
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function archive()
+    public function archives()
     {
-        return $this->hasOne(Archive::class);
+        return $this->hasMany(Archive::class);
     }
 }
