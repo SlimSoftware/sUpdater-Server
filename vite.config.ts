@@ -5,10 +5,7 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     plugins: [
         laravel({
-            input: [
-                'resources/scss/app.scss',
-                'resources/js/app.ts',
-            ],
+            input: ['resources/scss/app.scss', 'resources/js/app.ts'],
             refresh: true,
         }),
         vue({
@@ -18,7 +15,7 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        })
+        }),
     ],
     resolve: {
         alias: {
