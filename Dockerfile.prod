@@ -1,8 +1,6 @@
 FROM serversideup/php:8.2-fpm-nginx
 
 WORKDIR /var/www/html
-COPY --chown=webuser . /var/www/html/
-RUN chown -R webuser /var/www/html/storage
-RUN chmod -R 755 /var/www/html/storage
+COPY --chown=webuser:webgroup . /var/www/html/
 
-RUN php artisan key:generate
+RUN php artisan key:generate --force
