@@ -1,7 +1,8 @@
 version: '3'
 services:
     php:
-        image: serversideup/php:8.2-fpm-nginx
+        build:
+            dockerfile: Dockerfile.prod
         ports:
             - 80:80
         volumes:
