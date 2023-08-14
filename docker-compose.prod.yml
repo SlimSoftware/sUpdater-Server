@@ -2,16 +2,17 @@ version: '3'
 services:
     php:
         build:
-            dockerfile: Dockerfile.prod
+            dockerfile: ./docker/Dockerfile.prod
         ports:
             - 80:80
         volumes:
             - .:/var/www/html
         networks:
             - supdater
-        # environment:
-        #     SSL_MODE: "off"
-        #     AUTORUN_LARAVEL_STORAGE_LINK: false
+        environment:
+            AUTORUN_LARAVEL_MIGRATION: true
+            # SSL_MODE: "off"
+            # AUTORUN_LARAVEL_STORAGE_LINK: false
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
