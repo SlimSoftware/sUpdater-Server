@@ -19,7 +19,9 @@ class LegacyAPIController extends Controller
     {
         $xml = new SimpleXMLElement('<defenitions version="1.0"></defenitions>');
         $archs = ['*', 'x86', 'x64'];
-        $apps = App::with(['detectInfo', 'installers'])->orderBy('name')->get();
+        $apps = App::with(['detectInfo', 'installers'])
+            ->orderBy('name')
+            ->get();
 
         foreach ($apps as $app) {
             $detectInfo = $app->detectInfo[0];
@@ -30,7 +32,7 @@ class LegacyAPIController extends Controller
             $appElement->addChild('id', $app->id);
             $appElement->addChild('arch', $archs[$detectInfo->arch]);
 
-            $dl = $installer->parsedDownloadLink();
+            $dl = $installer->downloadLinkParsed;
             $appElement->addChild('dl', $dl);
 
             if ($detectInfo->exe_path) {
@@ -62,7 +64,7 @@ class LegacyAPIController extends Controller
             $appElement->addChild('id', $portableApp->id);
             $appElement->addChild('arch', $archs[$portableApp->arch]);
 
-            $dl = $archive->parsedDownloadLink();
+            $dl = $archive->downloadLinkParsed;
             $appElement->addChild('dl', $dl);
 
             $appElement->addChild('hasChangelog', isset($portableApp->release_notes_url) ? 1 : 0);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Archive extends Model
@@ -25,34 +26,21 @@ class Archive extends Model
         return $this->belongsTo(PortableApp::class);
     }
 
-    public function parsedDownloadLink()
+    protected function downloadLinkParsed(): Attribute
+    {
+        return new Attribute(get: fn() => $this->parseDownloadLink($this->download_link));
+    }
+
+    private function parseDownloadLink()
     {
         $dl = $this->download_link;
         $version = $this->portableApp->version;
 
-        if (strpos($dl, '%ver%') !== false) {
-            $dl = str_replace('%ver%', $version, $dl);
-        }
-        if (strpos($dl, '%verMajorMinor%') !== false) {
-            $dl = str_replace('%verMajorMinor%', $this->convertToMajorMinorVersion($version), $dl);
-        }
-        if (strpos($dl, '%verDotless%') !== false) {
-            $dl = str_replace('%verDotless%', $this->convertToDotlessVersion($version), $dl);
-        }
+        $dl = str_replace('%ver.0%', str_replace('.', '', $version), $dl);
+        $dl = str_replace('%ver.1%', $this->splitVersion($version, 2), $dl);
+        $dl = str_replace('%ver.2%', $this->splitVersion($version, 3), $dl);
+        $dl = str_replace('%ver.3%', $this->splitVersion($version, 4), $dl);
 
         return $dl;
-    }
-
-    private function convertToDotlessVersion(string $version)
-    {
-        return str_replace('.', '', $version);
-    }
-
-    private function convertToMajorMinorVersion(string $version)
-    {
-        $numbers = explode('.', $version, 3);
-        $major = $numbers[0];
-        $minor = $numbers[1];
-        return "$major.$minor";
     }
 }
