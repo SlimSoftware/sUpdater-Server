@@ -57,7 +57,7 @@ class LegacyAPIController extends Controller
         $extractModes = ['folder', 'single'];
 
         foreach ($portableApps as $portableApp) {
-            $archive = $portableApp->archive;
+            $archive = $portableApp->archives[0];
 
             $appElement = $xml->addChild('portable');
             $appElement->addAttribute('name', $portableApp->name);

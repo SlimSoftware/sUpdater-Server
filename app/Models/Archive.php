@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\VariableHelper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,19 +29,8 @@ class Archive extends Model
 
     protected function downloadLinkParsed(): Attribute
     {
-        return new Attribute(get: fn() => $this->parseDownloadLink($this->download_link));
-    }
-
-    private function parseDownloadLink()
-    {
-        $dl = $this->download_link;
-        $version = $this->portableApp->version;
-
-        $dl = str_replace('%ver.0%', str_replace('.', '', $version), $dl);
-        $dl = str_replace('%ver.1%', $this->splitVersion($version, 2), $dl);
-        $dl = str_replace('%ver.2%', $this->splitVersion($version, 3), $dl);
-        $dl = str_replace('%ver.3%', $this->splitVersion($version, 4), $dl);
-
-        return $dl;
+        return new Attribute(
+            get: fn() => VariableHelper::parseDownloadLink($this->download_link, $this->portableApp->version)
+        );
     }
 }
