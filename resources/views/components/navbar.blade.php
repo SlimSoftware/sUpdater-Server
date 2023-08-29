@@ -11,12 +11,13 @@
             <img src="/img/brand.png" width="32" height="32" class="d-inline-block align-top" alt="">
             {{ config('app.name') }}
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            @if (Auth::check())
+        @if (Auth::check())
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
                     @foreach ($routes as $routeName => $pageTitle)
                         <x-navItem :route-name="$routeName" :page-title="$pageTitle" />
@@ -42,7 +43,7 @@
                         </ul>
                     </li>
                 </ul>
-            @endif
-        </div>
+            </div>
+        @endif
     </div>
 </nav>
