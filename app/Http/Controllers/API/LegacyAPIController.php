@@ -48,7 +48,7 @@ class LegacyAPIController extends Controller
             }
 
             $appElement->addChild('switch', $installer->launch_args);
-            $noUpdate = $app->noupdate === 1 ? 'noupdate' : 'setup';
+            $noUpdate = $app->noupdate === true ? 'noupdate' : 'setup';
             $appElement->addChild('type', $noUpdate);
             $appElement->addChild('version', $app->version);
         }
