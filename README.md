@@ -4,12 +4,12 @@ If you want to run your own app information server for sUpdater you can use this
 ## Requirements
 - MySQL
 - PHP 8+
-  - For required PHP extentions see https://laravel.com/docs/9.x/deployment#server-requirements
+  - For required PHP extentions see https://laravel.com/docs/10.x/deployment#server-requirements
 - A webserver
   - Nginx is recommended and will be used in the installation instructions, but apache2 works too
 
 ## Installation
-*to be added*
+You can install sUpdater Server just like any Laravel webapplication. Instructions for Nginx webserver [can be found here](https://laravel.com/docs/10.x/deployment#nginx). Copy the `.env.example` file to a new `.env` file in the root of the project. Set your database credentials in that file and run the `install.sh` script to set up the remaining things. Docker support for production is coming soon. 
 
 ## Setting up the development environment
 1. Make sure you have [Docker and WSL](https://docs.docker.com/desktop/windows/install/) (WSL is only needed if you are using Windows) set up properly. 
