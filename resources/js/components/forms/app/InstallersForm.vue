@@ -137,7 +137,7 @@ function getDetectInfoFromArch(arch: number) {
 
 function getArchNameForInstaller(installer: Installer) {
     const archIndex = props.detectinfo.find((d) => d.id === installer.detectinfo_id)?.arch;
-    return archIndex ? Arch[archIndex] : '';
+    return archIndex != null ? Arch[archIndex] : '';
 }
 
 /** Returns all archs that have detectinfo */
