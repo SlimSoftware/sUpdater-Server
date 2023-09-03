@@ -3,12 +3,21 @@ If you want to run your own app information server for sUpdater you can use this
 
 ## Requirements
 - MySQL
-- PHP
-- A webserver (Apache2 is recommended for out-of-the-box url rewriting)
+- PHP 8+
+  - For required PHP extentions see https://laravel.com/docs/10.x/deployment#server-requirements
+- A webserver
+  - Nginx is recommended and will be used in the installation instructions, but apache2 works too
 
 ## Installation
-Installing sUpdater Server is easy:
-1. Create a MySQL database and a database user. You can use [this SQL script](https://gist.github.com/SlimSoftware/0cbec5cafb9283857a1fdb79613f4a6d) to let this be set up for you. If you choose to do so, you will only need to specify a password for the database user in the SQL script (see the comment for the place where it needs to go) and run it.
-2. Download [the latest sUpdater Server release](https://github.com/SlimSoftware/sUpdater-Server/releases) and unzip the archive to the desired folder in the webserver root folder.
-3. Now you will need to create a configuration file containing the database user credentials. You can use the file *Config.sample.php* to create the configuration file. Fill in the database host, database name, username and password of the database user. If you used the SQL script to setup the database for you both the database name and username of the database user are *supdater*. Save the completed configuration file as *Config.php*.
-4. Go to http://*webserver url*/install.php in your webbrowser. Follow the instructions on screen and you are done.
+You can install sUpdater Server just like any Laravel webapplication. Instructions for Nginx webserver [can be found here](https://laravel.com/docs/10.x/deployment#nginx). Copy the `.env.example` file to a new `.env` file in the root of the project. Set your database credentials in that file and run the `install.sh` script to set up the remaining things. Docker support for production is coming soon. 
+
+## Setting up the development environment
+1. Make sure you have [Docker and WSL](https://docs.docker.com/desktop/windows/install/) (WSL is only needed if you are using Windows) set up properly. 
+1. Clone the repository with Git. If you use Windows, make sure you do this in a WSL terminal in your home directory. If you use VS Code as IDE, you should install [this extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl).
+1. Install the Composer dependencies with [this method](https://laravel.com/docs/9.x/sail#installing-composer-dependencies-for-existing-projects) (as we do not have access to Sail just yet)
+1. Now we have access to Sail. You can [configure a bash alias](https://laravel.com/docs/9.x/sail#configuring-a-bash-alias) so you can type `sail` instead of `././vendor/bin/sail`. Put this alias in the (new) file `~/.bash_aliases` (under WSL if you use this).
+1. Create a .env file in the root of the project directory: an example development configuration is included with the repo in the `.env.example.dev` file in the root directory.
+1. Execute the `sail up -d` command to build and run the container. This will take a while the first time. You will need to execute this command every time you want to run the app again. `sail down` stops the app/container.
+1. Once the containers are started, run `sail artisan migrate` to create the required database tables.
+1. Go to [http://localhost](http://localhost) in your browser to view the web app. The first time you will see an error about the app encryption key. Click the generate button and refresh the page. The app and your development environment should now be up and running.
+1. If you want to edit CSS styling or JavaScript, make sure to run `sail npm run dev` before making changes so these are reflected in your browser. This will compile the front-end assets for development. Make sure to run `sail npm run build` before moving to production.
