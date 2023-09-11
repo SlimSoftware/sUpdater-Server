@@ -6,6 +6,7 @@ class VariableHelper
     public static function parseDownloadLink(string $downloadLink, string|null $version): string
     {
         if ($version !== null) {
+            $downloadLink = str_replace('%ver%', $version, $downloadLink);
             $downloadLink = str_replace('%ver.0%', str_replace('.', '', $version), $downloadLink);
             $downloadLink = str_replace('%ver.1%', self::splitVersion($version, 2), $downloadLink);
             $downloadLink = str_replace('%ver.2%', self::splitVersion($version, 3), $downloadLink);
