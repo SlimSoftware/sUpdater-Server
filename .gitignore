@@ -18,3 +18,5 @@ Homestead.json
 
 ### Vite ###
 /public/hot
+
+/build/output
