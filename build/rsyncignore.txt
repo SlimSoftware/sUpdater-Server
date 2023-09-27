@@ -13,6 +13,7 @@ install.sh
 vendor/
 node_modules/
 build/ 
+public/hot
 bootstrap/cache/*
 storage/app/*
 storage/framework/cache/*
