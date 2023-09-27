@@ -28,5 +28,5 @@ Route::get('/v2/apps/website/{id}', [AppAPIController::class, 'website']);
 
 // API v1
 Route::get('/apps', [LegacyAPIController::class, 'apps_v1']);
-Route::get('/changelog', [AppAPIController::class, 'releaseNotes']);
-Route::get('/website', [AppAPIController::class, 'website']);
+Route::get('/changelog', [LegacyAPIController::class, 'changelog']);
+Route::get('/website', [LegacyAPIController::class, 'website']);

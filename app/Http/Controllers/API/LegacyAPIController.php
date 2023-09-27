@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\App;
 use App\Models\PortableApp;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use SimpleXMLElement;
 
 class LegacyAPIController extends Controller
@@ -90,10 +90,14 @@ class LegacyAPIController extends Controller
         } elseif ($request->query('pid')) {
             $model = PortableApp::findOrFail($request->query('pid'));
         } else {
-            return response()->status(400);
+            return response(null, 400);
         }
 
-        return redirect($model->release_notes_url);
+        if ($model->release_notes_url) {
+            return redirect($model->release_notes_url);
+        } else {
+            return response(null, 404);
+        }
     }
 
     /**
@@ -108,9 +112,13 @@ class LegacyAPIController extends Controller
         } elseif ($request->query('pid')) {
             $model = PortableApp::findOrFail($request->query('pid'));
         } else {
-            return response()->status(400);
+            return response(null, 400);
         }
 
-        return redirect($model->website_url);
+        if ($model->website_url) {
+            return redirect($model->website_url);
+        } else {
+            return response(null, 404);
+        }
     }
 }
