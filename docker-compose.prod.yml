@@ -10,8 +10,6 @@ services:
             - supdater
         environment:
             AUTORUN_LARAVEL_MIGRATION: true
-            # SSL_MODE: "off"
-            # AUTORUN_LARAVEL_STORAGE_LINK: false
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -23,12 +21,6 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
         networks:
             - supdater
-    # memcached:
-    #     image: 'memcached:alpine'
-    #     ports:
-    #         - '11211:11211'
-    #     networks:
-    #         - supdater
 networks:
     supdater:
         driver: bridge
