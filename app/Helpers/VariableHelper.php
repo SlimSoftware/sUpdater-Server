@@ -22,7 +22,7 @@ class VariableHelper
             return '';
         }
 
-        $numbers = explode($version, '.', $digits);
+        $numbers = explode('.', $version, $digits);
         $newVersion = implode('.', $numbers);
 
         return $newVersion;
