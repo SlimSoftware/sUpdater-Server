@@ -10,3 +10,7 @@ mv docker-compose.prod.yml docker-compose.yml
 npm install --omit=dev
 npm run build
 composer install --no-dev
+
+cd ../
+tag=`git tag --points-at HEAD`
+zip -r sUpdater-Server-$tag.zip output

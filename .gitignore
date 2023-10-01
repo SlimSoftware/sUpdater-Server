@@ -22,3 +22,4 @@ Homestead.json
 /build/output
 
 .vscode/
+build/*.zip
