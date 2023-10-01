@@ -20,7 +20,7 @@ class Installer extends Model
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['app', 'created_at', 'updated_at'];
 
     /**
      * The accessors to append to the model's array form.
