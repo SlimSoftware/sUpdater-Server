@@ -11,6 +11,8 @@ npm install --omit=dev
 npm run build
 composer install --no-dev
 
-cd ../
-tag=`git tag --points-at HEAD`
-zip -r sUpdater-Server-$tag.zip output
+cd ..
+tag=`git describe --abbrev=0 --tags`
+mv output sUpdater-Server-$tag
+zip -r sUpdater-Server-$tag.zip sUpdater-Server-$tag
+mv sUpdater-Server-$tag output
