@@ -87,10 +87,11 @@ import Arch from '../../../enums/Arch';
 const props = defineProps({
     detectinfo: {
         type: Array<DetectInfo>,
-        default: () => [],
+        default: [],
     },
     appId: {
         type: Number,
+        default: undefined,
     },
 });
 

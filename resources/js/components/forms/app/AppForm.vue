@@ -63,7 +63,7 @@
                 :installers="app?.installers"
                 :detectinfo="app?.detectinfo"
                 :app-id="app?.id"
-                :version="app?.version != undefined ? app.version : ''"
+                :version="appForm.version ?? ''"
             />
         </template>
     </AppFormTabs>
@@ -77,7 +77,10 @@ import DetectInfoForm from './DetectInfoForm.vue';
 import InstallersForm from './InstallersForm.vue';
 
 const props = defineProps({
-    id: String,
+    id: {
+        type: String,
+        default: undefined,
+    },
 });
 
 const isLoading = ref(true);

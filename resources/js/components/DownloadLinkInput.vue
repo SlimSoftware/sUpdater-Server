@@ -14,8 +14,14 @@ import { parseText, containsVariables } from '../variable-parser';
 import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
 const props = defineProps({
-    version: String,
-    modelValue: String,
+    version: {
+        type: String,
+        default: '',
+    },
+    modelValue: {
+        type: String,
+        default: '',
+    },
 });
 const emit = defineEmits(['update:modelValue']);
 

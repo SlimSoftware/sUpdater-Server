@@ -26,11 +26,11 @@ import { ref } from 'vue';
 const props = defineProps({
     active: {
         type: Number,
-        default: () => 0,
+        default: 0,
     },
     isNew: {
         type: Boolean,
-        default: () => true,
+        default: true,
     },
 });
 

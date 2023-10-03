@@ -23,7 +23,6 @@ const props = defineProps({
         type: Object as () => App,
         required: true,
     },
-    editLink: String,
 });
 
 const itemVisible = ref(true);

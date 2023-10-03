@@ -1,7 +1,7 @@
 <template>
     <details>
         <summary>Available variables</summary>
-        <div v-for="(variableValue, variableName) in variables">
+        <div v-for="(variableValue, variableName) in variables" :key="variableName">
             {{ variableIndicator }}{{ variableName }}{{ variableIndicator }} = {{ variableValue }}
         </div>
     </details>
@@ -9,7 +9,13 @@
 
 <script lang="ts" setup>
 defineProps({
-    variables: Object,
-    variableIndicator: String,
+    variables: {
+        type: Object,
+        default: () => ({}),
+    },
+    variableIndicator: {
+        type: String,
+        default: '',
+    },
 });
 </script>

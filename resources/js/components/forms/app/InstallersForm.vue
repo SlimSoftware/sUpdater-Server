@@ -69,17 +69,19 @@ import Arch from '../../../enums/Arch';
 const props = defineProps({
     installers: {
         type: Array<Installer>,
-        default: () => [],
+        default: [],
     },
     detectinfo: {
         type: Array<DetectInfo>,
-        default: () => [],
+        default: [],
     },
     version: {
         type: String,
+        default: '',
     },
     appId: {
         type: Number,
+        default: undefined,
     },
 });
 
