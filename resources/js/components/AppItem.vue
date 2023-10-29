@@ -28,8 +28,11 @@ const props = defineProps({
 const itemVisible = ref(true);
 
 async function onDeleteConfirmed() {
-    const response = await api.delete(`apps/${props.app.id}`);
-    if (response?.status === 204) {
+    const response = await api.delete(`apps/${props.app.id}`, {
+        baseURL: '/',
+    });
+
+    if (response.status === 204) {
         itemVisible.value = false;
     }
 }

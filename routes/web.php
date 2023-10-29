@@ -20,6 +20,7 @@ Route::redirect('/', '/apps');
 
 Route::middleware('auth')->group(function () {
     Route::get('/apps', [AppController::class, 'index'])->name('apps');
+    Route::delete('/apps/{id}', [AppController::class, 'delete'])->name('apps.delete');
 
     Route::get('/apps/new', [AppController::class, 'new'])->name('apps.new');
     Route::post('/apps/new', [AppController::class, 'create']);
@@ -34,8 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/apps/edit/installers', [InstallerController::class, 'create']);
     Route::put('/apps/edit/installers/{id}', [InstallerController::class, 'update']);
     Route::delete('/apps/edit/installers/{id}', [InstallerController::class, 'delete']);
-
-    Route::delete('/apps/delete/{id}', [AppController::class, 'delete'])->name('apps.delete');
 
     Route::get('/portable-apps', [PortableAppController::class, 'index'])->name('portable_apps');
 

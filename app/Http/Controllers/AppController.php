@@ -80,10 +80,10 @@ class AppController extends Controller
     public function delete(int $id)
     {
         $app = App::findOrFail($id);
-        $app->detectInfo()->delete();
         $app->installers()->delete();
+        $app->detectInfo()->delete();
         $app->delete();
 
-        return redirect()->route('apps');
+        return response()->noContent();
     }
 }
