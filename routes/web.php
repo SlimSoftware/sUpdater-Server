@@ -4,6 +4,7 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\DetectInfoController;
 use App\Http\Controllers\InstallerController;
 use App\Http\Controllers\PortableAppController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/portable-apps/new', [PortableAppController::class, 'new'])->name('portable_apps.new');
 
     Route::get('/portable-apps/edit/{id}', [PortableAppController::class, 'edit'])->name('portable_apps.edit');
+
+    Route::post('/upload', [UploadController::class, 'new']);
 });
 
 require __DIR__ . '/auth.php';
