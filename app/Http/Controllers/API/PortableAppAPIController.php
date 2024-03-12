@@ -24,14 +24,25 @@ class PortableAppAPIController extends Controller
 
     /**
      * Get all portable apps in a category
-     * URL: /api/v2/portable-apps/category/{id} or /api/v2/portable-apps/category/{slug}
+     * URL: /api/v2/portable-apps/category/{id}
      * Method: GET
      */
-    public function getCategory(mixed $category)
+    public function getCategoryById(int $id)
     {
-        $category = is_int($category)
-            ? Category::findOrFail($category)
-            : Category::where('slug', $category)->firstOrFail();
+        $category = Category::findOrFail($id);
+        $apps = $category->portableApps;
+
+        return response()->json($apps);
+    }
+
+    /**
+     * Get all portable apps in a category
+     * URL: /api/v2/portable-apps/category/{slug}
+     * Method: GET
+     */
+    public function getCategoryBySlug(string $slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
         $apps = $category->portableApps;
 
         return response()->json($apps);

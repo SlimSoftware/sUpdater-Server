@@ -12,11 +12,39 @@ use SimpleXMLElement;
 class LegacyAPIController extends Controller
 {
     /**
-     * Legacy API endpoint to get all apps or all apps in a category
-     * URL: /api/v1/apps or /api/v1/category/{id} or /api/v1/category/{slug}
+     * Legacy API endpoint to get all apps
+     * URL: /api/apps 
      * Method: GET
      */
-    public function apps_v1(mixed $category = null)
+    public function apps()
+    {
+        return self::getAppXmlResponse();
+    }
+
+    /**
+     * Legacy API endpoint to get all apps in a category 
+     * URL: /api/apps/category/{id} 
+     * Method: GET
+     */
+    public function getCategoryById(int $id)
+    {
+        $category = Category::findOrFail($id);
+        return self::getAppXmlResponse($category);
+    }
+
+    /**
+     * Legacy API endpoint to get all apps in a category 
+     * URL: /api/apps/category/{slug} 
+     * Method: GET
+     */
+    public function getCategoryBySlug(string $slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+        return self::getAppXmlResponse($category);
+    }
+
+    /** Returns the XML for all apps and portable apps, optionally in the given category */
+    private function getAppXmlResponse(Category $category = null) 
     {
         $xml = new SimpleXMLElement('<defenitions version="1.0"></defenitions>');
         $archs = ['*', 'x86', 'x64'];
@@ -26,9 +54,6 @@ class LegacyAPIController extends Controller
                 ->doesntHave('categories')
                 ->get();
         } else {
-            $category = is_int($category)
-                ? Category::findOrFail($category)
-                : Category::where('slug', $category)->firstOrFail();
             $apps = $category->apps;
         }
 
