@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PortableApp extends Model
+class Category extends Model
 {
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'app_id', 'portable_app_id', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -20,13 +20,13 @@ class PortableApp extends Model
      */
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function archives()
+    public function apps()
     {
-        return $this->hasMany(Archive::class);
+        return $this->belongsToMany(App::class);
     }
 
-    public function categories()
+    public function portableApps()
     {
-        return $this->belongsToMany(Category::class, 'portable_app_category');
+        return $this->belongsToMany(PortableApp::class, 'portable_app_category');
     }
 }

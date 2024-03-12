@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\PortableApp;
 
 class PortableAppAPIController extends Controller
@@ -14,8 +15,26 @@ class PortableAppAPIController extends Controller
      */
     public function getAll()
     {
-        $portableApps = PortableApp::with(['archives'])->get();
+        $portableApps = PortableApp::orderBy('name')
+            ->doesntHave('categories')
+            ->get();
+
         return response()->json($portableApps);
+    }
+
+    /**
+     * Get all portable apps in a category
+     * URL: /api/v2/portable-apps/category/{id} or /api/v2/portable-apps/category/{slug}
+     * Method: GET
+     */
+    public function getCategory(mixed $category)
+    {
+        $category = is_int($category)
+            ? Category::findOrFail($category)
+            : Category::where('slug', $category)->firstOrFail();
+        $apps = $category->portableApps;
+
+        return response()->json($apps);
     }
 
     /**
@@ -25,7 +44,7 @@ class PortableAppAPIController extends Controller
      */
     public function get(int $id)
     {
-        $portableApp = PortableApp::with(['archives'])->findOrFail($id);
+        $portableApp = PortableApp::findOrFail($id);
         return response()->json($portableApp);
     }
 }

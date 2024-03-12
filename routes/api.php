@@ -22,12 +22,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // API v2
-Route::get('/v2/apps', [AppAPIController::class, 'getAll']);
-Route::get('/v2/apps/{id}', [AppAPIController::class, 'get']);
-Route::get('/v2/portable-apps', [PortableAppAPIController::class, 'getAll']);
+Route::get('/v2/apps/', [AppAPIController::class, 'getAll']);
+Route::get('/v2/apps/category/{slug}', [AppAPIController::class, 'getCategory']);
+Route::get('/v2/apps/category/{id:[0-9]+}', [AppAPIController::class, 'getCategory']);
+Route::get('/v2/portable-apps/', [PortableAppAPIController::class, 'getAll']);
+Route::get('/v2/portable-apps/category/{id:[0-9]+}', [PortableAppAPIController::class, 'getCategory']);
+Route::get('/v2/portable-apps/category/{slug}', [PortableAppAPIController::class, 'getCategory']);
 Route::get('/v2/portable-apps/{id}', [PortableAppAPIController::class, 'get']);
 
 // API v1
 Route::get('/apps', [LegacyAPIController::class, 'apps_v1']);
+Route::get('/apps/category/{categoryId:[0-9]+}', [LegacyAPIController::class, 'apps_v1']);
+Route::get('/apps/category/{categorySlug}', [LegacyAPIController::class, 'apps_v1']);
 Route::get('/changelog', [LegacyAPIController::class, 'changelog']);
 Route::get('/website', [LegacyAPIController::class, 'website']);

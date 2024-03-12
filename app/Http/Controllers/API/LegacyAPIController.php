@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\App;
+use App\Models\Category;
 use App\Models\PortableApp;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
@@ -11,17 +12,25 @@ use SimpleXMLElement;
 class LegacyAPIController extends Controller
 {
     /**
-     * Legacy API endpoint to get all apps
-     * URL: /api/v1/apps
+     * Legacy API endpoint to get all apps or all apps in a category
+     * URL: /api/v1/apps or /api/v1/category/{id} or /api/v1/category/{slug}
      * Method: GET
      */
-    public function apps_v1()
+    public function apps_v1(mixed $category = null)
     {
         $xml = new SimpleXMLElement('<defenitions version="1.0"></defenitions>');
         $archs = ['*', 'x86', 'x64'];
-        $apps = App::with(['detectInfo', 'installers'])
-            ->orderBy('name')
-            ->get();
+
+        if ($category === null) {
+            $apps = App::orderBy('name')
+                ->doesntHave('categories')
+                ->get();
+        } else {
+            $category = is_int($category)
+                ? Category::findOrFail($category)
+                : Category::where('slug', $category)->firstOrFail();
+            $apps = $category->apps;
+        }
 
         foreach ($apps as $app) {
             $detectInfo = $app->detectInfo[0];
@@ -53,7 +62,14 @@ class LegacyAPIController extends Controller
             $appElement->addChild('version', $app->version);
         }
 
-        $portableApps = PortableApp::orderBy('name')->get();
+        if ($category === null) {
+            $portableApps = PortableApp::orderBy('name')
+                ->doesntHave('categories')
+                ->get();
+        } else {
+            $portableApps = $category->portableApps;
+        }
+
         $extractModes = ['folder', 'single'];
 
         foreach ($portableApps as $portableApp) {
