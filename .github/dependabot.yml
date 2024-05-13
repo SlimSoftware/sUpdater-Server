@@ -4,7 +4,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      composer:
+        applies-to: version-updates
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      npm:
+        applies-to: version-updates
