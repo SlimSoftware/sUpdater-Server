@@ -6,11 +6,13 @@ updates:
       interval: "daily"
     groups:
       composer:
-        applies-to: version-updates
+          patterns:
+            - "*"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
     groups:
       npm:
-        applies-to: version-updates
+        patterns:
+          - "*"
