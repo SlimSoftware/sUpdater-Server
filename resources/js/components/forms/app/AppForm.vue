@@ -1,4 +1,5 @@
 <template>
+    <h1 class="mb-3">{{ props.id ? `Edit ${appForm.name}` : 'Add App' }}</h1>
     <AppFormTabs :is-new="id === undefined">
         <template #appContent>
             <div v-if="errorMessage" class="text-danger">
