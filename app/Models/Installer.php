@@ -27,7 +27,7 @@ class Installer extends Model
      *
      * @var array
      */
-    protected $appends = ['download_link_parsed'];
+    protected $appends = ['download_link_raw'];
 
     public function detectinfo()
     {
@@ -39,8 +39,13 @@ class Installer extends Model
         return $this->belongsTo(App::class);
     }
 
-    protected function downloadLinkParsed(): Attribute
+    protected function downloadLink(): Attribute
     {
-        return new Attribute(get: fn() => VariableHelper::parseDownloadLink($this->download_link, $this->app->version));
+        return new Attribute(get: fn() => VariableHelper::parseDownloadLink($this->getRawOriginal('download_link'), $this->app->version));
+    }
+
+    protected function downloadLinkRaw(): Attribute
+    {
+        return new Attribute(get: fn() => $this->getRawOriginal('download_link'));
     }
 }

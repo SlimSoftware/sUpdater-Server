@@ -22,15 +22,27 @@ class Archive extends Model
      */
     protected $hidden = ['created_at', 'updated_at'];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['download_link_raw'];
+
     public function portableApp()
     {
         return $this->belongsTo(PortableApp::class);
     }
 
-    protected function downloadLinkParsed(): Attribute
+    protected function downloadLink(): Attribute
     {
         return new Attribute(
-            get: fn() => VariableHelper::parseDownloadLink($this->download_link, $this->portableApp->version)
+            get: fn() => VariableHelper::parseDownloadLink($this->getRawOriginal('download_link'), $this->portableApp->version)
         );
+    }
+
+    protected function downloadLinkRaw(): Attribute
+    {
+        return new Attribute(get: fn() => $this->getRawOriginal('download_link'));
     }
 }
