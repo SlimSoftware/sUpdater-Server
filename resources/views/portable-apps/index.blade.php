@@ -1,5 +1,6 @@
 <x-layout title="Portable Apps">
-    <a class="btn btn-primary mb-2" style="cursor: not-allowed">Add</a>
+    <h1 class="d-inline">Portable Apps</h1>
+    <a class="btn btn-primary ms-3 mb-3" style="cursor: not-allowed">Add</a>
 
     @unless ($portableApps->isEmpty())
         <table class="table table-sm table-striped table-bordered">
