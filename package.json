@@ -1,6 +1,7 @@
 {
     "private": true,
     "name": "supdater-server",
+    "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
