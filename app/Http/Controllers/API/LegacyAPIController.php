@@ -32,7 +32,7 @@ class LegacyAPIController extends Controller
             $appElement->addChild('id', $app->id);
             $appElement->addChild('arch', $archs[$detectInfo->arch]);
 
-            $dl = $installer->downloadLinkParsed;
+            $dl = $installer->download_link;
             $appElement->addChild('dl', $dl);
 
             if ($detectInfo->exe_path) {
@@ -64,7 +64,7 @@ class LegacyAPIController extends Controller
             $appElement->addChild('id', $portableApp->id);
             $appElement->addChild('arch', $archs[$portableApp->arch]);
 
-            $dl = $archive->downloadLinkParsed;
+            $dl = $archive->download_link;
             $appElement->addChild('dl', $dl);
 
             $appElement->addChild('hasChangelog', isset($portableApp->release_notes_url) ? 1 : 0);
