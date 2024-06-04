@@ -1,3 +1,3 @@
-<x-layout title="Add App">
+<x-layout title="Add App" :showTitle="false">
     <app-form />
 </x-layout>

@@ -1,3 +1,12 @@
+@php
+    $appName = config('app.name');
+@endphp
+
+@props([
+    'title' => $appName,
+    'showTitle' => true,
+])
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +14,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ isset($title) ? "$title - " : '' }}{{ config('app.name') }}</title>
+    <title>{{ $title !== $appName ? "$title - $appName" : $appName }}</title>
 
     <link rel="shortcut icon" href="/img/favicon/favicon.ico">
     <link rel="icon" sizes="16x16 32x32 64x64" href="/img/favicon/favicon.ico">
@@ -34,6 +43,10 @@
 <body>
     <x-navbar />
     <main class="container mt-2" id="app">
+        @if ($showTitle != false)
+            <h1>{{ $title }}</h1>
+        @endif
+
         {{ $slot }}
     </main>
 </body>

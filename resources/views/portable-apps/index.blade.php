@@ -1,4 +1,4 @@
-<x-layout title="Portable Apps">
+<x-layout title="Portable Apps" :showTitle="false">
     <h1 class="d-inline">Portable Apps</h1>
     <a class="btn btn-primary ms-3 mb-3" style="cursor: not-allowed">Add</a>
 

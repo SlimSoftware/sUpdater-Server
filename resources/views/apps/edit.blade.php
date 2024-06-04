@@ -1,4 +1,4 @@
-<x-layout title="Edit App">
+<x-layout title="Edit App" :showTitle="false">
     <app-form id="{{ $id }}">
         <template #csrf>
             {{ csrf_field() }}
