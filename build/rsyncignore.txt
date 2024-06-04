@@ -12,7 +12,7 @@ install.sh
 .git/
 vendor/
 node_modules/
-output/
+build/
 public/hot
 bootstrap/cache/*
 storage/app/*
