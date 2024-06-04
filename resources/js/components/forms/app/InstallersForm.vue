@@ -41,7 +41,7 @@
         </div>
 
         <div class="mb-3">
-            <DownloadLinkInput v-model="selectedInstaller.download_link" :version="version" />
+            <DownloadLinkInput v-model="selectedInstaller.download_link_raw" :version="version" />
         </div>
 
         <div class="mb-3">
