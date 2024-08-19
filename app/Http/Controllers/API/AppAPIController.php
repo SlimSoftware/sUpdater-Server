@@ -14,7 +14,7 @@ class AppAPIController extends Controller
      */
     public function getAll()
     {
-        $apps = App::with(['detectinfo', 'installers'])->get();
+        $apps = App::with(['detectinfo', 'installers'])->orderBy('name')->get();
         return response()->json($apps);
     }
 

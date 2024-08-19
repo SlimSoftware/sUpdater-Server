@@ -14,7 +14,7 @@ class PortableAppAPIController extends Controller
      */
     public function getAll()
     {
-        $portableApps = PortableApp::with(['archives'])->get();
+        $portableApps = PortableApp::with(['archives'])->orderBy('name')->get();
         return response()->json($portableApps);
     }
 
