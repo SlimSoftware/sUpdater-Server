@@ -16,7 +16,7 @@ class InstallerController extends Controller
 
         $installer = new Installer([
             'arch' => $request->input('arch'),
-            'download_link' => $request->input('download_link'),
+            'download_link' => $request->input('download_link_raw'),
             'launch_args' => $request->input('launch_args'),
         ]);
         $installer->app()->associate($app);
@@ -32,7 +32,7 @@ class InstallerController extends Controller
 
         $installer->update([
             'arch' => $request->input('arch'),
-            'download_link' => $request->input('download_link'),
+            'download_link' => $request->input('download_link_raw'),
             'launch_args' => $request->input('launch_args'),
         ]);
 
