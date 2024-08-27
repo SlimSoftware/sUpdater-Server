@@ -13,11 +13,11 @@
         "@shufo/prettier-plugin-blade": "^1.13.1",
         "@types/lodash": "^4.17.7",
         "@types/webpack-env": "^1.18.5",
-        "@typescript-eslint/eslint-plugin": "^8.1.0",
-        "@typescript-eslint/parser": "^8.1.0",
+        "@typescript-eslint/eslint-plugin": "^8.3.0",
+        "@typescript-eslint/parser": "^8.3.0",
         "@vitejs/plugin-vue": "^5.1.2",
         "@vue/tsconfig": "^0.5.1",
-        "axios": "^1.7.4",
+        "axios": "^1.7.5",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.2",
         "eslint": "^8.42.0",
@@ -31,7 +31,7 @@
         "sass": "^1.77.8",
         "ts-loader": "^9.4.2",
         "typescript": "^5.5.4",
-        "vite": "^5.4.1",
+        "vite": "^5.4.2",
         "vue": "^3.4.38",
         "vue-eslint-parser": "^9.3.0"
     }
