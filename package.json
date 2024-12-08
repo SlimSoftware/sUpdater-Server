@@ -11,7 +11,6 @@
         "@popperjs/core": "^2.11.6",
         "@prettier/plugin-php": "^0.22.2",
         "@shufo/prettier-plugin-blade": "^1.13.1",
-        "@types/lodash": "^4.17.7",
         "@types/webpack-env": "^1.18.5",
         "@typescript-eslint/eslint-plugin": "^8.1.0",
         "@typescript-eslint/parser": "^8.1.0",
@@ -25,7 +24,6 @@
         "eslint-plugin-prettier": "^5.2.1",
         "eslint-plugin-vue": "^9.27.0",
         "laravel-vite-plugin": "^1.0.5",
-        "lodash": "^4.17.19",
         "postcss": "^8.4.41",
         "prettier": "^3.3.3",
         "sass": "^1.77.8",
@@ -34,5 +32,9 @@
         "vite": "^5.4.1",
         "vue": "^3.4.38",
         "vue-eslint-parser": "^9.3.0"
+    },
+    "dependencies": {
+        "pinia": "^2.2.7",
+        "vue-router": "^4.5.0"
     }
 }

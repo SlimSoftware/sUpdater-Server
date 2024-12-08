@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import api from '../api';
+import api from '../../api';
 import AppItem from './AppItem.vue';
 
 const apps = ref<App[]>([]);
@@ -42,7 +42,7 @@ async function fetchApps() {
     } catch (error) {
         if (error instanceof Error) {
             fetchError.value = true;
-            console.error('Error fetching apps' + error?.message ?? '');
+            console.error('Error fetching apps'.concat(error?.message ?? ''));
         }
     }
 }
