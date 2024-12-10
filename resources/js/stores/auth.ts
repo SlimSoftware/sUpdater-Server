@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 export const useAuthStore = defineStore('auth', () => {
     const authenticated = ref(false);
     const user = ref();
+
     const token = computed({
         get: () => localStorage.getItem('token'),
         set: (value) => localStorage.setItem('token', value ?? '')
@@ -24,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function checkAuth() {
         const response = await axios.get('authenticated');
-        return response.data.authenticated;
+        return response.data.authenticated as boolean;
     }
 
     return { authenticated, logIn, logOut, user, checkAuth, parseToken };

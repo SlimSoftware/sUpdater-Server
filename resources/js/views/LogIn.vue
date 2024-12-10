@@ -4,14 +4,7 @@
     <form method="POST" action="/login">
         <div class="col-md-4 mb-3">
             <label for="username">Username</label>
-            <input
-                id="username"
-                type="text"
-                class="form-control"
-                name="username"
-                value="{{ old('username') }}"
-                required
-            />
+            <input id="username" type="text" class="form-control" name="username" required />
         </div>
 
         <div class="col-md-4 mb-3">

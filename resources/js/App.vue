@@ -1,14 +1,28 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 import NavBar from './components/layout/NavBar.vue';
 import { useAuthStore } from './stores/auth';
+import { onMounted } from 'vue';
+import { useGlobalStore } from './stores/global';
+
+const router = useRouter();
 
 const authStore = useAuthStore();
+const globalStore = useGlobalStore();
 
-authStore.checkAuth();
+onMounted(async () => {
+    const authenticated = await authStore.checkAuth();
+    if (!authenticated) {
+        router.replace('login');
+    }
+});
 </script>
 
 <template>
     <NavBar />
-    <RouterView />
+
+    <main class="container mt-2">
+        <h1>{{ globalStore.pageTitle }}</h1>
+        <RouterView />
+    </main>
 </template>
