@@ -1,4 +1,4 @@
-interface DetectInfo {
+export default interface DetectInfo {
     id: number;
     app_id: number;
     arch: number;

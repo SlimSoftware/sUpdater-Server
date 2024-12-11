@@ -11,7 +11,7 @@ class AuthAPIController extends Controller
 {
     public function login(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('username', $request->username)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -22,8 +22,9 @@ class AuthAPIController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'token' => $token
-        ], 201);
+            'token' => $token,
+            'user' => $user
+        ], 200);
     }
 
     public function checkAuthenticated() {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import LoginForm from '../types/LoginForm';
 
 export const useAuthStore = defineStore('auth', () => {
     const authenticated = ref(false);
@@ -11,9 +12,14 @@ export const useAuthStore = defineStore('auth', () => {
         set: (value) => localStorage.setItem('token', value ?? '')
     });
 
-    async function logIn(payload: object) {
-        await axios.post('logout', payload);
-        user.value = null;
+    async function logIn(loginForm: LoginForm) {
+        await axios.get('/sanctum/csrf-cookie');
+        const response = await axios.post('login', loginForm);
+
+        if (response.status === 200) {
+            token.value = response.data.token;
+            user.value = response.data.user;
+        }
     }
 
     async function logOut() {

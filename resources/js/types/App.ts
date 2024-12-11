@@ -1,4 +1,4 @@
-interface App {
+export default interface App {
     id: number;
     name: string;
     version: string | null;

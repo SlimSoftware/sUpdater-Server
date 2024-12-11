@@ -1,19 +1,30 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue';
+import LoginForm from '../types/LoginForm';
+import { useAuthStore } from '../stores/auth';
+
+const authStore = useAuthStore();
+
+const loginForm = ref<LoginForm>({} as LoginForm);
+
+async function submitLoginForm() {
+    await authStore.logIn(loginForm.value);
+}
+</script>
 
 <template>
-    <form method="POST" action="/login">
+    <form :onsubmit="submitLoginForm">
         <div class="col-md-4 mb-3">
             <label for="username">Username</label>
-            <input id="username" type="text" class="form-control" name="username" required />
+            <input v-model="loginForm.username" type="text" class="form-control" required />
         </div>
 
         <div class="col-md-4 mb-3">
             <label for="password">Password</label>
             <input
-                id="password"
+                v-model="loginForm.password"
                 type="password"
                 class="form-control"
-                name="password"
                 autocomplete="current-password"
                 required
             />

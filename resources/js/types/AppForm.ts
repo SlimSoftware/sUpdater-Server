@@ -1,4 +1,4 @@
-interface AppForm {
+export default interface AppForm {
     name: string;
     version: string | null;
     noupdate: boolean;

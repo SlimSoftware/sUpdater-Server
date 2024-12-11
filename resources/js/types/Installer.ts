@@ -1,4 +1,4 @@
-interface Installer {
+export default interface Installer {
     id: number;
     app_id: number;
     arch: number;
