@@ -80,19 +80,19 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import api from '../../../api';
 import DeleteButton from '../../DeleteButton.vue';
 import Arch from '../../../enums/Arch';
+import axios from 'axios';
 
 const props = defineProps({
     detectinfo: {
         type: Array<DetectInfo>,
-        default: [],
+        default: []
     },
     appId: {
         type: Number,
-        default: undefined,
-    },
+        default: undefined
+    }
 });
 
 const detectinfo = ref(props.detectinfo);
@@ -135,11 +135,11 @@ function editClicked(index: number) {
 async function save() {
     if (selectedDetectInfo.value) {
         try {
-            await api.request({
+            await axios.request({
                 baseURL: '/apps/edit',
                 url: selectedDetectInfo.value.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
                 method: selectedDetectInfo.value.id ? 'PUT' : 'POST',
-                data: selectedDetectInfo.value,
+                data: selectedDetectInfo.value
             });
 
             if (!selectedDetectInfo.value.id) {
@@ -150,7 +150,7 @@ async function save() {
             }
         } catch (error) {
             console.error(
-                'An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : ''),
+                'An error occurred while saving detect info'.concat(error instanceof Error ? `: ${error.message}` : '')
             );
         }
     }
@@ -158,17 +158,16 @@ async function save() {
 
 async function deleteConfirmed(id: number) {
     try {
-        await api.request({
-            method: 'DELETE',
+        await axios.request({
             baseURL: '/apps/edit',
-            url: `detectinfo/${id}`,
+            url: `detectinfo/${id}`
         });
 
         detectinfo.value = detectinfo.value.filter((i) => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
         console.error(
-            'An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : ''),
+            'An error occurred while deleting detect info'.concat(error instanceof Error ? `: ${error.message}` : '')
         );
     }
 }

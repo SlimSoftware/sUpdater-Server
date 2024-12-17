@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/apps', [AppAPIController::class, 'getAll']);
-Route::get('/apps/{id}', [AppAPIController::class, 'get']);
-Route::get('/portable-apps', [PortableAppAPIController::class, 'getAll']);
-Route::get('/portable-apps/{id}', [PortableAppAPIController::class, 'get']);
+Route::middleware('auth')->group(function() {
+    Route::get('/apps', [AppAPIController::class, 'getAll']);
+    Route::get('/apps/{id}', [AppAPIController::class, 'get']);
+    Route::get('/portable-apps', [PortableAppAPIController::class, 'getAll']);
+    Route::get('/portable-apps/{id}', [PortableAppAPIController::class, 'get']);
+});
 
 require __DIR__ . '/auth.php';

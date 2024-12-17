@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import NavItem from './navItem.vue';
+import router, { routes } from '../../router';
+import { useAuthStore } from '../../stores/auth';
+import NavItem from './NavItem.vue';
 
-const routes = {
-    apps: 'Apps',
-    portable_apps: 'Portable Apps',
-};
+const navRoutes = routes.filter((r) => r.meta?.showInMenu === true);
+
+const authStore = useAuthStore();
+
+async function logOut() {
+    await authStore.logOut();
+    router.push('login');
+}
 </script>
 
 <template>
@@ -14,7 +20,7 @@ const routes = {
                 <img src="/img/brand.png" width="32" height="32" class="d-inline-block align-top" alt="" />
                 sUpdater Server
             </a>
-            <!-- <button
+            <button
                 class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -28,10 +34,10 @@ const routes = {
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <NavItem
-                        v-for="(pageTitle, routeName) in routes"
-                        :key="routeName"
-                        :route-name="routeName"
-                        :page-title="pageTitle"
+                        v-for="route in navRoutes"
+                        :key="route.name"
+                        :route-name="route.name?.toString() ?? ''"
+                        :page-title="route.meta?.pageTitle ?? ''"
                     />
                 </ul>
                 <ul class="navbar-nav my-2 my-md-0">
@@ -45,26 +51,14 @@ const routes = {
                             aria-haspopup="true"
                             aria-expanded="false"
                         >
-                            {{ Auth::user()->username }}
+                            {{ authStore.user?.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-
-                                    <a
-                                        class="dropdown-item"
-                                        href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); this.closest('form').submit();"
-                                    >
-                                        Log out
-                                    </a>
-                                </form>
-                            </li>
+                            <a class="dropdown-item" @click="logOut"> Log out </a>
                         </ul>
                     </li>
                 </ul>
-            </div> -->
+            </div>
         </div>
     </nav>
 </template>

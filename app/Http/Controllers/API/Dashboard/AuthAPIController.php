@@ -3,40 +3,42 @@
 namespace App\Http\Controllers\API\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AuthAPIController extends Controller
 {
-    public function login(Request $request)
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function store(LoginRequest $request): Response
     {
-        $user = User::where('username', $request->username)->first();
+        $request->authenticate();
+        $request->session()->regenerate();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'error' => 'The provided credentials are incorrect.'
-            ], 401);
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'token' => $token,
-            'user' => $user
-        ], 200);
+        return response()->noContent();
     }
 
-    public function checkAuthenticated() {
+    public function checkAuthenticated(): JsonResponse
+    {
         return response()->json([
             'authenticated' => auth()->check()
         ], 200);
     }
 
-    public function logout(Request $request)
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): Response
     {
-        $user = $request->user();
-        $user->tokens()->delete();
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
 
         return response()->noContent();
     }

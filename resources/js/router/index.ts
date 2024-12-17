@@ -5,7 +5,7 @@ import EditApp from '../views/apps/EditApp.vue';
 import NewApp from '../views/apps/NewApp.vue';
 import { useGlobalStore } from '../stores/global';
 
-const routes: RouteRecordRaw[] = [
+export const routes: RouteRecordRaw[] = [
     {
         path: '/',
         redirect: '/apps'
@@ -17,19 +17,24 @@ const routes: RouteRecordRaw[] = [
         meta: {
             pageTitle: 'Log In'
         }
+    },
+    {
+        path: '/apps',
+        name: 'apps',
+        component: AppList,
+        meta: {
+            pageTitle: 'Apps',
+            showInMenu: true
+        }
+    },
+    {
+        path: '/apps/:id',
+        component: EditApp
+    },
+    {
+        path: '/apps/new',
+        component: NewApp
     }
-    // {
-    //     path: '/apps',
-    //     component: AppList,
-    // },
-    // {
-    //     path: '/apps/:id',
-    //     component: EditApp,
-    // },
-    // {
-    //     path: 'apps/new',
-    //     component: NewApp,
-    // },
 ];
 
 const router = createRouter({
@@ -41,5 +46,12 @@ router.beforeEach((to) => {
     const globalStore = useGlobalStore();
     globalStore.pageTitle = to.meta.pageTitle as string;
 });
+
+declare module 'vue-router' {
+    interface RouteMeta {
+        pageTitle?: string;
+        showInMenu?: boolean;
+    }
+}
 
 export default router;

@@ -72,7 +72,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import api from '../../../api';
+import axios from 'axios';
 import AppFormTabs from './AppFormTabs.vue';
 import DetectInfoForm from './DetectInfoForm.vue';
 import InstallersForm from './InstallersForm.vue';
@@ -80,8 +80,8 @@ import InstallersForm from './InstallersForm.vue';
 const props = defineProps({
     id: {
         type: String,
-        default: undefined,
-    },
+        default: undefined
+    }
 });
 
 const isLoading = ref(true);
@@ -99,7 +99,7 @@ async function fetchApp() {
     if (props.id) {
         let response;
         try {
-            response = await api.get(`apps/${props.id}`);
+            response = await axios.get(`apps/${props.id}`);
             app.value = response.data;
             appForm.value.name = response.data.name;
             appForm.value.version = response.data.version;
@@ -124,11 +124,11 @@ async function save() {
             appForm.value.version = null;
         }
 
-        const response = await api.request({
+        const response = await axios.request({
             baseURL: '/apps',
             url: props.id ? `/edit/${props.id}` : '/new',
             method: props.id ? 'PUT' : 'POST',
-            data: appForm.value,
+            data: appForm.value
         });
 
         if (!props.id) {

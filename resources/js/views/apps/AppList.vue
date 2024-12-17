@@ -27,8 +27,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import api from '../../api';
-import AppItem from './AppItem.vue';
+import axios from 'axios';
+import AppItem from '../../components/AppItem.vue';
 
 const apps = ref<App[]>([]);
 const isLoading = ref(true);
@@ -36,7 +36,7 @@ const fetchError = ref(false);
 
 async function fetchApps() {
     try {
-        const response = await api.get('apps');
+        const response = await axios.get('apps');
         apps.value = response.data;
         isLoading.value = false;
     } catch (error) {

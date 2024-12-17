@@ -2,13 +2,15 @@
 import { ref } from 'vue';
 import LoginForm from '../types/LoginForm';
 import { useAuthStore } from '../stores/auth';
+import router from '../router';
 
 const authStore = useAuthStore();
 
 const loginForm = ref<LoginForm>({} as LoginForm);
 
 async function submitLoginForm() {
-    await authStore.logIn(loginForm.value);
+    const success = await authStore.logIn(loginForm.value);
+    if (success) router.push('apps');
 }
 </script>
 

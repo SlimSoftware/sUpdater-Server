@@ -63,26 +63,26 @@
 import { computed, ref, watch } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
 import DownloadLinkInput from '../../DownloadLinkInput.vue';
-import api from '../../../api';
 import Arch from '../../../enums/Arch';
+import axios from 'axios';
 
 const props = defineProps({
     installers: {
         type: Array<Installer>,
-        default: [],
+        default: []
     },
     detectinfo: {
         type: Array<DetectInfo>,
-        default: [],
+        default: []
     },
     version: {
         type: String,
-        default: '',
+        default: ''
     },
     appId: {
         type: Number,
-        default: undefined,
-    },
+        default: undefined
+    }
 });
 
 const installers = ref(props.installers);
@@ -120,7 +120,7 @@ watch(
 
             selectedInstaller.value.detectinfo_id = detectInfoId;
         }
-    },
+    }
 );
 
 function addClicked() {
@@ -151,11 +151,11 @@ function getAvailableInstallerArchs() {
 async function save() {
     if (selectedInstaller.value) {
         try {
-            await api.request({
+            await axios.request({
                 baseURL: '/apps/edit',
                 url: selectedInstaller.value.id ? `installers/${selectedInstaller.value?.id}` : 'installers',
                 method: selectedInstaller.value.id ? 'PUT' : 'POST',
-                data: selectedInstaller.value,
+                data: selectedInstaller.value
             });
 
             if (!selectedInstaller.value.id) {
@@ -166,7 +166,7 @@ async function save() {
             }
         } catch (error) {
             console.error(
-                'An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : ''),
+                'An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : '')
             );
         }
     }
@@ -174,17 +174,17 @@ async function save() {
 
 async function deleteConfirmed(id: number) {
     try {
-        await api.request({
+        await axios.request({
             method: 'DELETE',
             baseURL: '/apps/edit',
-            url: `installers/${id}`,
+            url: `installers/${id}`
         });
 
         installers.value = installers.value.filter((i) => i.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
         console.error(
-            'An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : ''),
+            'An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : '')
         );
     }
 }

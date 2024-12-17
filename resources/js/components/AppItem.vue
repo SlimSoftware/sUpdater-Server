@@ -15,21 +15,21 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import api from '../api';
 import DeleteButton from './DeleteButton.vue';
+import axios from 'axios';
 
 const props = defineProps({
     app: {
         type: Object as () => App,
-        required: true,
-    },
+        required: true
+    }
 });
 
 const itemVisible = ref(true);
 
 async function onDeleteConfirmed() {
-    const response = await api.delete(`apps/${props.app.id}`, {
-        baseURL: '/',
+    const response = await axios.delete(`apps/${props.app.id}`, {
+        baseURL: '/'
     });
 
     if (response.status === 204) {
