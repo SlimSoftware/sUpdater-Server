@@ -29,6 +29,11 @@ class AuthAPIController extends Controller
         ], 200);
     }
 
+    public function getUser(): JsonResponse
+    {
+        return response()->json(auth()->user(), 200);
+    }
+
     /**
      * Destroy an authenticated session.
      */

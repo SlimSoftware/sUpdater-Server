@@ -12,8 +12,11 @@ const globalStore = useGlobalStore();
 
 onMounted(async () => {
     const authenticated = await authStore.checkAuth();
+
     if (!authenticated) {
         router.replace('login');
+    } else {
+        await authStore.getUser();
     }
 });
 </script>

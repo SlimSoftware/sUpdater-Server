@@ -5,14 +5,15 @@ import LoginForm from '../types/LoginForm';
 import User from '../types/User';
 
 export const useAuthStore = defineStore('auth', () => {
-    const authenticated = ref(false);
     const user = ref<User>();
 
     async function logIn(loginForm: LoginForm) {
         try {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('login', loginForm);
+
             user.value = { username: loginForm.username };
+
             return true;
         } catch (error) {
             console.error(error);
@@ -30,5 +31,11 @@ export const useAuthStore = defineStore('auth', () => {
         return response.data.authenticated as boolean;
     }
 
-    return { authenticated, logIn, logOut, user, checkAuth };
+    async function getUser() {
+        const response = await axios.get('user');
+        user.value = response.data;
+        return user.value;
+    }
+
+    return { logIn, logOut, user, checkAuth, getUser };
 });
