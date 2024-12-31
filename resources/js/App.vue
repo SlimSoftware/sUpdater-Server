@@ -25,7 +25,7 @@ onMounted(async () => {
     <NavBar />
 
     <main class="container mt-2">
-        <h1>{{ globalStore.pageTitle }}</h1>
+        <h1 class="d-inline">{{ globalStore.pageTitle }}</h1>
         <RouterView />
     </main>
 </template>

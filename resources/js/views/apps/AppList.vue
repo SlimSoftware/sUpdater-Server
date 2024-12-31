@@ -1,5 +1,4 @@
 <template>
-    <h1 class="d-inline">Apps</h1>
     <a class="btn btn-primary ms-3 mb-3" href="/apps/new">Add</a>
 
     <div v-if="isLoading" class="d-flex justify-content-center">
