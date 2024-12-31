@@ -55,7 +55,7 @@ async function logOut() {
                                 {{ authStore.user?.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" @click="logOut"> Log out </a>
+                                <button class="dropdown-item cursor-hand" @click="logOut">Log out</button>
                             </ul>
                         </li>
                     </ul>

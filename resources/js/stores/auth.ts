@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function logOut() {
         await axios.post('logout');
-        delete user.value;
+        user.value = undefined;
     }
 
     async function checkAuth() {
