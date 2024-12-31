@@ -3,9 +3,9 @@
         <td class="align-middle">{{ app.name }}</td>
         <td class="align-middle">{{ app.version || '(latest)' }}</td>
         <td>
-            <a class="btn btn-primary btn-sm" :href="`apps/edit/${app.id}`">
+            <RouterLink class="btn btn-primary btn-sm" :to="{ name: 'apps-edit', params: { id: app.id } }">
                 <i class="bi-pencil-fill"></i>
-            </a>
+            </RouterLink>
         </td>
         <td>
             <DeleteButton :id="app.id" @delete-confirmed="onDeleteConfirmed()" />
@@ -17,6 +17,7 @@
 import { ref } from 'vue';
 import DeleteButton from './DeleteButton.vue';
 import axios from 'axios';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps({
     app: {

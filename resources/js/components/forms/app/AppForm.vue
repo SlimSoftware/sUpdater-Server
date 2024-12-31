@@ -79,8 +79,8 @@ import InstallersForm from './InstallersForm.vue';
 
 const props = defineProps({
     id: {
-        type: String,
-        default: undefined
+        type: Number,
+        required: false
     }
 });
 

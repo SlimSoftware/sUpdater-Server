@@ -1,5 +1,5 @@
 <template>
-    <a class="btn btn-primary ms-3 mb-3" href="/apps/new">Add</a>
+    <RouterLink class="btn btn-primary ms-3 mb-3" :to="{ name: 'apps-new' }">Add</RouterLink>
 
     <div v-if="isLoading" class="d-flex justify-content-center">
         <div class="spinner-border text-primary" role="status">
@@ -28,6 +28,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import AppItem from '../../components/AppItem.vue';
+import { RouterLink } from 'vue-router';
 
 const apps = ref<App[]>([]);
 const isLoading = ref(true);

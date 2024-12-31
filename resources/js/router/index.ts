@@ -29,10 +29,12 @@ export const routes: RouteRecordRaw[] = [
     },
     {
         path: '/apps/:id',
-        component: EditApp
+        component: EditApp,
+        name: 'apps-edit'
     },
     {
         path: '/apps/new',
+        name: 'apps-new',
         component: NewApp
     }
 ];
