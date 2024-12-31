@@ -4,6 +4,8 @@ import axios from './plugins/axios';
 import router from './router';
 import { createPinia } from 'pinia';
 
+import 'bootstrap';
+
 const app = createApp(App);
 
 app.use(axios);
