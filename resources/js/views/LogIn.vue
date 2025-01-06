@@ -15,7 +15,7 @@ async function submitLoginForm() {
 </script>
 
 <template>
-    <form :onsubmit="submitLoginForm">
+    <form @submit.prevent="submitLoginForm">
         <div class="col-md-4 mb-3">
             <label for="username">Username</label>
             <input v-model="loginForm.username" type="text" class="form-control" required />
