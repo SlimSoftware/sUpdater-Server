@@ -26,6 +26,6 @@ onMounted(async () => {
 
     <main class="container mt-2">
         <h1 class="d-inline">{{ globalStore.pageTitle }}</h1>
-        <RouterView />
+        <RouterView class="mt-2" />
     </main>
 </template>
