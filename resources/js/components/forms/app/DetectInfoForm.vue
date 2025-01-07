@@ -11,7 +11,7 @@
         </thead>
         <tbody>
             <tr v-for="(info, index) in detectinfo" :key="index">
-                <td>{{ Arch[info.arch] }}</td>
+                <td>{{ archNames[info.arch] }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
                         <i class="bi-pencil-fill"></i>
@@ -29,7 +29,7 @@
             <div class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
                 <select id="archSelect" v-model="selectedDetectInfo.arch" class="form-select" name="arch" required>
-                    <option v-for="(arch, index) in Arch" :key="index" :value="index">{{ arch }}</option>
+                    <option v-for="(arch, index) in archNames" :key="index" :value="index">{{ arch }}</option>
                 </select>
             </div>
 
@@ -81,7 +81,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
-import Arch from '../../../enums/Arch';
+import { archNames } from '../../../enums/Arch';
 import axios from 'axios';
 
 const props = defineProps({

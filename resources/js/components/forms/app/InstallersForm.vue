@@ -34,7 +34,7 @@
                 ></i
             ></label>
             <select id="archSelect" v-model="selectedInstaller.arch" class="form-select" name="arch" required>
-                <option v-for="(arch, index) in getAvailableInstallerArchs()" :key="index" :value="Arch.indexOf(arch)">
+                <option v-for="(arch, index) in getAvailableInstallerArchs()" :key="index" :value="index">
                     {{ arch }}
                 </option>
             </select>
@@ -63,7 +63,7 @@
 import { computed, ref, watch } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
 import DownloadLinkInput from '../../DownloadLinkInput.vue';
-import Arch from '../../../enums/Arch';
+import { archNames } from '../../../enums/Arch';
 import axios from 'axios';
 
 const props = defineProps({
@@ -139,13 +139,13 @@ function getDetectInfoFromArch(arch: number) {
 
 function getArchNameForInstaller(installer: Installer) {
     const archIndex = props.detectinfo.find((d) => d.id === installer.detectinfo_id)?.arch;
-    return archIndex != null ? Arch[archIndex] : '';
+    return archIndex != null ? archNames[archIndex] : '';
 }
 
 /** Returns all archs that have detectinfo */
 function getAvailableInstallerArchs() {
     const allArchs = props.detectinfo.map((d) => d.arch);
-    return Arch.filter((_arch, index) => allArchs.includes(index));
+    return archNames.filter((_arch, index) => allArchs.includes(index));
 }
 
 async function save() {

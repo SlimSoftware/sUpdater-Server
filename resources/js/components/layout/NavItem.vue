@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useRoute, RouterLink } from 'vue-router';
-
-const route = useRoute();
+import { RouterLink } from 'vue-router';
 
 defineProps<{
     routeName: string;
@@ -11,7 +9,7 @@ defineProps<{
 
 <template>
     <li class="nav-item">
-        <RouterLink :class="{ 'nav-link': true, active: route.name === routeName }" :to="{ name: routeName }">
+        <RouterLink class="nav-link" :to="{ name: routeName }">
             {{ pageTitle }}
         </RouterLink>
     </li>

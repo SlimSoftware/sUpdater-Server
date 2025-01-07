@@ -4,6 +4,8 @@ import AppList from '../views/apps/AppList.vue';
 import EditApp from '../views/apps/EditApp.vue';
 import NewApp from '../views/apps/NewApp.vue';
 import { useGlobalStore } from '../stores/global';
+import PortableAppList from '../views/portable-apps/PortableAppList.vue';
+import NewPortableApp from '../views/portable-apps/NewPortableApp.vue';
 
 export const routes: RouteRecordRaw[] = [
     {
@@ -36,12 +38,32 @@ export const routes: RouteRecordRaw[] = [
         path: '/apps/new',
         name: 'apps-new',
         component: NewApp
+    },
+    {
+        path: '/portable-apps',
+        name: 'portable-apps',
+        component: PortableAppList,
+        meta: {
+            pageTitle: 'Portable Apps',
+            showInMenu: true
+        }
+    },
+    {
+        path: '/portable-apps/:id',
+        name: 'portable-apps-edit',
+        component: NewPortableApp
+    },
+    {
+        path: '/portable-apps/new',
+        name: 'portable-apps-new',
+        component: NewPortableApp
     }
 ];
 
 const router = createRouter({
     routes,
-    history: createWebHashHistory()
+    history: createWebHashHistory(),
+    linkActiveClass: 'active'
 });
 
 router.beforeEach((to) => {
