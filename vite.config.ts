@@ -6,25 +6,33 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/scss/app.scss', 'resources/js/app.ts'],
-            refresh: true,
+            refresh: true
         }),
         vue({
             template: {
                 transformAssetUrls: {
                     base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
+                    includeAbsolute: false
+                }
+            }
+        })
     ],
     resolve: {
         alias: {
-            vue: 'vue/dist/vue.esm-bundler.js',
-        },
+            vue: 'vue/dist/vue.esm-bundler.js'
+        }
     },
     server: {
         hmr: {
-            host: 'localhost',
-        },
+            host: 'localhost'
+        }
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true
+                // silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import']
+            }
+        }
+    }
 });

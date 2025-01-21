@@ -1,8 +1,12 @@
 $primary: #00ba00;
 $secondary: white;
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+@use 'bootstrap/scss/bootstrap' as bs with (
+    $primary: $primary,
+    $secondary: $secondary
+);
+
+@use 'bootstrap-icons/font/bootstrap-icons.css';
 
 .btn-primary {
     --bs-btn-color: white;
