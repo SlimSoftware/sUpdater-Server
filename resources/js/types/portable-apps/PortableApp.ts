@@ -1,11 +1,9 @@
-import { Arch } from '../../enums/Arch';
 import Archive from './Archive';
 
 export default interface PortableApp {
     id: number;
     name: string;
-    version: string | null;
-    arch: Arch;
+    version?: string;
     release_notes_url: string;
     website_url: string;
     archives: Array<Archive>;

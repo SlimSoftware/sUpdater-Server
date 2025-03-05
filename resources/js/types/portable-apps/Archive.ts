@@ -1,12 +1,12 @@
+import { Arch } from '../../enums/Arch';
+import { ExtractMode } from '../../enums/ExtractMode';
+
 export default interface Archive {
     id: number;
-    name: string;
-    version: string | null;
-    noupdate: boolean;
-    release_notes_url: string;
-    website_url: string;
-    archives: Array<Archive>;
-    installers: Array<Installer>;
-    created_at: string;
-    updated_at: string;
+    portable_app_id: number;
+    arch: Arch;
+    download_link: string;
+    download_link_raw: string;
+    extract_mode: ExtractMode;
+    launch_file: string;
 }

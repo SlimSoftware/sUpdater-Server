@@ -11,22 +11,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(installer, index) in installers" :key="index">
-                <td>{{ getArchNameForInstaller(installer) }}</td>
-                <td>{{ installer.download_link }}</td>
+            <tr v-for="(archive, index) in archives" :key="index">
+                <td>{{ archNames[archive.arch] }}</td>
+                <td>{{ archive.download_link }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
                         <i class="bi-pencil-fill"></i>
                     </a>
                 </td>
                 <td>
-                    <DeleteButton @delete-confirmed="deleteConfirmed(installer.id)" />
+                    <DeleteButton @delete-confirmed="deleteConfirmed(archive.id)" />
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <div v-if="selectedInstaller">
+    <div v-if="selectedArchive">
         <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
             <label for="archSelect"
                 >Arch
@@ -35,7 +35,7 @@
                     title="Arch not listed? Add a detectinfo entry for this arch first!"
                 ></i
             ></label>
-            <select id="archSelect" v-model="selectedInstaller.arch" class="form-select" name="arch" required>
+            <select id="archSelect" v-model="selectedArchive.arch" class="form-select" required>
                 <option v-for="(arch, index) in unusedArchs" :key="index" :value="index">
                     {{ arch }}
                 </option>
@@ -43,18 +43,33 @@
         </div>
 
         <div class="mb-3">
-            <DownloadLinkInput v-model="selectedInstaller.download_link_raw" :version="version" />
+            <DownloadLinkInput v-model="selectedArchive.download_link_raw" :version="portableApp.version" />
         </div>
 
-        <div class="mb-3">
-            <label for="launchArgsInput">Launch arguments</label>
+        <div class="mb-3 col-md-6">
+            <label for="launchArgsInput">Launch file</label>
             <input
                 id="launchArgsInput"
-                v-model="selectedInstaller.launch_args"
+                v-model="selectedArchive.launch_file"
                 type="text"
                 class="form-control"
-                name="launchArgs"
+                required
             />
+        </div>
+
+        <div class="mb-3 col-md-3">
+            <label for="extractModeInput">Extract mode</label>
+            <select
+                id="extractModeInput"
+                v-model="selectedArchive.extract_mode"
+                type="text"
+                class="form-select"
+                required
+            >
+                <option v-for="(mode, index) in extractModeNames" :key="index" :value="index">
+                    {{ mode }}
+                </option>
+            </select>
         </div>
 
         <button class="btn btn-primary" type="submit" @click="save">Save</button>
@@ -62,73 +77,42 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
 import DownloadLinkInput from '../../DownloadLinkInput.vue';
-import { archNames } from '../../../enums/Arch';
 import axios from 'axios';
+import Archive from '../../../types/portable-apps/Archive';
+import PortableApp from '../../../types/portable-apps/PortableApp';
+import { archNames } from '../../../enums/Arch';
+import { extractModeNames } from '../../../enums/ExtractMode';
 
-const props = defineProps({
-    installers: {
-        type: Array<Installer>,
-        default: []
-    },
-    detectinfo: {
-        type: Array<DetectInfo>,
-        default: []
-    },
-    version: {
-        type: String,
-        default: ''
-    },
-    appId: {
-        type: Number,
-        default: undefined
-    }
-});
+const props = defineProps<{
+    archives: Archive[];
+    portableApp: PortableApp;
+}>();
 
-const installers = ref(props.installers);
+const archives = ref(props.archives);
 
 /** The index of the installer to edit. -1 = none selected, -2 = new */
 const selectedIndex = ref(-1);
 
-const selectedInstaller = computed((): Installer => {
-    let installer = ref();
+const selectedArchive = computed(() => {
+    let archive;
 
     if (selectedIndex.value === -2) {
-        installer.value = <Installer>{};
-        if (props.appId) {
-            installer.value.app_id = props.appId;
-        }
+        archive = <Archive>{};
+        archive.portable_app_id = props.portableApp.id;
     } else {
-        installer.value = selectedIndex.value > -1 ? installers.value[selectedIndex.value] : null;
-        if (installer.value && props.appId) {
-            installer.value.app_id = props.appId;
-        }
+        archive = selectedIndex.value > -1 ? props.archives[selectedIndex.value] : null;
     }
 
-    return installer.value;
+    return archive;
 });
 
 const unusedArchs = computed(() => {
-    const allArchs = props.detectinfo.map((d) => d.arch);
+    const allArchs = props.portableApp.archives.map((d) => d.arch);
     return archNames.filter((_arch, index) => allArchs.includes(index));
 });
-
-watch(
-    () => selectedInstaller.value?.arch,
-    () => {
-        if (selectedInstaller.value) {
-            const detectInfoId = getDetectInfoFromArch(selectedInstaller.value.arch)?.id;
-            if (!detectInfoId) {
-                console.error('Detectinfo not found for installer');
-                return;
-            }
-
-            selectedInstaller.value.detectinfo_id = detectInfoId;
-        }
-    }
-);
 
 function addClicked() {
     selectedIndex.value = -2;
@@ -140,27 +124,18 @@ function editClicked(index: number) {
     }
 }
 
-function getDetectInfoFromArch(arch: number) {
-    return props.detectinfo.find((d) => d.arch === arch);
-}
-
-function getArchNameForInstaller(installer: Installer) {
-    const archIndex = props.detectinfo.find((d) => d.id === installer.detectinfo_id)?.arch;
-    return archIndex != null ? archNames[archIndex] : '';
-}
-
 async function save() {
-    if (selectedInstaller.value) {
+    if (selectedArchive.value) {
         try {
             await axios.request({
-                baseURL: '/apps/edit',
-                url: selectedInstaller.value.id ? `installers/${selectedInstaller.value?.id}` : 'installers',
-                method: selectedInstaller.value.id ? 'PUT' : 'POST',
-                data: selectedInstaller.value
+                baseURL: '/portable-apps/edit',
+                url: selectedArchive.value.id ? `archives/${selectedArchive.value?.id}` : 'archives',
+                method: selectedArchive.value.id ? 'PUT' : 'POST',
+                data: selectedArchive.value
             });
 
-            if (!selectedInstaller.value.id) {
-                installers.value.push(selectedInstaller.value);
+            if (!selectedArchive.value.id) {
+                archives.value.push(selectedArchive.value);
                 selectedIndex.value = -2;
             } else {
                 selectedIndex.value = -1;
@@ -181,7 +156,7 @@ async function deleteConfirmed(id: number) {
             url: `installers/${id}`
         });
 
-        installers.value = installers.value.filter((i) => i.id !== id);
+        archives.value = archives.value.filter((a) => a.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
         console.error(

@@ -13,16 +13,10 @@ import { ref, computed, watch } from 'vue';
 import { parseText, containsVariables } from '../variable-parser';
 import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
-const props = defineProps({
-    version: {
-        type: String,
-        default: '',
-    },
-    modelValue: {
-        type: String,
-        default: '',
-    },
-});
+const props = defineProps<{
+    version?: string;
+    modelValue: string;
+}>();
 const emit = defineEmits(['update:modelValue']);
 
 const downloadLink = computed({
@@ -31,7 +25,7 @@ const downloadLink = computed({
     },
     set(value) {
         emit('update:modelValue', value);
-    },
+    }
 });
 
 const variables = ref(getVariables());
@@ -43,7 +37,7 @@ function getVariables() {
         'ver.0': props.version ? props.version.replaceAll('.', '') : '',
         'ver.1': props.version ? splitVersion(props.version, 2) : '',
         'ver.2': props.version ? splitVersion(props.version, 3) : '',
-        'ver.3': props.version ? splitVersion(props.version, 4) : '',
+        'ver.3': props.version ? splitVersion(props.version, 4) : ''
     };
 }
 
@@ -73,7 +67,7 @@ watch(
     () => props.version,
     () => {
         variables.value = getVariables();
-    },
+    }
 );
 
 function openDownloadLink() {

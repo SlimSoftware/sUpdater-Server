@@ -6,6 +6,7 @@ import NewApp from '../views/apps/NewApp.vue';
 import { useGlobalStore } from '../stores/global';
 import PortableAppList from '../views/portable-apps/PortableAppList.vue';
 import NewPortableApp from '../views/portable-apps/NewPortableApp.vue';
+import EditPortableApp from '../views/portable-apps/EditPortableApp.vue';
 
 export const routes: RouteRecordRaw[] = [
     {
@@ -51,7 +52,7 @@ export const routes: RouteRecordRaw[] = [
     {
         path: '/portable-apps/:id',
         name: 'portable-apps-edit',
-        component: NewPortableApp
+        component: EditPortableApp
     },
     {
         path: '/portable-apps/new',

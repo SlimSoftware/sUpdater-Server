@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppForm from '../../components/forms/app/AppForm.vue';
+import PortableAppForm from '../../components/forms/portable-apps/PortableAppForm.vue';
 </script>
 
 <template>
-    <AppForm />
+    <PortableAppForm />
 </template>
