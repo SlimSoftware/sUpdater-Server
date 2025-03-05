@@ -153,8 +153,9 @@ async function save() {
     if (selectedInstaller.value) {
         try {
             await axios.request({
-                baseURL: '/apps/edit',
-                url: selectedInstaller.value.id ? `installers/${selectedInstaller.value?.id}` : 'installers',
+                url: selectedInstaller.value.id
+                    ? `apps/edit/installers/${selectedInstaller.value?.id}`
+                    : 'apps/edit/installers',
                 method: selectedInstaller.value.id ? 'PUT' : 'POST',
                 data: selectedInstaller.value
             });

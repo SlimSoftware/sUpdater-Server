@@ -136,8 +136,9 @@ async function save() {
     if (selectedDetectInfo.value) {
         try {
             await axios.request({
-                baseURL: '/apps/edit',
-                url: selectedDetectInfo.value.id ? `detectinfo/${selectedDetectInfo.value?.id}` : 'detectinfo',
+                url: selectedDetectInfo.value.id
+                    ? `apps/edit/etectinfo/${selectedDetectInfo.value?.id}`
+                    : 'apps/edit/detectinfo',
                 method: selectedDetectInfo.value.id ? 'PUT' : 'POST',
                 data: selectedDetectInfo.value
             });

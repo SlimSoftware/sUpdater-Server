@@ -125,8 +125,7 @@ async function save() {
         }
 
         const response = await axios.request({
-            baseURL: '/apps',
-            url: props.id ? `/edit/${props.id}` : '/new',
+            url: props.id ? `apps/edit/${props.id}` : 'apps/new',
             method: props.id ? 'PUT' : 'POST',
             data: appForm.value
         });
