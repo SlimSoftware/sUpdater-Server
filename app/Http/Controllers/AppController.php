@@ -8,34 +8,25 @@ use Illuminate\Http\Request;
 class AppController extends Controller
 {
     /**
-     * Shows all available apps
-     *
-     * @return \Illuminate\View\View
+     * Get all apps
+     * URL: /api/v2/apps
+     * Method: GET
      */
-    public function index()
+    public function getAll()
     {
-        $apps = App::orderBy('name')->get();
-        return view('apps.index', ['apps' => $apps]);
+        $apps = App::with(['detectinfo', 'installers'])->orderBy('name')->get();
+        return response()->json($apps);
     }
 
     /**
-     * View for adding a new app
-     *
-     * @return \Illuminate\View\View
+     * Get an app
+     * URL: /api/v2/apps/{id}
+     * Method: GET
      */
-    public function new()
+    public function get(int $id)
     {
-        return view('apps.new');
-    }
-
-    /**
-     * Edit an existing app
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit(int $id)
-    {
-        return view('apps.edit', ['id' => $id]);
+        $app = App::with(['detectinfo', 'installers'])->findOrFail($id);
+        return response()->json($app);
     }
 
     public function create(Request $request)

@@ -97,14 +97,13 @@ async function save() {
         }
 
         const response = await axios.request({
-            baseURL: '/apps',
-            url: props.id ? `/edit/${props.id}` : '/new',
+            url: props.id ? `/portable-apps/edit/${props.id}` : '/portable-apps/new',
             method: props.id ? 'PUT' : 'POST',
             data: app.value
         });
 
         if (!props.id) {
-            window.location.href = `/apps/edit/${response.data.id}`;
+            window.location.href = `/portable-apps/edit/${response.data.id}`;
         } else {
             editSuccess.value = true;
         }

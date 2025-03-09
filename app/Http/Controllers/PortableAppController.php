@@ -2,39 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\PortableApp;
+use Illuminate\Http\Request;
 
 class PortableAppController extends Controller
 {
     /**
-     * Shows all available Portable Apps
-     *
-     * @return \Illuminate\View\View
+     * Get all portable apps
+     * URL: /api/v2/portable-apps
+     * Method: GET
      */
-    public function index()
+    public function getAll()
     {
-        $portableApps = PortableApp::orderBy('name')->get();
-        return view('portable-apps.index', ['portableApps' => $portableApps]);
+        $portableApps = PortableApp::with(['archives'])->orderBy('name')->get();
+        return response()->json($portableApps);
     }
 
     /**
-     * Add a new Portable App
-     *
-     * @return \Illuminate\View\View
+     * Get a portable app
+     * URL: /api/v2/portable-apps/{id}
+     * Method: GET
      */
-    public function new()
+    public function get(int $id)
     {
-        return view('portable-apps.new');
+        $portableApp = PortableApp::with(['archives'])->findOrFail($id);
+        return response()->json($portableApp);
+    }
+
+    public function create(Request $request)
+    {
+        $app = PortableApp::create([
+            'name' => $request->string('name'),
+            'version' => $request->string('version'),
+            'release_notes_url' => $request->string('release_notes_url'),
+            'website_url' => $request->string('website_url'),
+        ]);
+
+        return response()->json([
+            'id' => $app->id,
+        ]);
     }
 
     /**
-     * Edit an existing Portable App
+     * Store the edited app
      *
      * @return \Illuminate\View\View
      */
-    public function edit(int $id)
+    public function update(Request $request, int $id)
     {
-        $portableApp = PortableApp::find($id);
-        return view('portable-apps.edit', ['portableApp' => $portableApp]);
+        $app = PortableApp::findOrFail($id);
+        $app->update([
+            'name' => $request->string('name'),
+            'version' => $request->string('version'),
+            'release_notes_url' => $request->string('release_notes_url'),
+            'website_url' => $request->string('website_url'),
+        ]);
+
+        return response()->noContent();
+    }
+
+    /**
+     * Delete an existing app
+     *
+     * @return \Illuminate\View\View
+     */
+    public function delete(int $id)
+    {
+        $app = PortableApp::findOrFail($id);
+        $app->archives()->delete();
+        $app->delete();
+
+        return response()->noContent();
     }
 }

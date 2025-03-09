@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Dashboard;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AuthAPIController extends Controller
+class AuthController extends Controller
 {
     /**
      * Handle an incoming authentication request.

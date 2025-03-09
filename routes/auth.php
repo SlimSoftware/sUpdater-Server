@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\API\Dashboard\AuthAPIController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', [AuthAPIController::class, 'store']);
-Route::get('authenticated', [AuthAPIController::class, 'checkAuthenticated']);
+Route::post('login', [AuthController::class, 'store']);
+Route::get('authenticated', [AuthController::class, 'checkAuthenticated']);
 
 
 Route::middleware('auth')->group(function() {
-    Route::get('user', [AuthAPIController::class, 'getUser']);
-    Route::post('logout', [AuthAPIController::class, 'destroy']);
+    Route::get('user', [AuthController::class, 'getUser']);
+    Route::post('logout', [AuthController::class, 'destroy']);
 });
