@@ -18,7 +18,10 @@
                     </a>
                 </td>
                 <td>
-                    <DeleteButton @delete-confirmed="deleteConfirmed(info.id)" />
+                    <DeleteButton
+                        :name="`the ${archNames[info.arch]} detection`"
+                        @delete-confirmed="deleteConfirmed(info.id)"
+                    />
                 </td>
             </tr>
         </tbody>
@@ -136,9 +139,7 @@ async function save() {
     if (selectedDetectInfo.value) {
         try {
             await axios.request({
-                url: selectedDetectInfo.value.id
-                    ? `apps/edit/etectinfo/${selectedDetectInfo.value?.id}`
-                    : 'apps/edit/detectinfo',
+                url: `apps/detectinfo/${selectedDetectInfo.value?.id ?? ''}`,
                 method: selectedDetectInfo.value.id ? 'PUT' : 'POST',
                 data: selectedDetectInfo.value
             });

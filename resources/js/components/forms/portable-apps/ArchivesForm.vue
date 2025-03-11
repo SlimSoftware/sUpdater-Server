@@ -20,7 +20,10 @@
                     </a>
                 </td>
                 <td>
-                    <DeleteButton @delete-confirmed="deleteConfirmed(archive.id)" />
+                    <DeleteButton
+                        :name="`the ${archNames[archive.arch]} archive`"
+                        @delete-confirmed="deleteConfirmed(archive.id)"
+                    />
                 </td>
             </tr>
         </tbody>
@@ -30,10 +33,7 @@
         <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
             <label for="archSelect"
                 >Arch
-                <i
-                    class="bi bi-question-circle"
-                    title="Arch not listed? Add a detectinfo entry for this arch first!"
-                ></i
+                <i class="bi bi-question-circle" title="Arch not listed? Add a detection entry for this arch first!"></i
             ></label>
             <select id="archSelect" v-model="selectedArchive.arch" class="form-select" required>
                 <option v-for="(arch, index) in unusedArchs" :key="index" :value="index">
@@ -128,8 +128,7 @@ async function save() {
     if (selectedArchive.value) {
         try {
             await axios.request({
-                baseURL: '/portable-apps/edit',
-                url: selectedArchive.value.id ? `archives/${selectedArchive.value?.id}` : 'archives',
+                url: `portable-apps/archives/${selectedArchive.value?.id ?? ''}`,
                 method: selectedArchive.value.id ? 'PUT' : 'POST',
                 data: selectedArchive.value
             });

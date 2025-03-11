@@ -1,6 +1,5 @@
 <template>
-    <h1 class="mb-3">{{ props.id ? `Edit ${appForm.name}` : 'Add App' }}</h1>
-    <AppFormTabs :is-new="id === undefined">
+    <AppFormTabs :is-new="!id">
         <template #appContent>
             <div v-if="errorMessage" class="text-danger">
                 An error occurred while fetching the app: {{ errorMessage }}
@@ -76,6 +75,10 @@ import axios from 'axios';
 import AppFormTabs from './AppFormTabs.vue';
 import DetectInfoForm from './DetectInfoForm.vue';
 import InstallersForm from './InstallersForm.vue';
+import router from '../../../router';
+import { useGlobalStore } from '../../../stores/global';
+
+const globalStore = useGlobalStore();
 
 const props = defineProps({
     id: {
@@ -97,10 +100,11 @@ onMounted(() => {
 
 async function fetchApp() {
     if (props.id) {
-        let response;
         try {
-            response = await axios.get(`apps/${props.id}`);
+            const response = await axios.get(`apps/${props.id}`);
             app.value = response.data;
+            globalStore.pageTitle = `Edit ${app.value?.name}`;
+
             appForm.value.name = response.data.name;
             appForm.value.version = response.data.version;
             appForm.value.noupdate = response.data.noupdate;
@@ -125,13 +129,13 @@ async function save() {
         }
 
         const response = await axios.request({
-            url: props.id ? `apps/edit/${props.id}` : 'apps/new',
+            url: `apps/${props.id ?? ''}`,
             method: props.id ? 'PUT' : 'POST',
             data: appForm.value
         });
 
         if (!props.id) {
-            window.location.href = `/apps/edit/${response.data.id}`;
+            router.push(`/apps/${response.data.id}`);
         } else {
             editSuccess.value = true;
         }

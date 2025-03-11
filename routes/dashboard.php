@@ -22,20 +22,21 @@ Route::middleware('auth')->group(function() {
     Route::get('/apps/{id}', [AppController::class, 'get']);
     Route::delete('/apps/{id}', [AppController::class, 'delete']);
 
-    Route::post('/apps/new', [AppController::class, 'create']);
-    Route::put('/apps/edit/{id}', [AppController::class, 'update']);
+    Route::post('/apps', [AppController::class, 'create']);
+    Route::put('/apps/{id}', [AppController::class, 'update']);
 
-    Route::post('/apps/edit/detectinfo', [DetectInfoController::class, 'create']);
-    Route::put('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'update']);
-    Route::delete('/apps/edit/detectinfo/{id}', [DetectInfoController::class, 'delete']);
+    Route::post('/apps/detectinfo', [DetectInfoController::class, 'create']);
+    Route::put('/apps/detectinfo/{id}', [DetectInfoController::class, 'update']);
+    Route::delete('/apps/detectinfo/{id}', [DetectInfoController::class, 'delete']);
 
-    Route::post('/apps/edit/installers', [InstallerController::class, 'create']);
-    Route::put('/apps/edit/installers/{id}', [InstallerController::class, 'update']);
-    Route::delete('/apps/edit/installers/{id}', [InstallerController::class, 'delete']);
+    Route::post('/apps/installers', [InstallerController::class, 'create']);
+    Route::put('/apps/installers/{id}', [InstallerController::class, 'update']);
+    Route::delete('/apps/installers/{id}', [InstallerController::class, 'delete']);
 
     Route::get('/portable-apps', [PortableAppController::class, 'getAll']);
-    Route::post('/portable-apps/new', [PortableAppController::class, 'create']);
-    Route::put('/portable-apps/edit/{id}', [PortableAppController::class, 'update']);
+    Route::get('/portable-apps/{id}', [PortableAppController::class, 'get']);
+    Route::post('/portable-apps', [PortableAppController::class, 'create']);
+    Route::put('/portable-apps/{id}', [PortableAppController::class, 'update']);
 });
 
 require __DIR__ . '/auth.php';

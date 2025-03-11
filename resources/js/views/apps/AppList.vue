@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <AppItem v-for="app in apps" :key="app.id" :app="app" />
+                <AppItem v-for="app in apps" :key="app.id" :app="app" @deleted="onAppDeleted" />
             </tbody>
         </table>
 
@@ -39,6 +39,8 @@ const apps = ref<App[]>([]);
 const isLoading = ref(true);
 const fetchError = ref(false);
 
+onMounted(fetchApps);
+
 async function fetchApps() {
     try {
         const response = await axios.get('apps');
@@ -53,7 +55,15 @@ async function fetchApps() {
     }
 }
 
-onMounted(fetchApps);
+async function onAppDeleted(id: number) {
+    try {
+        await axios.delete(`apps/${id}`);
+        apps.value = apps.value.filter((a) => a.id !== id);
+    } catch (error) {
+        // TODO: show toast message here
+        console.error(error);
+    }
+}
 </script>
 
 <style>

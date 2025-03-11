@@ -1,5 +1,5 @@
 <template>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="nav nav-tabs my-3">
         <li class="nav-item">
             <a :class="{ 'nav-link': true, active: activePage === 0 }" @click="switchPage(0)">General</a>
         </li>
@@ -26,12 +26,12 @@ import { ref } from 'vue';
 const props = defineProps({
     active: {
         type: Number,
-        default: 0,
+        default: 0
     },
     isNew: {
         type: Boolean,
-        default: true,
-    },
+        default: true
+    }
 });
 
 const activePage = ref(props.active);

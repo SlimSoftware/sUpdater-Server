@@ -8,7 +8,7 @@
             </RouterLink>
         </td>
         <td>
-            <DeleteButton :id="app.id" @delete-confirmed="onDeleteConfirmed()" />
+            <DeleteButton :name="app.name" @delete-confirmed="emit('deleted', app.id)" />
         </td>
     </tr>
 </template>
@@ -16,22 +16,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import DeleteButton from './DeleteButton.vue';
-import axios from 'axios';
 import { RouterLink } from 'vue-router';
 
-const props = defineProps<{
+defineProps<{
     app: App;
 }>();
 
+const emit = defineEmits(['deleted']);
+
 const itemVisible = ref(true);
-
-async function onDeleteConfirmed() {
-    const response = await axios.delete(`apps/${props.app.id}`, {
-        baseURL: '/'
-    });
-
-    if (response.status === 204) {
-        itemVisible.value = false;
-    }
-}
 </script>

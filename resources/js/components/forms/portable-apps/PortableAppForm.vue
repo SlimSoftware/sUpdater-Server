@@ -1,6 +1,5 @@
 <template>
-    <h1 class="mb-3">{{ props.id ? `Edit ${app.name}` : 'Add Portable App' }}</h1>
-    <PortableAppFormTabs :is-new="id === undefined">
+    <PortableAppFormTabs :is-new="!id">
         <template #appContent>
             <div v-if="errorMessage" class="text-danger">
                 An error occurred while fetching the Portable App: {{ errorMessage }}
@@ -55,6 +54,10 @@ import axios from 'axios';
 import PortableAppFormTabs from './PortableAppFormTabs.vue';
 import ArchivesForm from './ArchivesForm.vue';
 import PortableApp from '../../../types/portable-apps/PortableApp';
+import { useGlobalStore } from '../../../stores/global';
+import router from '../../../router';
+
+const globalStore = useGlobalStore();
 
 const props = defineProps({
     id: {
@@ -78,6 +81,7 @@ async function fetchApp() {
         try {
             const response = await axios.get(`portable-apps/${props.id}`);
             app.value = response.data;
+            globalStore.pageTitle = `Edit ${app.value.name}`;
         } catch (error) {
             if (error instanceof Error) {
                 errorMessage.value = error?.message;
@@ -97,13 +101,13 @@ async function save() {
         }
 
         const response = await axios.request({
-            url: props.id ? `/portable-apps/edit/${props.id}` : '/portable-apps/new',
+            url: `/portable-apps/${props.id ?? ''}`,
             method: props.id ? 'PUT' : 'POST',
             data: app.value
         });
 
         if (!props.id) {
-            window.location.href = `/portable-apps/edit/${response.data.id}`;
+            router.push(`/portable-apps/${response.data.id}`);
         } else {
             editSuccess.value = true;
         }

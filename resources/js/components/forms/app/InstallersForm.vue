@@ -20,7 +20,10 @@
                     </a>
                 </td>
                 <td>
-                    <DeleteButton @delete-confirmed="deleteConfirmed(installer.id)" />
+                    <DeleteButton
+                        :name="`the ${getArchNameForInstaller(installer)} installer`"
+                        @delete-confirmed="deleteConfirmed(installer.id)"
+                    />
                 </td>
             </tr>
         </tbody>
@@ -153,9 +156,7 @@ async function save() {
     if (selectedInstaller.value) {
         try {
             await axios.request({
-                url: selectedInstaller.value.id
-                    ? `apps/edit/installers/${selectedInstaller.value?.id}`
-                    : 'apps/edit/installers',
+                url: `apps/installers/${selectedInstaller.value?.id}`,
                 method: selectedInstaller.value.id ? 'PUT' : 'POST',
                 data: selectedInstaller.value
             });

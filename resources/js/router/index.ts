@@ -38,7 +38,10 @@ export const routes: RouteRecordRaw[] = [
     {
         path: '/apps/new',
         name: 'apps-new',
-        component: NewApp
+        component: NewApp,
+        meta: {
+            pageTitle: 'New App'
+        }
     },
     {
         path: '/portable-apps',
