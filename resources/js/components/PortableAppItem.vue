@@ -11,7 +11,7 @@
             </RouterLink>
         </td>
         <td>
-            <DeleteButton :id="portableApp.id" @delete-confirmed="onDeleteConfirmed()" />
+            <DeleteButton :id="portableApp.id" :name="portableApp.name" @delete-confirmed="onDeleteConfirmed()" />
         </td>
     </tr>
 </template>
@@ -30,9 +30,7 @@ const props = defineProps<{
 const itemVisible = ref(true);
 
 async function onDeleteConfirmed() {
-    const response = await axios.delete(`portable-apps/${props.portableApp.id}`, {
-        baseURL: '/'
-    });
+    const response = await axios.delete(`portable-apps/${props.portableApp.id}`);
 
     if (response.status === 204) {
         itemVisible.value = false;

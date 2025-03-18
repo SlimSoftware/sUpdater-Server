@@ -31,10 +31,7 @@
 
     <div v-if="selectedArchive">
         <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
-            <label for="archSelect"
-                >Arch
-                <i class="bi bi-question-circle" title="Arch not listed? Add a detection entry for this arch first!"></i
-            ></label>
+            <label for="archSelect">Arch</label>
             <select id="archSelect" v-model="selectedArchive.arch" class="form-select" required>
                 <option v-for="(arch, index) in unusedArchs" :key="index" :value="index">
                     {{ arch }}
@@ -93,7 +90,7 @@ const props = defineProps<{
 
 const archives = ref(props.archives);
 
-/** The index of the installer to edit. -1 = none selected, -2 = new */
+/** The index of the archive to edit. -1 = none selected, -2 = new */
 const selectedIndex = ref(-1);
 
 const selectedArchive = computed(() => {
@@ -111,7 +108,7 @@ const selectedArchive = computed(() => {
 
 const unusedArchs = computed(() => {
     const allArchs = props.portableApp.archives.map((d) => d.arch);
-    return archNames.filter((_arch, index) => allArchs.includes(index));
+    return archNames.filter((_arch, index) => !allArchs.includes(index));
 });
 
 function addClicked() {
@@ -141,7 +138,7 @@ async function save() {
             }
         } catch (error) {
             console.error(
-                'An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : '')
+                'An error occurred while saving archive'.concat(error instanceof Error ? `: ${error.message}` : '')
             );
         }
     }
@@ -151,15 +148,14 @@ async function deleteConfirmed(id: number) {
     try {
         await axios.request({
             method: 'DELETE',
-            baseURL: '/apps/edit',
-            url: `installers/${id}`
+            url: `portable-apps/archives/${id}`
         });
 
         archives.value = archives.value.filter((a) => a.id !== id);
         selectedIndex.value = -1;
     } catch (error) {
         console.error(
-            'An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : '')
+            'An error occurred while deleting archive'.concat(error instanceof Error ? `: ${error.message}` : '')
         );
     }
 }

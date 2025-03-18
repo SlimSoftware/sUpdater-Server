@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\DetectInfoController;
 use App\Http\Controllers\InstallerController;
 use App\Http\Controllers\PortableAppController;
@@ -20,10 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function() {
     Route::get('/apps', [AppController::class, 'getAll']);
     Route::get('/apps/{id}', [AppController::class, 'get']);
-    Route::delete('/apps/{id}', [AppController::class, 'delete']);
-
     Route::post('/apps', [AppController::class, 'create']);
     Route::put('/apps/{id}', [AppController::class, 'update']);
+    Route::delete('/apps/{id}', [AppController::class, 'delete']);
 
     Route::post('/apps/detectinfo', [DetectInfoController::class, 'create']);
     Route::put('/apps/detectinfo/{id}', [DetectInfoController::class, 'update']);
@@ -37,6 +37,11 @@ Route::middleware('auth')->group(function() {
     Route::get('/portable-apps/{id}', [PortableAppController::class, 'get']);
     Route::post('/portable-apps', [PortableAppController::class, 'create']);
     Route::put('/portable-apps/{id}', [PortableAppController::class, 'update']);
+    Route::delete('/portable-apps/{id}', [PortableAppController::class, 'delete']);
+
+    Route::post('/portable-apps/archives', [ArchiveController::class, 'create']);
+    Route::put('/portable-apps/archives/{id}', [ArchiveController::class, 'update']);
+    Route::delete('/portable-apps/archives/{archive}', [ArchiveController::class, 'delete']);
 });
 
 require __DIR__ . '/auth.php';

@@ -12,13 +12,7 @@ class DetectInfoController extends Controller
     {
         $app = App::findOrFail($request->app_id);
 
-        $detectInfo = new DetectInfo([
-            'arch' => $request->input('arch'),
-            'reg_key' => $request->input('reg_key'),
-            'reg_value' => $request->input('reg_value'),
-            'exe_path' => $request->input('exe_path'),
-            'download_link' => $request->input('download_link'),
-        ]);
+        $detectInfo = new DetectInfo($request->all());
         $detectInfo->app()->associate($app);
         $detectInfo->save();
 
@@ -28,14 +22,7 @@ class DetectInfoController extends Controller
     public function update(Request $request, int $id)
     {
         $detectInfo = DetectInfo::findOrFail($id);
-
-        $detectInfo->update([
-            'arch' => $request->input('arch'),
-            'reg_key' => $request->input('reg_key'),
-            'reg_value' => $request->input('reg_value'),
-            'exe_path' => $request->input('exe_path'),
-            'download_link' => $request->input('download_link'),
-        ]);
+        $detectInfo->update($request->all());
 
         return response()->noContent();
     }
