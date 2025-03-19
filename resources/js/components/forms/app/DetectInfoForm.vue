@@ -160,10 +160,7 @@ async function save() {
 
 async function deleteConfirmed(id: number) {
     try {
-        await axios.request({
-            baseURL: '/apps/edit',
-            url: `detectinfo/${id}`
-        });
+        await axios.delete(`/apps/detectinfo/${id}`);
 
         detectinfo.value = detectinfo.value.filter((i) => i.id !== id);
         selectedIndex.value = -1;
