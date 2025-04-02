@@ -30,46 +30,48 @@
     </table>
 
     <div v-if="selectedArchive">
-        <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
-            <label for="archSelect">Arch</label>
-            <select id="archSelect" v-model="selectedArchive.arch" class="form-select" required>
-                <option v-for="(arch, index) in unusedArchs" :key="index" :value="index">
-                    {{ arch }}
-                </option>
-            </select>
-        </div>
+        <form @submit.prevent="save">
+            <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
+                <label for="archSelect">Arch</label>
+                <select id="archSelect" v-model="selectedArchive.arch" class="form-select" required>
+                    <option v-for="(arch, index) in unusedArchs" :key="index" :value="index">
+                        {{ arch }}
+                    </option>
+                </select>
+            </div>
 
-        <div class="mb-3">
-            <DownloadLinkInput v-model="selectedArchive.download_link_raw" :version="portableApp.version" />
-        </div>
+            <div class="mb-3">
+                <DownloadLinkInput v-model="selectedArchive.download_link" :version="portableApp.version" />
+            </div>
 
-        <div class="mb-3 col-md-6">
-            <label for="launchArgsInput">Launch file</label>
-            <input
-                id="launchArgsInput"
-                v-model="selectedArchive.launch_file"
-                type="text"
-                class="form-control"
-                required
-            />
-        </div>
+            <div class="mb-3 col-md-6">
+                <label for="launchArgsInput">Launch file</label>
+                <input
+                    id="launchArgsInput"
+                    v-model="selectedArchive.launch_file"
+                    type="text"
+                    class="form-control"
+                    required
+                />
+            </div>
 
-        <div class="mb-3 col-md-3">
-            <label for="extractModeInput">Extract mode</label>
-            <select
-                id="extractModeInput"
-                v-model="selectedArchive.extract_mode"
-                type="text"
-                class="form-select"
-                required
-            >
-                <option v-for="(mode, index) in extractModeNames" :key="index" :value="index">
-                    {{ mode }}
-                </option>
-            </select>
-        </div>
+            <div class="mb-3 col-md-3">
+                <label for="extractModeInput">Extract mode</label>
+                <select
+                    id="extractModeInput"
+                    v-model="selectedArchive.extract_mode"
+                    type="text"
+                    class="form-select"
+                    required
+                >
+                    <option v-for="(mode, index) in extractModeNames" :key="index" :value="index">
+                        {{ mode }}
+                    </option>
+                </select>
+            </div>
 
-        <button class="btn btn-primary" type="submit" @click="save">Save</button>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
     </div>
 </template>
 
@@ -84,11 +86,10 @@ import { archNames } from '../../../enums/Arch';
 import { extractModeNames } from '../../../enums/ExtractMode';
 
 const props = defineProps<{
-    archives: Archive[];
     portableApp: PortableApp;
 }>();
 
-const archives = ref(props.archives);
+const archives = ref(props.portableApp.archives);
 
 /** The index of the archive to edit. -1 = none selected, -2 = new */
 const selectedIndex = ref(-1);
@@ -100,14 +101,14 @@ const selectedArchive = computed(() => {
         archive = <Archive>{};
         archive.portable_app_id = props.portableApp.id;
     } else {
-        archive = selectedIndex.value > -1 ? props.archives[selectedIndex.value] : null;
+        archive = selectedIndex.value > -1 ? archives.value[selectedIndex.value] : null;
     }
 
     return archive;
 });
 
 const unusedArchs = computed(() => {
-    const allArchs = props.portableApp.archives.map((d) => d.arch);
+    const allArchs = archives.value.map((d) => d.arch);
     return archNames.filter((_arch, index) => !allArchs.includes(index));
 });
 
