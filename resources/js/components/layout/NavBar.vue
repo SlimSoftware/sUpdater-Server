@@ -14,7 +14,7 @@ async function logOut() {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
                 <img src="/img/brand.png" width="32" height="32" class="d-inline-block align-top" alt="" />

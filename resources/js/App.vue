@@ -4,6 +4,7 @@ import NavBar from './components/layout/NavBar.vue';
 import { useAuthStore } from './stores/auth';
 import { onMounted } from 'vue';
 import { useGlobalStore } from './stores/global';
+import Toast from './components/Toast.vue';
 
 const router = useRouter();
 
@@ -23,6 +24,7 @@ onMounted(async () => {
 
 <template>
     <NavBar />
+    <Toast />
 
     <main class="container mt-2">
         <h1 class="d-inline">{{ globalStore.pageTitle }}</h1>

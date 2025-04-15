@@ -4,6 +4,7 @@ import axios from './plugins/axios';
 import router from './router';
 import { createPinia } from 'pinia';
 
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 import 'bootstrap';
 
 const app = createApp(App);

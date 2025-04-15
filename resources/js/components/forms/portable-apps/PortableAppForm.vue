@@ -56,8 +56,10 @@ import ArchivesForm from './ArchivesForm.vue';
 import PortableApp from '../../../types/portable-apps/PortableApp';
 import { useGlobalStore } from '../../../stores/global';
 import router from '../../../router';
+import { useToastStore } from '../../../stores/toast';
 
 const globalStore = useGlobalStore();
+const toastStore = useToastStore();
 
 const props = defineProps({
     id: {
@@ -90,6 +92,7 @@ async function fetchApp() {
             isLoading.value = false;
         }
     } else {
+        globalStore.pageTitle = 'New Portable App';
         isLoading.value = false;
     }
 }
@@ -109,7 +112,7 @@ async function save() {
         if (!props.id) {
             router.push(`/portable-apps/${response.data.id}`);
         } else {
-            editSuccess.value = true;
+            toastStore.show('Sucessfully created the Portable App', 'success');
         }
     } catch (error) {
         console.error('An error occurred while saving app'.concat(error instanceof Error ? ` ${error.message}` : ''));
