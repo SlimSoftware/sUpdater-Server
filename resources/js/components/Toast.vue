@@ -13,7 +13,7 @@ let bootstrapToast: Toast | null;
 
 onMounted(() => {
     if (!toastRef.value) return;
-    bootstrapToast = new Toast(toastRef.value);
+    bootstrapToast = new Toast(toastRef.value, { delay: 3000 });
 });
 
 watch(
@@ -24,6 +24,7 @@ watch(
             await nextTick();
 
             bootstrapToast?.show();
+            toastStore.toast.isVisible = false;
         }
     }
 );

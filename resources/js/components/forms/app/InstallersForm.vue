@@ -1,7 +1,8 @@
 <template>
-    <a class="btn btn-primary mb-2" @click="addClicked">Add</a>
+    <h3 class="mt-4 d-inline-block">Installers</h3>
+    <a class="btn btn-primary ms-2 mb-2" @click="addClicked" v-if="!addNew">Add</a>
 
-    <table class="table table-sm table-striped table-bordered w-auto mt-2">
+    <table class="table table-sm table-striped table-bordered w-auto mt-2" v-if="installers.length > 0">
         <thead>
             <tr>
                 <th scope="col">Arch</th>
@@ -28,14 +29,15 @@
             </tr>
         </tbody>
     </table>
+    <div class="mt-2 fst-italic" v-else-if="!selectedInstaller">No installers have been added yet</div>
 
     <div v-if="selectedInstaller">
-        <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
+        <div v-if="addNew" class="mb-3 col-md-2">
             <label for="archSelect"
                 >Arch
                 <i
                     class="bi bi-question-circle"
-                    title="Arch not listed? Add a detectinfo entry for this arch first!"
+                    title="Arch not listed? Add a detection info entry for this arch first!"
                 ></i
             ></label>
             <select id="archSelect" v-model="selectedInstaller.arch" class="form-select" name="arch" required>
@@ -70,6 +72,9 @@ import DeleteButton from '../../DeleteButton.vue';
 import DownloadLinkInput from '../../DownloadLinkInput.vue';
 import { archNames } from '../../../enums/Arch';
 import axios from 'axios';
+import { useToastStore } from '../../../stores/toast';
+
+const toastStore = useToastStore();
 
 const props = defineProps({
     installers: {
@@ -91,26 +96,25 @@ const props = defineProps({
 });
 
 const installers = ref(props.installers);
+const addNew = ref(false);
+const selectedIndex = ref<number | null>(null);
 
-/** The index of the installer to edit. -1 = none selected, -2 = new */
-const selectedIndex = ref(-1);
+const selectedInstaller = computed(() => {
+    let installer;
 
-const selectedInstaller = computed((): Installer => {
-    let installer = ref();
-
-    if (selectedIndex.value === -2) {
-        installer.value = <Installer>{};
+    if (addNew.value) {
+        installer = <Installer>{};
         if (props.appId) {
-            installer.value.app_id = props.appId;
+            installer.app_id = props.appId;
         }
     } else {
-        installer.value = selectedIndex.value > -1 ? installers.value[selectedIndex.value] : null;
-        if (installer.value && props.appId) {
-            installer.value.app_id = props.appId;
+        installer = selectedIndex.value != null ? installers.value[selectedIndex.value] : null;
+        if (installer && props.appId) {
+            installer.app_id = props.appId;
         }
     }
 
-    return installer.value;
+    return installer;
 });
 
 const unusedArchs = computed(() => {
@@ -124,7 +128,7 @@ watch(
         if (selectedInstaller.value) {
             const detectInfoId = getDetectInfoFromArch(selectedInstaller.value.arch)?.id;
             if (!detectInfoId) {
-                console.error('Detectinfo not found for installer');
+                toastStore.show('Could not load detection info for this installer', 'danger');
                 return;
             }
 
@@ -134,13 +138,17 @@ watch(
 );
 
 function addClicked() {
-    selectedIndex.value = -2;
+    addNew.value = true;
 }
 
 function editClicked(index: number) {
-    if (selectedIndex.value != index) {
+    if (selectedIndex.value !== index) {
         selectedIndex.value = index;
+    } else {
+        selectedIndex.value = null;
     }
+
+    addNew.value = false;
 }
 
 function getDetectInfoFromArch(arch: number) {
@@ -163,14 +171,13 @@ async function save() {
 
             if (!selectedInstaller.value.id) {
                 installers.value.push(selectedInstaller.value);
-                selectedIndex.value = -2;
-            } else {
-                selectedIndex.value = -1;
             }
+
+            selectedIndex.value = null;
+            toastStore.show('Succesfully saved the installer', 'success');
         } catch (error) {
-            console.error(
-                'An error occurred while saving installer'.concat(error instanceof Error ? `: ${error.message}` : '')
-            );
+            toastStore.show('An error occurred while saving the installer', 'danger');
+            console.error(error);
         }
     }
 }
@@ -180,11 +187,10 @@ async function deleteConfirmed(id: number) {
         await axios.delete(`/apps/installers/${id}`);
 
         installers.value = installers.value.filter((i) => i.id !== id);
-        selectedIndex.value = -1;
+        selectedIndex.value = null;
     } catch (error) {
-        console.error(
-            'An error occurred while deleting installer'.concat(error instanceof Error ? `: ${error.message}` : '')
-        );
+        toastStore.show('An error occurred while deleting the installer', 'danger');
+        console.error(error);
     }
 }
 </script>
