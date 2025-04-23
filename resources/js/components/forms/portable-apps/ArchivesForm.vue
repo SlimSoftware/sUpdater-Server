@@ -1,5 +1,6 @@
 <template>
-    <a class="btn btn-primary mb-2" @click="addClicked">Add</a>
+    <h3 class="mt-4 d-inline-block">Archives</h3>
+    <a class="btn btn-primary ms-2 mb-2" @click="addClicked">Add</a>
 
     <table class="table table-sm table-striped table-bordered w-auto mt-2">
         <thead>
@@ -31,7 +32,7 @@
 
     <div v-if="selectedArchive">
         <form @submit.prevent="save">
-            <div v-if="selectedIndex === -2" class="mb-3 col-md-2">
+            <div v-if="selectedIndex === null" class="mb-3 col-md-2">
                 <label for="archSelect">Arch</label>
                 <select id="archSelect" v-model="selectedArchive.arch" class="form-select" required>
                     <option v-for="(arch, index) in unusedArchs" :key="index" :value="index">
@@ -84,24 +85,26 @@ import Archive from '../../../types/portable-apps/Archive';
 import PortableApp from '../../../types/portable-apps/PortableApp';
 import { archNames } from '../../../enums/Arch';
 import { extractModeNames } from '../../../enums/ExtractMode';
+import { useToastStore } from '../../../stores/toast';
+
+const toastStore = useToastStore();
 
 const props = defineProps<{
     portableApp: PortableApp;
 }>();
 
 const archives = ref(props.portableApp.archives);
-
-/** The index of the archive to edit. -1 = none selected, -2 = new */
-const selectedIndex = ref(-1);
+const addNew = ref(false);
+const selectedIndex = ref<number | null>(null);
 
 const selectedArchive = computed(() => {
     let archive;
 
-    if (selectedIndex.value === -2) {
+    if (addNew.value) {
         archive = <Archive>{};
         archive.portable_app_id = props.portableApp.id;
     } else {
-        archive = selectedIndex.value > -1 ? archives.value[selectedIndex.value] : null;
+        archive = selectedIndex.value != null ? archives.value[selectedIndex.value] : null;
     }
 
     return archive;
@@ -113,13 +116,17 @@ const unusedArchs = computed(() => {
 });
 
 function addClicked() {
-    selectedIndex.value = -2;
+    addNew.value = true;
 }
 
 function editClicked(index: number) {
-    if (selectedIndex.value != index) {
+    if (selectedIndex.value !== index) {
         selectedIndex.value = index;
+    } else {
+        selectedIndex.value = null;
     }
+
+    addNew.value = false;
 }
 
 async function save() {
@@ -133,14 +140,13 @@ async function save() {
 
             if (!selectedArchive.value.id) {
                 archives.value.push(selectedArchive.value);
-                selectedIndex.value = -2;
-            } else {
-                selectedIndex.value = -1;
             }
+
+            selectedIndex.value = null;
+            toastStore.show('Succesfully saved the archive', 'success');
         } catch (error) {
-            console.error(
-                'An error occurred while saving archive'.concat(error instanceof Error ? `: ${error.message}` : '')
-            );
+            toastStore.show('An error occurred while saving the archive', 'danger');
+            console.error(error);
         }
     }
 }
@@ -153,11 +159,12 @@ async function deleteConfirmed(id: number) {
         });
 
         archives.value = archives.value.filter((a) => a.id !== id);
-        selectedIndex.value = -1;
+        selectedIndex.value = null;
+
+        toastStore.show('Successfully deleted the archive', 'success');
     } catch (error) {
-        console.error(
-            'An error occurred while deleting archive'.concat(error instanceof Error ? `: ${error.message}` : '')
-        );
+        toastStore.show('An error occurred while deleting the archive', 'danger');
+        console.error(error);
     }
 }
 </script>

@@ -1,9 +1,5 @@
 <template>
     <div v-if="!isLoading" class="mt-3">
-        <!-- <div v-if="addSuccess" class="text-primary mb-2">
-            App added successfully, you can now add its detection info and installers.
-        </div>
-        <div v-else-if="editSuccess" class="text-primary mb-2">Changes saved successfully</div> -->
         <form @submit.prevent="save">
             <div class="mb-3 col-md-3">
                 <label for="nameInput">Name</label>
