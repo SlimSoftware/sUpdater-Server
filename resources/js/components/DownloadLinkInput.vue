@@ -1,37 +1,23 @@
 <template>
-    <label for="dlInput">Download link</label>
-    <div class="input-group">
-        <input id="dlInput" v-model="downloadLink" type="text" class="form-control" name="downloadLink" required />
-        <a class="btn btn-primary" @click="openDownloadLink">Test link</a>
-    </div>
+    <URLInput v-model="downloadLink" label="Download link" :preview-url="previewDownloadLink" />
+
     <span class="text-muted" :style="previewHintContainerStyle">Preview: {{ previewDownloadLink }} </span>
-    <AvailableVariablesExpander :variables="variables" :variable-indicator="variableIndicator" />
+    <AvailableVariablesExpander :variables="variables" />
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { computed } from 'vue';
 import { parseText, containsVariables } from '../variable-parser';
 import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
+import URLInput from './URLInput.vue';
 
 const props = defineProps<{
     version?: string;
-    modelValue: string;
 }>();
-const emit = defineEmits(['update:modelValue']);
 
-const downloadLink = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value) {
-        emit('update:modelValue', value);
-    }
-});
+const downloadLink = defineModel<string>();
 
-const variables = ref(getVariables());
-const variableIndicator = '%';
-
-function getVariables() {
+const variables = computed(() => {
     return {
         ver: props.version ? props.version : '',
         'ver.0': props.version ? props.version.replaceAll('.', '') : '',
@@ -39,7 +25,7 @@ function getVariables() {
         'ver.2': props.version ? splitVersion(props.version, 3) : '',
         'ver.3': props.version ? splitVersion(props.version, 4) : ''
     };
-}
+});
 
 function splitVersion(version: string, digits: number) {
     const numbers = version.split('.', digits);
@@ -62,15 +48,4 @@ const previewHintContainerStyle = computed(() => {
 
     return { display: displayValue };
 });
-
-watch(
-    () => props.version,
-    () => {
-        variables.value = getVariables();
-    }
-);
-
-function openDownloadLink() {
-    window.open(previewDownloadLink.value, '_blank');
-}
 </script>

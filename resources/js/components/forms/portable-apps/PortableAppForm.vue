@@ -12,13 +12,11 @@
             </div>
 
             <div class="mb-3">
-                <label for="releaseNotesInput">Release notes URL</label>
-                <input v-model="app.release_notes_url" type="text" class="form-control" />
+                <URLInput v-model="app.release_notes_url" label="Release notes URL" />
             </div>
 
             <div class="mb-3">
-                <label for="websiteInput">Website URL</label>
-                <input v-model="app.website_url" type="text" class="form-control" />
+                <URLInput v-model="app.release_notes_url" label="Release notes URL" />
             </div>
 
             <input class="btn btn-primary" type="submit" value="Save" />
@@ -36,6 +34,7 @@ import PortableApp from '../../../types/portable-apps/PortableApp';
 import { useGlobalStore } from '../../../stores/global';
 import router from '../../../router';
 import { useToastStore } from '../../../stores/toast';
+import URLInput from '../../URLInput.vue';
 
 const globalStore = useGlobalStore();
 const toastStore = useToastStore();

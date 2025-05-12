@@ -2,7 +2,7 @@
     <details>
         <summary>Available variables</summary>
         <div v-for="(variableValue, variableName) in variables" :key="variableName">
-            {{ variableIndicator }}{{ variableName }}{{ variableIndicator }} = {{ variableValue }}
+            %{{ variableName }}% = {{ variableValue }}
         </div>
     </details>
 </template>
@@ -11,11 +11,7 @@
 defineProps({
     variables: {
         type: Object,
-        default: () => ({}),
-    },
-    variableIndicator: {
-        type: String,
-        default: '',
-    },
+        default: () => ({})
+    }
 });
 </script>

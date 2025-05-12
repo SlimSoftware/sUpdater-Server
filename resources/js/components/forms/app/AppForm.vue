@@ -19,13 +19,10 @@
             </div>
 
             <div class="mb-3">
-                <label for="releaseNotesInput">Release notes URL</label>
-                <input v-model="appForm.release_notes_url" type="text" class="form-control" />
+                <URLInput v-model="appForm.release_notes_url" label="Release notes URL" />
             </div>
-
             <div class="mb-3">
-                <label for="websiteInput">Website URL</label>
-                <input v-model="appForm.website_url" type="text" class="form-control" />
+                <URLInput v-model="appForm.website_url" label="Website URL" />
             </div>
 
             <input class="btn btn-primary" type="submit" value="Save" />
@@ -52,6 +49,7 @@ import InstallersForm from './InstallersForm.vue';
 import router from '../../../router';
 import { useGlobalStore } from '../../../stores/global';
 import { useToastStore } from '../../../stores/toast';
+import URLInput from '../../URLInput.vue';
 
 const globalStore = useGlobalStore();
 const toastStore = useToastStore();
