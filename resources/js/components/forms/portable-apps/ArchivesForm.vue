@@ -132,13 +132,14 @@ function editClicked(index: number) {
 async function save() {
     if (selectedArchive.value) {
         try {
-            await axios.request({
+            const response = await axios.request({
                 url: `portable-apps/archives/${selectedArchive.value?.id ?? ''}`,
                 method: selectedArchive.value.id ? 'PUT' : 'POST',
                 data: selectedArchive.value
             });
 
             if (!selectedArchive.value.id) {
+                selectedArchive.value.id = response.data.id;
                 archives.value.push(selectedArchive.value);
             }
 

@@ -19,7 +19,9 @@ class InstallerController extends Controller
         $installer->detectinfo()->associate($detectInfo);
         $installer->save();
 
-        return response()->noContent();
+        return response()->json([
+            'id' => $installer->id,
+        ]);
     }
 
     public function update(Request $request, int $id)

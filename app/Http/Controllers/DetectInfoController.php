@@ -16,7 +16,9 @@ class DetectInfoController extends Controller
         $detectInfo->app()->associate($app);
         $detectInfo->save();
 
-        return response()->noContent();
+        return response()->json([
+            'id' => $detectInfo->id,
+        ]);
     }
 
     public function update(Request $request, int $id)

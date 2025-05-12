@@ -163,13 +163,14 @@ function getArchNameForInstaller(installer: Installer) {
 async function save() {
     if (selectedInstaller.value) {
         try {
-            await axios.request({
+            const response = await axios.request({
                 url: `apps/installers/${selectedInstaller.value?.id}`,
                 method: selectedInstaller.value.id ? 'PUT' : 'POST',
                 data: selectedInstaller.value
             });
 
             if (!selectedInstaller.value.id) {
+                selectedInstaller.value.id = response.data.id;
                 installers.value.push(selectedInstaller.value);
             }
 

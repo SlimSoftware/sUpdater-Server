@@ -142,13 +142,14 @@ function editClicked(index: number) {
 async function save() {
     if (selectedDetectInfo.value) {
         try {
-            await axios.request({
+            const response = await axios.request({
                 url: `apps/detectinfo/${selectedDetectInfo.value?.id ?? ''}`,
                 method: selectedDetectInfo.value.id ? 'PUT' : 'POST',
                 data: selectedDetectInfo.value
             });
 
             if (!selectedDetectInfo.value.id) {
+                selectedDetectInfo.value.id = response.data.id;
                 detectinfo.value.push(selectedDetectInfo.value);
             }
 

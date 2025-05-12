@@ -16,7 +16,9 @@ class ArchiveController extends Controller
         $archive->portableApp()->associate($app);
         $archive->save();
 
-        return response()->noContent();
+        return response()->json([
+            'id' => $archive->id,
+        ]);
     }
 
     public function update(Archive $archive, Request $request)
