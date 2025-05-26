@@ -2,7 +2,7 @@
     <a class="text-black" v-if="previewUrl || url" :href="href" target="_blank">{{ label }}</a>
     <span v-else>{{ label }}</span>
 
-    <input v-model="url" type="text" class="form-control" required />
+    <input v-model="url" type="text" class="form-control" :required />
 </template>
 
 <script setup lang="ts">
@@ -18,5 +18,6 @@ const href = computed(() => {
 const props = defineProps<{
     previewUrl?: string;
     label: string;
+    required?: boolean;
 }>();
 </script>
