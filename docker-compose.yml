@@ -23,7 +23,7 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
+            - mariadb
     mariadb:
         image: 'mariadb:11'
         ports:
