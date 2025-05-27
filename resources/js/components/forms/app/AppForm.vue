@@ -63,7 +63,7 @@ const props = defineProps({
 
 const isLoading = ref(true);
 const app = ref<App>();
-const appForm = ref(<AppForm>{});
+const appForm = ref(<AppForm>{ noupdate: false });
 
 onMounted(() => {
     fetchApp();
@@ -74,13 +74,8 @@ async function fetchApp() {
         try {
             const response = await axios.get(`apps/${props.id}`);
             app.value = response.data;
+            appForm.value = response.data;
             globalStore.pageTitle = `Edit ${app.value?.name}`;
-
-            appForm.value.name = response.data.name;
-            appForm.value.version = response.data.version;
-            appForm.value.noupdate = response.data.noupdate;
-            appForm.value.release_notes_url = response.data.release_notes_url;
-            appForm.value.website_url = response.data.website_url;
         } catch (error) {
             toastStore.show('An error occurred while loading the app', 'danger');
             console.log(error);
@@ -105,6 +100,10 @@ async function save() {
         });
 
         if (!props.id) {
+            toastStore.show(
+                'Sucessfully created the app, you can now add its detection info and installers',
+                'success'
+            );
             router.push(`/apps/${response.data.id}`);
         } else {
             toastStore.show('Succesfully saved the app', 'success');

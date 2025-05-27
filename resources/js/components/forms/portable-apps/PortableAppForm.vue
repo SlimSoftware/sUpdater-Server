@@ -82,9 +82,10 @@ async function save() {
         });
 
         if (!props.id) {
+            toastStore.show('Sucessfully created the Portable App, you can now add its archives', 'success');
             router.push(`/portable-apps/${response.data.id}`);
         } else {
-            toastStore.show('Sucessfully created the Portable App', 'success');
+            toastStore.show('Sucessfully saved the Portable App', 'success');
         }
     } catch (error) {
         toastStore.show('An error occurred while saving the Portable App', 'danger');
