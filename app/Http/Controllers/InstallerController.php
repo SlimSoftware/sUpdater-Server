@@ -14,7 +14,11 @@ class InstallerController extends Controller
         $app = App::findOrFail($request->app_id);
         $detectInfo = DetectInfo::findOrFail($request->detectinfo_id);
 
-        $installer = new Installer($request->all());
+        $installer = new Installer([
+            ...$request->all(),
+            'download_link' => $request->input('download_link_raw'),
+        ]);
+        
         $installer->app()->associate($app);
         $installer->detectinfo()->associate($detectInfo);
         $installer->save();
@@ -27,7 +31,10 @@ class InstallerController extends Controller
     public function update(Request $request, int $id)
     {
         $installer = Installer::findOrFail($id);
-        $installer->update($request->all());
+        $installer->update([
+            ...$request->all(),
+            'download_link' => $request->input('download_link_raw'),
+        ]);
 
         return response()->noContent();
     }

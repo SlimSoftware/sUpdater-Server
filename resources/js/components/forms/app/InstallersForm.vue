@@ -99,27 +99,24 @@ const installers = ref(props.installers);
 const addNew = ref(false);
 const selectedIndex = ref<number | null>(null);
 
-const selectedInstaller = computed(() => {
-    let installer;
-
-    if (addNew.value) {
-        installer = <Installer>{};
-        if (props.appId) {
-            installer.app_id = props.appId;
-        }
-    } else {
-        installer = selectedIndex.value != null ? installers.value[selectedIndex.value] : null;
-        if (installer && props.appId) {
-            installer.app_id = props.appId;
-        }
-    }
-
-    return installer;
-});
-
 const unusedArchs = computed(() => {
     const allArchs = props.detectinfo.map((d) => d.arch);
     return archNames.filter((_arch, index) => allArchs.includes(index));
+});
+
+const selectedInstaller = computed(() => {
+    let installer = ref(<Installer>{});
+
+    if (addNew.value && props.appId) {
+        installer.value.app_id = props.appId;
+    } else {
+        if (selectedIndex.value == null) return null;
+        installer.value = installers.value[selectedIndex.value];
+    }
+
+    if (props.appId) installer.value.app_id = props.appId;
+
+    return installer.value;
 });
 
 watch(
@@ -127,10 +124,7 @@ watch(
     () => {
         if (selectedInstaller.value) {
             const detectInfoId = getDetectInfoFromArch(selectedInstaller.value.arch)?.id;
-            if (!detectInfoId) {
-                toastStore.show('Could not load detection info for this installer', 'danger');
-                return;
-            }
+            if (!detectInfoId) return;
 
             selectedInstaller.value.detectinfo_id = detectInfoId;
         }
@@ -161,25 +155,27 @@ function getArchNameForInstaller(installer: Installer) {
 }
 
 async function save() {
-    if (selectedInstaller.value) {
-        try {
-            const response = await axios.request({
-                url: `apps/installers/${selectedInstaller.value?.id}`,
-                method: selectedInstaller.value.id ? 'PUT' : 'POST',
-                data: selectedInstaller.value
-            });
+    if (!selectedInstaller.value) return;
 
-            if (!selectedInstaller.value.id) {
-                selectedInstaller.value.id = response.data.id;
-                installers.value.push(selectedInstaller.value);
-            }
+    try {
+        const response = await axios.request({
+            url: `apps/installers/${selectedInstaller.value?.id ?? ''}`,
+            method: selectedInstaller.value.id ? 'PUT' : 'POST',
+            data: selectedInstaller.value
+        });
 
-            selectedIndex.value = null;
-            toastStore.show('Succesfully saved the installer', 'success');
-        } catch (error) {
-            toastStore.show('An error occurred while saving the installer', 'danger');
-            console.error(error);
+        if (!selectedInstaller.value.id) {
+            selectedInstaller.value.id = response.data.id;
+            installers.value.push(selectedInstaller.value);
+        } else if (selectedIndex.value != null) {
+            installers.value[selectedIndex.value] = selectedInstaller.value;
         }
+
+        selectedIndex.value = null;
+        toastStore.show('Succesfully saved the installer', 'success');
+    } catch (error) {
+        toastStore.show('An error occurred while saving the installer', 'danger');
+        console.error(error);
     }
 }
 
