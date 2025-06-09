@@ -9,7 +9,7 @@ const authStore = useAuthStore();
 
 async function logOut() {
     await authStore.logOut();
-    router.push('login');
+    router.push('/login');
 }
 </script>
 
