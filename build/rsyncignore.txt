@@ -10,6 +10,7 @@ tsconfig.json
 install.sh
 
 .git/
+.github/
 vendor/
 node_modules/
 build/
