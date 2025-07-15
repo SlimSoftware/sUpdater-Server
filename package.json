@@ -13,7 +13,7 @@
         "@shufo/prettier-plugin-blade": "^1.15.4",
         "@types/bootstrap": "^5.2.10",
         "@types/webpack-env": "^1.18.8",
-        "@typescript-eslint/eslint-plugin": "^8.36.0",
+        "@typescript-eslint/eslint-plugin": "^8.37.0",
         "@typescript-eslint/parser": "^8.32.1",
         "@vitejs/plugin-vue": "^6.0.0",
         "@vue/tsconfig": "^0.7.0",
