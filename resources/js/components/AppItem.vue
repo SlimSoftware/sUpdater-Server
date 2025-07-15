@@ -17,6 +17,7 @@
 import { ref } from 'vue';
 import DeleteButton from './DeleteButton.vue';
 import { RouterLink } from 'vue-router';
+import App from '../types/apps/App';
 
 defineProps<{
     app: App;

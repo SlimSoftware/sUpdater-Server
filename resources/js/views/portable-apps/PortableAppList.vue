@@ -2,12 +2,7 @@
     <span>
         <a class="btn btn-primary ms-3 mb-3" @click="router.push({ name: 'portable-apps-new' })">Add</a>
 
-        <div v-if="isLoading" class="d-flex justify-content-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        <p v-else-if="fetchError" class="text-danger">Could not load apps from the server</p>
+        <p v-if="fetchError" class="text-danger">Could not load apps from the server</p>
 
         <table v-else-if="portableApps.length > 0" class="table table-sm table-striped table-bordered">
             <thead>

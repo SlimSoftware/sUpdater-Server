@@ -5,6 +5,7 @@ import { useAuthStore } from './stores/auth';
 import { onMounted } from 'vue';
 import { useGlobalStore } from './stores/global';
 import Toast from './components/Toast.vue';
+import Loader from './components/Loader.vue';
 
 const router = useRouter();
 
@@ -26,8 +27,9 @@ onMounted(async () => {
     <NavBar />
     <Toast />
 
-    <main class="container my-3">
+    <main class="container my-3 min-h-100">
         <h1 class="d-inline">{{ globalStore.pageTitle }}</h1>
+        <Loader v-if="globalStore.isLoading" />
         <RouterView class="mt-2" />
     </main>
 </template>

@@ -2,12 +2,7 @@
     <span>
         <a class="btn btn-primary ms-3 mb-3" @click="router.push({ name: 'apps-new' })">Add</a>
 
-        <div v-if="isLoading" class="d-flex justify-content-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        <p v-else-if="fetchError" class="text-danger">Could not load apps from the server</p>
+        <p v-if="fetchError" class="text-danger">Could not load apps from the server</p>
 
         <table v-else-if="apps.length > 0" class="table table-sm table-striped table-bordered">
             <thead>
@@ -32,6 +27,7 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import AppItem from '../../components/AppItem.vue';
 import { useRouter } from 'vue-router';
+import App from '../../types/apps/App';
 
 const router = useRouter();
 
