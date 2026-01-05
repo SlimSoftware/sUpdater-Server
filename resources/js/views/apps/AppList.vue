@@ -27,8 +27,10 @@ import axios from 'axios';
 import AppItem from '../../components/AppItem.vue';
 import { useRouter } from 'vue-router';
 import App from '../../types/apps/App';
+import { useToastStore } from '../../stores/toast';
 
 const router = useRouter();
+const toastStore = useToastStore();
 
 const apps = ref<App[]>([]);
 const isLoading = ref(true);
@@ -54,8 +56,9 @@ async function onAppDeleted(id: number) {
     try {
         await axios.delete(`apps/${id}`);
         apps.value = apps.value.filter((a) => a.id !== id);
+        toastStore.show('Succesfully deleted the app', 'success');
     } catch (error) {
-        // TODO: show toast message here
+        toastStore.show('Could not delete the app', 'danger');
         console.error(error);
     }
 }

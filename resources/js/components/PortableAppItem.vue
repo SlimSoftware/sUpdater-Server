@@ -22,6 +22,9 @@ import DeleteButton from './DeleteButton.vue';
 import axios from 'axios';
 import { RouterLink } from 'vue-router';
 import PortableApp from '../types/portable-apps/PortableApp';
+import { useToastStore } from '../stores/toast';
+
+const toastStore = useToastStore();
 
 const props = defineProps<{
     portableApp: PortableApp;
@@ -30,10 +33,13 @@ const props = defineProps<{
 const itemVisible = ref(true);
 
 async function onDeleteConfirmed() {
-    const response = await axios.delete(`portable-apps/${props.portableApp.id}`);
-
-    if (response.status === 204) {
+    try {
+        await axios.delete(`portable-apps/${props.portableApp.id}`);
         itemVisible.value = false;
+        toastStore.show('Succesfully deleted the app', 'success');
+    } catch (error) {
+        toastStore.show('Could not delete the app', 'danger');
+        console.error(error);
     }
 }
 </script>
