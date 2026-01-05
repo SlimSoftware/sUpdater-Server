@@ -1,10 +1,8 @@
 <template>
     <span>
-        <a class="btn btn-primary ms-3 mb-3" @click="router.push({ name: 'portable-apps-new' })">Add</a>
+        <RouterLink class="btn btn-primary ms-3 mb-3" :to="{ name: 'portable-apps-new' }">Add</RouterLink>
 
-        <p v-if="fetchError" class="text-danger">Could not load apps from the server</p>
-
-        <table v-else-if="portableApps.length > 0" class="table table-sm table-striped table-bordered">
+        <table v-if="portableApps.length > 0" class="table table-sm table-striped table-bordered">
             <thead>
                 <tr>
                     <th scope="col" class="w-75">Name</th>
@@ -18,7 +16,8 @@
             </tbody>
         </table>
 
-        <p v-else><em>No portable apps available yet</em></p>
+        <p v-else-if="fetchError" class="text-danger">Could not load apps from the server</p>
+        <p v-else-if="!isLoading"><em>No portable apps available yet</em></p>
     </span>
 </template>
 
@@ -27,9 +26,6 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import PortableApp from '../../types/portable-apps/PortableApp';
 import PortableAppItem from '../../components/PortableAppItem.vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
 
 const portableApps = ref<PortableApp[]>([]);
 const isLoading = ref(true);
@@ -40,8 +36,8 @@ async function fetch() {
         const response = await axios.get('portable-apps');
         portableApps.value = response.data;
     } catch (error) {
+        fetchError.value = true;
         if (error instanceof Error) {
-            fetchError.value = true;
             console.error('Error fetching portable apps'.concat(error?.message ?? ''));
         }
     } finally {
@@ -51,10 +47,3 @@ async function fetch() {
 
 onMounted(fetch);
 </script>
-
-<style>
-th,
-td {
-    padding: 5px 7.5px !important;
-}
-</style>
