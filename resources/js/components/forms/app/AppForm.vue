@@ -8,7 +8,7 @@
 
             <div class="mb-3 col-md-3">
                 <label for="versionInput">Version</label>
-                <input v-model="appForm.version" type="text" class="form-control" placeholder="(latest)" />
+                <input v-model.lazy="appForm.version" type="text" class="form-control" placeholder="(latest)" />
             </div>
 
             <div class="form-check mb-2">
@@ -37,19 +37,23 @@
             :detectinfo="app?.detectinfo"
             :app-id="app?.id"
             :version="appForm.version ?? ''"
+            :variables
         />
     </template>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import DetectInfoForm from './DetectInfoForm.vue';
 import InstallersForm from './InstallersForm.vue';
 import router from '../../../router';
 import { useGlobalStore } from '../../../stores/global';
 import { useToastStore } from '../../../stores/toast';
-import URLInput from '../../URLInput.vue';
+import URLInput from '../URLInput.vue';
+import App from '../../../types/apps/App';
+import AppForm from '../../../types/apps/AppForm';
+import { getVariablesMap } from '../../../variable-parser';
 
 const globalStore = useGlobalStore();
 const toastStore = useToastStore();
@@ -64,6 +68,8 @@ const props = defineProps({
 const isLoading = ref(true);
 const app = ref<App>();
 const appForm = ref(<AppForm>{ noupdate: false });
+
+const variables = computed(() => getVariablesMap(app.value?.version));
 
 onMounted(() => {
     fetchApp();

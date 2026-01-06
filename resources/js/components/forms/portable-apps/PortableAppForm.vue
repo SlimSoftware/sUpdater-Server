@@ -23,18 +23,19 @@
         </form>
     </div>
 
-    <ArchivesForm v-if="id && !isLoading" :archives="app.archives" :portable-app="app" />
+    <ArchivesForm v-if="id && !isLoading" :archives="app.archives" :portable-app="app" :variables />
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import ArchivesForm from './ArchivesForm.vue';
 import PortableApp from '../../../types/portable-apps/PortableApp';
 import { useGlobalStore } from '../../../stores/global';
 import router from '../../../router';
 import { useToastStore } from '../../../stores/toast';
-import URLInput from '../../URLInput.vue';
+import URLInput from '../URLInput.vue';
+import { getVariablesMap } from '../../../variable-parser';
 
 const globalStore = useGlobalStore();
 const toastStore = useToastStore();
@@ -48,6 +49,8 @@ const props = defineProps({
 
 const isLoading = ref(true);
 const app = ref(<PortableApp>{});
+
+const variables = computed(() => getVariablesMap(app.value?.version));
 
 onMounted(() => {
     fetchApp();

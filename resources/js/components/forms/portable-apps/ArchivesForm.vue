@@ -42,7 +42,7 @@
             </div>
 
             <div class="mb-3">
-                <DownloadLinkInput v-model="selectedArchive.download_link" :version="portableApp.version" />
+                <DownloadLinkInput v-model="selectedArchive.download_link" :version="portableApp.version" :variables />
             </div>
 
             <div class="mb-3 col-md-6">
@@ -79,18 +79,20 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
-import DownloadLinkInput from '../../DownloadLinkInput.vue';
+import DownloadLinkInput from '../DownloadLinkInput.vue';
 import axios from 'axios';
 import Archive from '../../../types/portable-apps/Archive';
 import PortableApp from '../../../types/portable-apps/PortableApp';
 import { archNames } from '../../../enums/Arch';
 import { extractModeNames } from '../../../enums/ExtractMode';
 import { useToastStore } from '../../../stores/toast';
+import { VariablesMap } from '../../../variable-parser';
 
 const toastStore = useToastStore();
 
 const props = defineProps<{
     portableApp: PortableApp;
+    variables: VariablesMap;
 }>();
 
 const archives = ref(props.portableApp.archives);

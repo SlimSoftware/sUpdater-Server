@@ -14,7 +14,7 @@
         <tbody>
             <tr v-for="(installer, index) in installers" :key="index">
                 <td>{{ getArchNameForInstaller(installer) }}</td>
-                <td>{{ installer.download_link }}</td>
+                <td><PreviewLink :url="getParsedValue(installer.download_link_raw, variables)" /></td>
                 <td>
                     <a class="btn btn-primary btn-sm" @click="editClicked(index)">
                         <i class="bi-pencil-fill"></i>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="mb-3">
-            <DownloadLinkInput v-model="selectedInstaller.download_link_raw" :version="version" />
+            <DownloadLinkInput v-model="selectedInstaller.download_link_raw" :version="version" :variables />
         </div>
 
         <div class="mb-3">
@@ -69,31 +69,31 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import DeleteButton from '../../DeleteButton.vue';
-import DownloadLinkInput from '../../DownloadLinkInput.vue';
+import DownloadLinkInput from '../DownloadLinkInput.vue';
 import { archNames } from '../../../enums/Arch';
 import axios from 'axios';
 import { useToastStore } from '../../../stores/toast';
+import DetectInfo from '../../../types/apps/DetectInfo';
+import Installer from '../../../types/apps/Installer';
+import { getParsedValue, getVariablesMap, VariablesMap } from '../../../variable-parser';
+import PreviewLink from '../PreviewLink.vue';
 
 const toastStore = useToastStore();
 
-const props = defineProps({
-    installers: {
-        type: Array<Installer>,
-        default: []
-    },
-    detectinfo: {
-        type: Array<DetectInfo>,
-        default: []
-    },
-    version: {
-        type: String,
-        default: ''
-    },
-    appId: {
-        type: Number,
-        default: undefined
+const props = withDefaults(
+    defineProps<{
+        installers?: Installer[];
+        detectinfo?: DetectInfo[];
+        version: string;
+        appId?: number;
+        variables: VariablesMap;
+    }>(),
+    {
+        installers: () => [],
+        detectinfo: () => [],
+        version: ''
     }
-});
+);
 
 const installers = ref(props.installers);
 const addNew = ref(false);
@@ -111,7 +111,7 @@ const selectedInstaller = computed(() => {
         installer.value.app_id = props.appId;
     } else {
         if (selectedIndex.value == null) return null;
-        installer.value = installers.value[selectedIndex.value];
+        installer.value = { ...installers.value[selectedIndex.value] };
     }
 
     if (props.appId) installer.value.app_id = props.appId;

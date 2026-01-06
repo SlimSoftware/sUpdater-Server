@@ -37,3 +37,29 @@ export function containsVariables(text: string, variables: object): boolean {
 
     return false;
 }
+
+function splitVersion(version: string, digits: number) {
+    const numbers = version.split('.', digits);
+    return numbers.join('.');
+}
+
+export type VariablesMap = { [key: string]: string };
+
+/** Returns a map object with the variable name as the key and the parsed variable value as the value */
+export function getVariablesMap(version?: string | null): VariablesMap {
+    if (!version) return {};
+
+    return {
+        ver: version ? version : '',
+        'ver.0': version ? version.replaceAll('.', '') : '',
+        'ver.1': version ? splitVersion(version, 2) : '',
+        'ver.2': version ? splitVersion(version, 3) : '',
+        'ver.3': version ? splitVersion(version, 4) : ''
+    };
+}
+
+export function getParsedValue(unparsedValue: string | undefined, variablesMap: VariablesMap) {
+    if (!unparsedValue) return '';
+
+    return parseText(unparsedValue, variablesMap);
+}
