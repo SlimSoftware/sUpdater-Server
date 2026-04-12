@@ -17,7 +17,7 @@
         "@typescript-eslint/parser": "^8.32.1",
         "@vitejs/plugin-vue": "^6.0.3",
         "@vue/tsconfig": "^0.8.1",
-        "axios": "^1.13.3",
+        "axios": "^1.15.0",
         "bootstrap": "^5.3.8",
         "bootstrap-icons": "^1.13.1",
         "eslint": "^8.42.0",
