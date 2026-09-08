@@ -84,11 +84,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import DeleteButton from '../../DeleteButton.vue';
-import { archNames } from '../../../enums/Arch';
+import DeleteButton from '@/components/DeleteButton.vue';
+import { archNames } from '@/enums/Arch';
+import { useToastStore } from '@/stores/toast';
+import type DetectInfo from '@/types/apps/DetectInfo';
 import axios from 'axios';
-import { useToastStore } from '../../../stores/toast';
+import { computed, ref } from 'vue';
 
 const toastStore = useToastStore();
 

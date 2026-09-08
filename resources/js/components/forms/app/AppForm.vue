@@ -31,7 +31,6 @@
 
     <template v-if="id && !isLoading">
         <DetectInfoForm :detectinfo="app?.detectinfo" :app-id="app?.id" />
-
         <InstallersForm
             :installers="app?.installers"
             :detectinfo="app?.detectinfo"
@@ -43,17 +42,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue';
+import DetectInfoForm from '@/components/forms/app/DetectInfoForm.vue';
+import InstallersForm from '@/components/forms/app/InstallersForm.vue';
+import URLInput from '@/components/forms/URLInput.vue';
+import router from '@/router';
+import { useGlobalStore } from '@/stores/global';
+import { useToastStore } from '@/stores/toast';
+import type App from '@/types/apps/App';
+import type AppForm from '@/types/apps/AppForm';
+import { getVariablesMap } from '@/variable-parser';
 import axios from 'axios';
-import DetectInfoForm from './DetectInfoForm.vue';
-import InstallersForm from './InstallersForm.vue';
-import router from '../../../router';
-import { useGlobalStore } from '../../../stores/global';
-import { useToastStore } from '../../../stores/toast';
-import URLInput from '../URLInput.vue';
-import App from '../../../types/apps/App';
-import AppForm from '../../../types/apps/AppForm';
-import { getVariablesMap } from '../../../variable-parser';
+import { ref, computed, onMounted } from 'vue';
 
 const globalStore = useGlobalStore();
 const toastStore = useToastStore();

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import router, { routes } from '../../router';
-import { useAuthStore } from '../../stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import NavItem from './NavItem.vue';
+import router, { routes } from '@/router';
 
 const navRoutes = routes.filter((r) => r.meta?.showInMenu === true);
 

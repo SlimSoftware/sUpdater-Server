@@ -4,11 +4,11 @@
 </template>
 
 <script setup lang="ts">
-import PreviewLink from './PreviewLink.vue';
+import PreviewLink from '@/components/forms/PreviewLink.vue';
 
 const url = defineModel<string>({ default: '' });
 
-const props = defineProps<{
+defineProps<{
     previewUrl?: string;
     label: string;
     required?: boolean;

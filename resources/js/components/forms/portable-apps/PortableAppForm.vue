@@ -30,12 +30,12 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import ArchivesForm from './ArchivesForm.vue';
-import PortableApp from '../../../types/portable-apps/PortableApp';
-import { useGlobalStore } from '../../../stores/global';
-import router from '../../../router';
-import { useToastStore } from '../../../stores/toast';
 import URLInput from '../URLInput.vue';
-import { getVariablesMap } from '../../../variable-parser';
+import router from '@/router';
+import { useGlobalStore } from '@/stores/global';
+import { useToastStore } from '@/stores/toast';
+import type PortableApp from '@/types/portable-apps/PortableApp';
+import { getVariablesMap } from '@/variable-parser';
 
 const globalStore = useGlobalStore();
 const toastStore = useToastStore();

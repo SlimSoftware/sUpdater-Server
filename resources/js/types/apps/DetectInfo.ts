@@ -1,4 +1,5 @@
-import { Arch } from '../../enums/Arch';
+import type { Arch } from '@/enums/Arch';
+import type Installer from './Installer';
 
 export default interface DetectInfo {
     id: number;

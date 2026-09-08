@@ -1,5 +1,5 @@
-import { Arch } from '../../enums/Arch';
-import { ExtractMode } from '../../enums/ExtractMode';
+import type { Arch } from '@/enums/Arch';
+import type { ExtractMode } from '@/enums/ExtractMode';
 
 export default interface Archive {
     id: number;

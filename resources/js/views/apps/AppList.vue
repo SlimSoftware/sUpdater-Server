@@ -24,10 +24,10 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import AppItem from '../../components/AppItem.vue';
 import { useRouter } from 'vue-router';
-import App from '../../types/apps/App';
-import { useToastStore } from '../../stores/toast';
+import { useToastStore } from '@/stores/toast';
+import type App from '@/types/apps/App';
+import AppItem from '@/components/AppItem.vue';
 
 const router = useRouter();
 const toastStore = useToastStore();

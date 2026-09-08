@@ -68,15 +68,15 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
-import DeleteButton from '../../DeleteButton.vue';
-import DownloadLinkInput from '../DownloadLinkInput.vue';
-import { archNames } from '../../../enums/Arch';
 import axios from 'axios';
-import { useToastStore } from '../../../stores/toast';
-import DetectInfo from '../../../types/apps/DetectInfo';
-import Installer from '../../../types/apps/Installer';
-import { getParsedValue, getVariablesMap, VariablesMap } from '../../../variable-parser';
+import type Installer from '@/types/apps/Installer';
+import { archNames } from '@/enums/Arch';
+import { useToastStore } from '@/stores/toast';
+import type DetectInfo from '@/types/apps/DetectInfo';
+import { getParsedValue, type VariablesMap } from '@/variable-parser';
+import DeleteButton from '@/components/DeleteButton.vue';
 import PreviewLink from '../PreviewLink.vue';
+import DownloadLinkInput from '../DownloadLinkInput.vue';
 
 const toastStore = useToastStore();
 
@@ -110,8 +110,12 @@ const selectedInstaller = computed(() => {
     if (addNew.value && props.appId) {
         installer.value.app_id = props.appId;
     } else {
-        if (selectedIndex.value == null) return null;
-        installer.value = { ...installers.value[selectedIndex.value] };
+        if (selectedIndex.value == null) return;
+
+        const selectedInstaller = installers.value[selectedIndex.value];
+        if (!selectedInstaller) return;
+
+        installer.value = { ...selectedInstaller };
     }
 
     if (props.appId) installer.value.app_id = props.appId;

@@ -21,5 +21,8 @@ Homestead.json
 
 /build/output
 
-.vscode/
+.vscode/*
+!.vscode/
+!.vscode/settings.json
+
 build/*.zip

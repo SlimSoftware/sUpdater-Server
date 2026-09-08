@@ -1,15 +1,14 @@
 <template>
     <URLInput v-model="downloadLink" label="Download link" :preview-url="previewDownloadLink" />
-
     <span class="text-muted" :style="previewHintContainerStyle">Preview: {{ previewDownloadLink }}</span>
     <AvailableVariablesExpander :variables="variables" />
 </template>
 
 <script lang="ts" setup>
+import { type VariablesMap, getParsedValue, containsVariables } from '@/variable-parser';
 import { computed } from 'vue';
-import { containsVariables, getVariablesMap, getParsedValue, VariablesMap } from '../../variable-parser';
-import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 import URLInput from './URLInput.vue';
+import AvailableVariablesExpander from './AvailableVariablesExpander.vue';
 
 const props = defineProps<{
     version?: string;

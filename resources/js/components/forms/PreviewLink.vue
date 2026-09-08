@@ -4,8 +4,8 @@
 </template>
 
 <script setup lang="ts">
+import { isValidUrl } from '@/utils/url';
 import { computed } from 'vue';
-import { isValidUrl } from '../../utils/url';
 
 const props = defineProps<{ label?: string; url: string }>();
 

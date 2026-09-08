@@ -77,16 +77,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import DeleteButton from '../../DeleteButton.vue';
-import DownloadLinkInput from '../DownloadLinkInput.vue';
+import { archNames } from '@/enums/Arch';
+import { useToastStore } from '@/stores/toast';
+import type Archive from '@/types/portable-apps/Archive';
+import type PortableApp from '@/types/portable-apps/PortableApp';
+import type { VariablesMap } from '@/variable-parser';
 import axios from 'axios';
-import Archive from '../../../types/portable-apps/Archive';
-import PortableApp from '../../../types/portable-apps/PortableApp';
-import { archNames } from '../../../enums/Arch';
-import { extractModeNames } from '../../../enums/ExtractMode';
-import { useToastStore } from '../../../stores/toast';
-import { VariablesMap } from '../../../variable-parser';
+import { computed, ref } from 'vue';
+import DeleteButton from '@/components/DeleteButton.vue';
+import DownloadLinkInput from '../DownloadLinkInput.vue';
+import { extractModeNames } from '@/enums/ExtractMode';
 
 const toastStore = useToastStore();
 

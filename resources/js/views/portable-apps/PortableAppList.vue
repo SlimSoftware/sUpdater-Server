@@ -24,8 +24,8 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import PortableApp from '../../types/portable-apps/PortableApp';
-import PortableAppItem from '../../components/PortableAppItem.vue';
+import type PortableApp from '@/types/portable-apps/PortableApp';
+import PortableAppItem from '@/components/PortableAppItem.vue';
 
 const portableApps = ref<PortableApp[]>([]);
 const isLoading = ref(true);
