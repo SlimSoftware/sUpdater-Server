@@ -1,12 +1,10 @@
 {
-  "compilerOptions": {
-    "target": "es2021",
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "strict": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,  
-    "forceConsistentCasingInFileNames": true,
-    "types": ["vite/client"]
-  }
+    "extends": "@vue/tsconfig/tsconfig.dom.json",
+    "include": ["env.d.ts", "resources/js/**/*", "./resources/js/**/*.vue"],
+    "exclude": ["src/**/__tests__/*"],
+    "compilerOptions": {
+        "paths": {
+            "@/*": ["./resources/js/*"]
+        }
+    }
 }
